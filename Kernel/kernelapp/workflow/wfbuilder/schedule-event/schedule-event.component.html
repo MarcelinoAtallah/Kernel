@@ -1,0 +1,213 @@
+<div style="height:100%; overflow:hidden;">
+    <!--TITLE-->
+    <div class="dialog-header">
+        <p class="dialog-title">Schedule Event</p>
+        <p (click)="closeDialog()" class="dialog-close">X</p>
+    </div>
+    <v-tabs-container>
+        <v-tab tabTitle="Definition" menuVariable="mappingProject">
+            <form [formGroup]="definitionForm" style="height:650px; overflow:hidden;">
+                <!-- <p>Activity Id <span style="margin: 0 10px 0 30px;"> : </span> {{number}}</p> -->
+                <v-label text="Activity Id : {{number}}"></v-label>
+
+                <v-input formControlName="activityName" type="text" label="Activity Name" required="true" 
+                [parentForm]="definitionForm" fieldName="activityName" id="activityName"></v-input>
+                
+                <div style="display:flex; margin-bottom:10px; gap:5px;">
+                    <v-label [required]="true" text="Start time of the process "></v-label>
+                    <input [parentForm]="definitionForm" formControlName="hour" style="width:20px; margin-left:95px;" type="text" [value]="hour" (change)="hour = addZero(hour)" (input)="hour = validateInput($event, 2, 23)">:
+                    <input [parentForm]="definitionForm" formControlName="minute" style="width:20px;" type="text" [value]="minute" (change)="minute = addZero(minute)" (input)="minute = validateInput($event, 2, 59)">
+                </div>
+
+                <!--radio buttons-->
+                <div style="display:flex; margin-bottom: 10px;">
+                    <v-label [required]="true" text="Schedule Type " ></v-label>
+                    <div style="margin-left: 30%">
+                        <label>
+                            <input type="radio" formControlName="option" value="hourly" name="option" (change)="resetValues()">
+                            Hourly
+                        </label>
+                        <label>
+                            <input type="radio" formControlName="option" value="daily" name="option" (change)="resetValues()">
+                            Daily
+                        </label>
+                        <label>
+                            <input type="radio" formControlName="option" value="weekly" name="option" (change)="resetValues()">
+                            Weekly
+                        </label>
+                        <label>
+                            <input type="radio" formControlName="option" value="monthly" name="option" (change)="resetValues()">
+                            Monthly
+                        </label>
+                        <label>
+                            <input type="radio" formControlName="option" value="oneTime" name="option" (change)="resetValues()">
+                            One Time
+                        </label>
+                    </div>
+                </div>
+
+<!--///////////////////////////////////////Hourly/////////////////////////////////////////////////////////////////////////////////////////-->
+                <div *ngIf="definitionForm.value.option === 'hourly'">
+                    <div style="display:flex; gap:10px;">
+                        <v-input  formControlName="everyHourly" 
+                                type="text" label="Every" [parentForm]="definitionForm" fieldName="everyHourly" 
+                                id="everyHourly" required="true" (input)="setEveryHour(definitionForm.value.everyHourly)"></v-input>
+                        <p style="margin-top: 1%;">Hour(s)</p>
+                    </div>
+
+                    <v-label text="Interval :" ></v-label>
+                    <v-grid *ngIf="definitionForm.value.option === 'hourly' && showGrid" 
+                            allowSideBar="true"
+                            [pagination]="true" 
+                            agToolBar="ad" 
+                            [paginationPageSize]="10"
+                            [agOnGridEvents]="true" 
+                            [agColumns]="agColumnsDaily" 
+                            agPrimaryKey="beginTime">
+                    </v-grid>
+                </div>
+<!--///////////////////////////////////////Daily/////////////////////////////////////////////////////////////////////////////////////////-->
+                <div style="display:flex; gap:10px;" *ngIf="definitionForm.value.option === 'daily'">
+                    <v-input formControlName="everyDaily" 
+                            type="text" label="Every" [parentForm]="definitionForm" fieldName="everyDaily" 
+                            id="everyDaily" required="true"></v-input>
+                    <p style="margin-top: 1%;">Day(s)</p>
+                </div>
+                        
+<!--///////////////////////////////////////Weekly/////////////////////////////////////////////////////////////////////////////////////////-->
+                <div *ngIf="definitionForm.value.option === 'weekly'">                
+                    <div style="display:flex; gap:10px;">
+                        <v-input formControlName="everyWeekly" 
+                                type="text" label="Every" [parentForm]="definitionForm" fieldName="everyWeekly" 
+                                id="everyWeekly" required="true"></v-input>
+                        <p style="margin-top: 1%;">Week(s)</p>
+                    </div>
+
+                    <v-input type="selectDay" label="Day Of The Week" [parentForm]="definitionForm" 
+                    id="selectedDay" required="true" (click)="updateSelectedDay()"></v-input>
+
+                </div>
+<!--///////////////////////////////////////Monthly/////////////////////////////////////////////////////////////////////////////////////////-->
+                <div style="display:flex;; margin-left: 50%" *ngIf="definitionForm.value.option === 'monthly'">
+                    <label>
+                        By Day :
+                        <input type="radio" formControlName="option2" value="byDay" name="option2" (change)="resetValues2()">
+                    </label>
+                    <label>
+                        By Week :
+                        <input type="radio" formControlName="option2" value="byWeek" name="option2" (change)="resetValues2()">
+                    </label>
+                </div>
+
+                <!--By Day-->
+                <div *ngIf="definitionForm.value.option === 'monthly' && definitionForm.value.option2 === 'byDay' ">
+                    <div  style="width: 250px;">
+                        <v-dropdown formControlName="dayOfMonth" 
+                                    id="dayOfMonth" 
+                                    fieldName="dayOfMonth" 
+                                    label="Day Of The Month" 
+                                    [multiple]="false" 
+                                    [dataJSON]="day" 
+                                    [parentForm]="definitionForm" 
+                                    required="true"></v-dropdown>
+                    </div>
+
+                    <div style="display:flex;" >
+                        <v-toggle label="All Month(s)" formControlName="allMonthToggle"
+                                [parentForm]="definitionForm" fieldName="allMonthToggle" 
+                                id="allMonthToggle" (click)="toggleAllMonths()" style="height: 30px;
+                                width: 20px;"></v-toggle>
+                        <v-input type="selectMonth" [parentForm]="definitionForm" id="selectedMonth" 
+                                 (click)="updateSelectedMonths()" ></v-input>
+                                
+                    </div>
+                    
+                </div>
+                <!--By Week-->
+                <div *ngIf="definitionForm.value.option === 'monthly' && definitionForm.value.option2 === 'byWeek' ">
+                    <div  style="width: 250px;">
+                        <v-dropdown formControlName="weekOfMonth" 
+                                    [multiple]="false" 
+                                    [dataJSON]="week" 
+                                    id="weekOfMonth" 
+                                    label="Week Of The Month" 
+                                    [parentForm]="definitionForm" 
+                                    fieldName="weekOfMonth" 
+                                    required="true"></v-dropdown>
+                    </div>
+
+                    <v-input type="selectDay" label="Day Of The Week" [parentForm]="definitionForm" 
+                            fieldName="selectedWeekDay" id="selectedWeekDay" required="true"  
+                            (click)="updateSelectedDay()"></v-input>
+                    
+                    <div style="display:flex;" >
+                        <v-toggle label="All Month(s)" formControlName="allMonthWeekToggle"
+                                [parentForm]="definitionForm" fieldName="allMonthWeekToggle" 
+                                id="allMonthWeekToggle" (click)="toggleAllMonthsWeek()" style="height: 30px;
+                                width: 20px;"></v-toggle>
+                        <v-input type="selectMonth" [parentForm]="definitionForm" id="selectedMonthWeek" 
+                                (click)="updateSelectedMonths()"></v-input>
+                    </div>
+                </div>
+<!--///////////////////////////////////////One Time/////////////////////////////////////////////////////////////////////////////////////////-->
+                <v-input *ngIf="definitionForm.value.option === 'oneTime'" formControlName="everyOneTime" 
+                            type="date" label="Date Of Execution" [parentForm]="definitionForm" fieldName="everyOneTime" 
+                            id="everyOneTime" required="true"></v-input>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+                
+                <!--List Of Activities-->
+                <div *ngIf="listActivities" style="position: absolute; z-index: 9999; width: 51%; top:400px; padding-bottom: 20px; background-color:#f1eaea;">
+                    <legend class="legend">List Activities</legend>
+                    <v-grid allowSideBar="true"
+                            [pagination]="true" 
+                            agToolBar="ad" 
+                            [paginationPageSize]="10" 
+                            [agOnGridEvents]="true" 
+                            [agColumns]="agColumns" 
+                            agPrimaryKey="beginTime">
+                    </v-grid>
+                </div>
+
+                <!--bottom buttons-->
+                <div style="display: flex; gap: 75px; position: absolute; top: 800px; ">
+                    <label *ngIf="!listActivities" (click)="toggleListActivities()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities ^</label>
+                    <label *ngIf="listActivities" (click)="toggleListActivities()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities v</label>
+                    <div style="margin-left: -20%;">
+                        <v-button value="Save" btnActionType="submit" ></v-button>
+                    </div>
+                </div>  
+
+            </form>
+        </v-tab>
+    </v-tabs-container>
+    
+</div>
+
+
+
+
+<!-- IF THEY WANT BUTTONS AND NOT RADIO BUTTONS
+ <div style="display:flex; gap:10px; margin-bottom: 20px;">
+    <v-label [required]="true" text="Schedule Type " style="margin-right: 142px;"></v-label>
+    <v-button value="Hourly" btnActionType="submit" (click)="onIsHourly()"></v-button>
+    <v-button value="Daily" btnActionType="submit" (click)="onIsDaily()"></v-button>
+    <v-button value="Weekly" btnActionType="submit" (click)="onIsWeekly()"></v-button>
+    <v-button value="Monthly" btnActionType="submit" (click)="onIsMonthly()"></v-button>
+    <v-button value="One Time" btnActionType="submit" (click)="onIsOneTime()"></v-button>
+</div>
+
+<div *ngIf="isHourly">
+    <p>Hourly</p>
+</div>
+<div *ngIf="isDaily">
+    <p>Daily</p>
+</div>
+<div *ngIf="isWeekly">
+    <p>Weekly</p>
+</div>
+<div *ngIf="isMonthly">
+    <p>Monthly</p>
+</div>
+<div *ngIf="isOneTime">
+    <p>One Time</p>
+</div> -->

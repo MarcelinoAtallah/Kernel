@@ -1,0 +1,7 @@
+<v-grid allowSideBar="true"   [dataApi]="getIntegrationStatus" agToolBar="ad"
+    [agColumns]="agColumns" [pagination]="true" [paginationPageSize]="10" agPrimaryKey="code">
+</v-grid>
+<form [formGroup]="integrationStatusForm">
+    <v-button btnActionType="submit" btnType="form" [parentForm]="integrationStatusForm" value="Save">
+    </v-button>
+</form>

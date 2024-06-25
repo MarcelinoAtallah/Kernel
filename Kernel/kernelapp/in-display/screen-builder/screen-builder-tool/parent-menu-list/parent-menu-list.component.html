@@ -1,0 +1,15 @@
+<div class="group-title">
+    <div class="line"></div>Parent Menu<div class="line"></div>
+  </div>
+  <br>
+<v-grid 
+allowSideBar="true"
+ 
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="10"
+agPrimaryKey="menu_code,menu_name"
+[dataApi]="fetchParentMenuList"
+[frameworkComponents]="frameworkComponents"
+>
+</v-grid>

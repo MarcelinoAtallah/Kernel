@@ -1,0 +1,85 @@
+.defaultBtn {
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 0;
+    background-color: var(--btn-style1-bg-color);
+    color: var(--btn-style1-color);
+    box-shadow: 0px 15px 10px -15px #111;
+    min-height: 50px;
+}
+
+.defaultBtn:disabled {
+    background-color: var(--btn-style1-disabled-bg-color);
+    color: var(--btn-style1-disabled-color);
+}
+
+.defaultBtn-2 {
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 0;
+    background-color: var(--btn-style2-bg-color);
+    color: var(--btn-style2-color);
+    box-shadow: 0px 15px 10px -15px #111;
+    min-height: 50px;
+}
+
+.defaultBtn-2:disabled {
+    background-color: var(--btn-style2-disabled-bg-color);
+    color: var(--btn-style2-disabled-color);
+}
+
+.backBtn{
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--btn-style1-bg-color);
+    background-color: whitesmoke;
+    color: var(--btn-style1-bg-color);
+    box-shadow: 0px 15px 10px -15px var(--btn-style1-bg-color);
+    min-height: 50px;
+}
+
+.backBtn:hover{
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 0;
+    background-color: var(--btn-style1-bg-color);
+    color: whitesmoke;
+    box-shadow: 0px 15px 10px -15px var(--btn-style1-bg-color);
+    min-height: 50px;
+}
+
+body,
+html {
+    border-radius: 0.5rem;
+}
+
+.vibrate {
+    animation: shakebtn 0.82s;
+}
+
+@keyframes shakebtn {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0)
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0)
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0)
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0)
+    }
+}

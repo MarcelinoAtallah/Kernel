@@ -1,0 +1,26 @@
+<v-grid
+  allowSideBar="true"
+  [dataApi]="getUSMUsersApi"
+  [agColumns]="agColumns"
+  [pagination]="true"
+  [paginationPageSize]="15"
+  agToolBar="amd"
+  agPrimaryKey="ID"
+  (onGridAdd)="onAddClick()"
+  (onGridUpdate)="onUpdateClick()"
+  (onGridDelete)="onDeleteClick()"
+>
+</v-grid>
+<!--
+<v-grid
+  allowSideBar="true"
+
+  [dataApi]="getUSMUsersApi"
+  [agColumns]="agColumns"
+  [pagination]="true"
+  [paginationPageSize]="15"
+  agToolBar="amd"
+  agPrimaryKey="id"
+  [agOnGridEvents]="true"
+>
+</v-grid> -->

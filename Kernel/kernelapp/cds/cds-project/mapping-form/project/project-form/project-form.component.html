@@ -1,0 +1,17 @@
+
+<form [formGroup]="projectForm">
+<div class="col-lg-6">
+      <v-input formControlName="projectDescription" type="text" label="Project Description"
+      placeholder="Project Description" required="true" [parentForm]="projectForm" fieldName="projectDescription"> </v-input>
+
+</div>
+<div class="col-lg-6">
+      <v-input formControlName="comment" type="text" label="Comment"
+      placeholder="Comment" required="true" [parentForm]="projectForm" fieldName="comment"> </v-input>
+</div>
+
+<div class="col-lg-1 form-submit">
+  <v-button btnActionType="submit" btnType="form"
+  [parentForm]="projectForm" value="Submit" (click)="submitForm()"></v-button>
+</div>
+</form>

@@ -1,0 +1,25 @@
+<div class="header-dialog space-between mb-3" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div></div>
+    <div class="dialogTitle"></div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+
+<form [formGroup]="fieldSetForm">
+    <div class="row">
+        <div class="col-lg-12">
+            <v-input formControlName="fieldsetId" type="hidden" [parentForm]="fieldSetForm" fieldName="fieldsetId"></v-input>
+        </div>
+        <div class="col-lg-12">
+            <v-input formControlName="fieldsetName" type="text" label="Fieldset Name" placeholder="FieldSet Name"
+                required="true" [parentForm]="fieldSetForm" fieldName="fieldsetName" readonly="true"></v-input>
+        </div>
+        <div class="col-lg-12">
+            <v-input formControlName="orderField" type="text" label="Order Number" placeholder="Order Number"
+                required="true" [parentForm]="fieldSetForm" fieldName="orderField" readonly="true"></v-input>
+        </div>
+    </div>
+
+    <div class="col-lg-12 form-submit">
+        <v-button btnActionType="submit" btnType="form" [parentForm]="fieldSetForm" value="Save" (click)="submitForm()"></v-button>
+    </div>
+</form>

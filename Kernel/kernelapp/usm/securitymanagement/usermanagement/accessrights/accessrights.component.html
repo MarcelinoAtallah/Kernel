@@ -1,0 +1,120 @@
+<form [formGroup]="accessRightsForm" id="formRow">
+  <!-- class="vh-100" -->
+  <!-- above (ngSubmit)="onSubmit()" can be added to bind the form to onsubmit() -->
+  <div *ngIf="updateToshow">
+    <div class="row">
+      <div class="col-lg-3" style="height: auto">
+        <v-dropdown
+          formControlName="applicationName"
+          label="Application"
+          required="isRequired"
+          placeholder="Application"
+          [parentForm]="accessRightsForm"
+          [dataApi]="comboAppType"
+          [disabled]="disabledApplication"
+          (onChangeEvent)="onAppName($event)"
+          fieldName="applicationName"
+          aria-readonly="true"
+        >
+        </v-dropdown>
+      </div>
+
+      <!-- <div class="col-lg-3">
+        <v-dropdown
+          formControlName="applicationMenu"
+          label="Application Menu"
+          required="isRequired"
+          placeholder="Application Menu"
+          [parentForm]="accessRightsForm"
+          [dataApi]="comboAppMenu"
+          fieldName="applicationMenu"
+        ></v-dropdown>
+      </div> -->
+      <!-- <div  class="col-lg-3" *ngIf="updateToshow">
+        <v-button
+          btnActionType="submit"
+          btnType="form"
+          [parentForm]="accessRightsForm"
+          value="Search"
+          (click)="accessRightsApi()"
+        ></v-button>
+      </div> -->
+    </div>
+    <!-- <div class="row">
+      <div class="col-lg-3">
+        <v-toggle
+          label="Display Sub Levels"
+          formControlName="subLevel"
+          [parentForm]="accessRightsForm"
+          fieldName="subLevel"
+        >
+        </v-toggle>
+      </div>
+      <div class="col-lg-3">
+        <v-toggle
+          label="Inherit By Column"
+          formControlName="inColumn"
+          [parentForm]="accessRightsForm"
+          fieldName="inColumn"
+        >
+        </v-toggle>
+      </div>
+      <div class="col-lg-3">
+        <v-toggle
+          label="Keep Zero Access"
+          formControlName="isZeroAccess"
+          [parentForm]="accessRightsForm"
+          fieldName="isZeroAccess"
+        >
+        </v-toggle>
+      </div>
+    </div>
+  </div>  -->
+  <div *ngIf="createToShow">
+    <!-- <div class="row"> -->
+      <!-- <div class="col-lg-6"></div> -->
+      <!-- <div class="col-lg-6" style="height: 100px">
+        <v-dropdown
+          formControlName="applicationName"
+          label="Application"
+          required="isRequired"
+          placeholder="Application"
+          [parentForm]="accessRightsForm"
+          [dataApi]="comboAppType"
+          [disabled]="disabledApplication"
+          fieldName="applicationName"
+        >
+        </v-dropdown>
+      </div> -->
+    
+  </div>
+  </div>
+</form>
+<div *ngIf="isShown">
+  <!-- (paramsChange)="onParamsChange($event)" is added by Mira to bind the change paramsChange event of the v-grid component and handle the emitted eventfrom the checkbox -->
+  <v-grid
+    #agGrid
+    allowSideBar="true"
+    [agColumns]="agColumns"
+    [pagination]="true"
+    agPrimaryKey="id,isDisplay,isAdd,isModify,isDelete,isPrint,isExport,isTranslate"
+    [paginationPageSize]="15"
+    [agOnGridEvents]="true"
+    [dataApi]="accessRights"
+    (paramsChange)="onParamsChange($event)"
+    [frameworkComponents]="frameworkComponents"
+    [isInUSM]="true"
+    agRowSelection="multiple"
+  >
+  </v-grid>
+</div>
+<div class="col-lg-6" style="align-self: auto;">
+  <v-button
+    btnActionType="submit"
+    btnType="form"
+    [parentForm]="accessRightsForm"
+    value="Save"
+    (click)="saveApplication()"
+  >
+  </v-button>
+</div>

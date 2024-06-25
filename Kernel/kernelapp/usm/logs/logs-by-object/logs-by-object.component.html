@@ -1,0 +1,44 @@
+<form [formGroup]="ObjectForm">
+    <div id="dropdownStyle">
+        <div class="row">
+            <div class="col-lg-4">
+                <v-dropdown formControlName="application" placeholder="Application" label="Application"
+                    [parentForm]="ObjectForm" [dataApi]="getApplicationName" (onChangeEvent)="onChangeApplicationName($event)" fieldName="application" required="true" >
+                </v-dropdown>
+            </div>
+            <div class="col-lg-4">
+                <v-input formControlName="loginDate" type="date" label="Login Date" [parentForm]="ObjectForm"
+                    fieldName="loginDate" required="true"> </v-input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <!-- <v-dropdown formControlName="menuName" placeholder="Menu" label="Menu" [parentForm]="ObjectForm"
+                    fieldName="menuName" required="true" [dependency]="true" [dataApi]="getMenuName" [dataBody]="menuNameBody" [disabled]="menuIsDisabled" [required]="menuIsRequired">
+                </v-dropdown> -->
+                <v-dropdown formControlName="menuName" placeholder="menu" label="menu"
+                    [parentForm]="ObjectForm" [dataBody]="menuNameBody" [dataApi]="getMenuName" fieldName="menuName" [required]="menuIsRequired" [disabled]="menuIsDisabled">
+                </v-dropdown>
+            </div>
+            <div class="col-lg-4">
+                <v-input formControlName="logoutDate" type="date" label="Logout Date" [parentForm]="ObjectForm"
+                    fieldName="logoutDate"> </v-input>
+            </div>
+            <div class="col-lg-4" style="text-align: -webkit-center;">
+                <v-button btnActionType="submit" btnType="form" [parentForm]="ObjectForm" value="Search"
+                    (click)="submitForm()">
+                </v-button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<v-grid *ngIf="isShown"
+        allowSideBar="true"
+         
+        [agColumns]="agColumns"
+        [pagination]="true"
+        [paginationPageSize]="15"
+        [dataApi]="objectLogsGrid"
+        agPrimaryKey="id">
+</v-grid>

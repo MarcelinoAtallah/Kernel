@@ -1,0 +1,31 @@
+<div class="header-dialog space-between mb-3">
+    <div></div>
+    <div class="dialogTitle"></div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+
+<form [formGroup]="reportForm">
+    <div class="row">
+        <div class="col-lg-12">
+            <v-input formControlName="reportId" type="hidden" [parentForm]="reportForm" fieldName="reportId"></v-input>
+        </div>
+        <div class="col-lg-12">
+            <v-input formControlName="reportName" type="text" label="Report Name" required="true" placeholder=""
+                [parentForm]="reportForm" fieldName="reportName">
+            </v-input>
+        </div>
+        <div class="col-lg-12">
+            <v-input formControlName="reportDesc" type="text" label="Report Description" required="true" placeholder=""
+                [parentForm]="reportForm" fieldName="reportDesc">
+            </v-input>
+        </div>
+        <div class="col-lg-12">
+            <input formControlName="file" type="file" label="File" required="true" placeholder=""
+                parentForm="reportForm" fieldName="file" (change)="onFileSelected($event)"/>
+        </div>
+    </div>
+    <br>
+    <v-button  *ngIf="!isUpdate" btnActionType="submit" btnType="form" [parentForm]="reportForm" value="Submit" (click)="submitForm()" [disabled]="!reportForm.valid" class="submit-button"></v-button>
+    <v-button *ngIf="isUpdate" btnActionType="submit" btnType="form" [parentForm]="reportForm" value="Update" (click)="updateForm()" [disabled]="!reportForm.valid" class="submit-button"></v-button>
+
+</form>

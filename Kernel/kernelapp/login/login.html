@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+        <div class="wrapper animate__animated animate__fadeInDown animate__slower">
+            <!-- <div class="head-section">
+                <img src="assets/img/clientlogo.png" alt="User Icon"/>
+                <hr>
+                <h5 id="appSlogant"></h5> 
+            </div>-->
+            <div class="body-section">
+
+                <!-- <div class="head-section"> -->
+                
+                    <!-- <hr>
+                    <h5 id="appSlogant"></h5> -->
+                <!-- </div> -->
+                <div class="body-section-1 py-4">
+                    <img src="assets/img/clientlogo.png" alt="User Icon"/>
+                </div>
+                
+                <div class="body-section-2 py-5">
+                    <v-input formControlName="username" type="text" placeholder="Username" [allowLabel]="false" required="true" label="Username" [parentForm]="loginForm" fontawesome="fa fa-user" fieldName="username"></v-input>
+                    <v-input formControlName="password" type="password" placeholder="Password" [allowLabel]="false" required="true" label="Password" [parentForm]="loginForm" fontawesome="fa fa-key" fieldName="password"></v-input>
+                    <v-captcha [parentForm]="loginForm" fieldName="captchaField"></v-captcha>
+                    <v-button btnActionType="submit" value="Login" id="submitFormBtn" [isLoginBtn]="true" [customStyle]="customStyle" [parentForm]="loginForm"></v-button>
+                </div>
+
+                <div class="body-section-3">
+                    <v-toggle label="Advanced Access" style="font-weight: bold"></v-toggle>  
+                    <a href="">Help Desk</a>
+                </div>
+
+                <div *ngIf="errorMessage != ''">
+                    <small class="error-message">{{ errorMessage }}</small>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div *ngIf="loaderService.isLoading | async" class="loading-animation animate__animated animate__fadeIn">
+        <div class="loading-elements">
+            <img src="assets/img/clientlogo.png" alt="User Icon"/>
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+    </div>
+
+    <!-- <footer style="color: var(--layout-foreground-color)">
+        <span>Copyright Valoores 1989-{{currentYear}}. All rights reserved.</span>
+        <span id="appVersion"></span>
+    </footer> -->
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<v-tabs-container>
+    <v-tab tabTitle="Role Info" menuVariable="role">
+        <form [formGroup]="roleForm">
+            <div class="row">
+                <div class="col-lg-3">
+                    <v-input formControlName="roleName" type="text" label="Role Name" placeholder="Role Name"
+                        required="true" [parentForm]="roleForm" fieldName="roleName"> </v-input>
+                </div>
+                <div class="col-lg-3">
+                    <v-dropdown formControlName="roleType" label="Role Type" placeholder="Role Type"
+                        [dataApi]="comboRoleType" required="true" [parentForm]="roleForm"
+                        fieldName="roleType"></v-dropdown>
+                </div>
+                <div class="col-lg-3">
+                    <v-toggle label="Dual Factor Authentication" formControlName="isDualAuthentication"
+                        [parentForm]="roleForm" fieldName="isDualAuthentication">
+                    </v-toggle>
+                </div>
+            </div>
+
+            <!-- <div class="row mb-3">
+                <h3>Role Business Unit Group</h3>
+                <div class="col-lg-6">
+                    <v-dropdown formControlName="bugType" placeholder="BUG Type" label="BUG Type"
+                        [parentForm]="roleForm" (onChangeEvent)="onBugTypeChange($event)" [dataApi]="comboUSMBugType"
+                        fieldName="bugType" multiple="true">
+                    </v-dropdown>
+                </div>
+                <div *ngIf="bugName">
+                    <div class="col-lg-6" *ngFor="let x of bugNameList">
+                        <v-dropdown formControlName="{{x.property}}" multiple="true" placeholder="BUG Name" label="{{x.bugName}} - Business Unit Group Name"
+                        [parentForm]="roleForm" fieldName="{{x.property}}" dataApi="{{x.url}}" [required]="bugIsRequired"
+                        [disabled]="bugIsDisabled" dataBody=""></v-dropdown>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- <div class="row">
+                <mat-accordion>
+                    <mat-expansion-panel style="background-color: #f4f4f4;">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                test
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <v-dropdown formControlName="bugName" multiple="true" placeholder="BUG Name"
+                                    label="Business Unit Group Name" [parentForm]="roleForm" fieldName="bugName"
+                                    [dataApi]="RoleBugNameCombo" [required]="bugIsRequired" [disabled]="bugIsDisabled"
+                                    dataBody=""></v-dropdown>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div> -->
+            <!-- <div class="row" *ngIf="showHideTabs">
+                <h3> Role Users</h3>
+                <v-grid allowSideBar="true"
+
+                        [dataApi]="getUSMUsersOfRoleApi"
+                        agToolBar=""
+                        [agColumns]="agColumns"
+                        [pagination]="true"
+                        [paginationPageSize]="10"
+                        agPrimaryKey="userId">
+                </v-grid>
+            </div> -->
+
+            <v-button btnActionType="submit" btnType="form" [parentForm]="roleForm" value="Submit"
+                (click)="submitForm()">
+            </v-button>
+
+
+
+        </form>
+    </v-tab>
+
+    <v-tab tabTitle="Role Form" *ngIf="showHideTabs" menuVariable="userAccessRights" id="formRow">
+        <app-user-form></app-user-form>
+    </v-tab>
+    <v-tab tabTitle="Role Sanction">
+      <app-role-sanction></app-role-sanction>
+  </v-tab>
+
+    <v-tab tabTitle="Role Users" *ngIf="showHideTabs" menuVariable="userAccessRights" id="userRow">
+        <app-role-users></app-role-users>
+    </v-tab>
+
+</v-tabs-container>

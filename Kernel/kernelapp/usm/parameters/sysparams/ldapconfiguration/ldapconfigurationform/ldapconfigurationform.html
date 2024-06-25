@@ -1,0 +1,150 @@
+<form [formGroup]="ldapConfigurationForm">
+  <div class="row">
+    <div class="col-lg-7">
+      <v-toggle
+        label="Default Configuration"
+        formControlName="defaultConfiguration"
+        [parentForm]="ldapConfigurationForm"
+        fieldName="Default Configuration"
+      >
+      </v-toggle>
+    </div>
+
+    <div class="col-lg-7">
+      <v-input
+        formControlName="ldapServerUrl"
+        type="text"
+        label="Ldap Server"
+        required="true"
+        placeholder="LDAP Server"
+        [parentForm]="ldapConfigurationForm"
+        fieldName="ldapServerUrl"
+      ></v-input>
+    </div>
+
+    <div class="col-lg-7">
+      <v-input
+        formControlName="ldapServerPort"
+        type="text"
+        label="Ldap Server Port"
+        required="true"
+        placeholder="LDAP Server Port"
+        [parentForm]="ldapConfigurationForm"
+        fieldName="ldapServerPort"
+      >
+      </v-input>
+    </div>
+
+    <div class="col-lg-7">
+      <v-input
+        formControlName="ldapAdminLogin"
+        type="text"
+        label="Ldap Admin Name"
+        required="true"
+        placeholder="LDAP Admin Name"
+        [parentForm]="ldapConfigurationForm"
+        fieldName="ldapAdminLogin"
+      ></v-input>
+    </div>
+
+    <div class="col-lg-7">
+      <v-input
+        formControlName="ldapAdminPwd"
+        type="password"
+        label="Ldap Admin Password"
+        required="true"
+        placeholder="LDAP Admin Password"
+        [parentForm]="ldapConfigurationForm"
+        fieldName="ldapAdminPwd"
+      >
+      </v-input>
+    </div>
+
+    <div class="col-lg-7">
+      <v-input
+        formControlName="ldapSearchBaseRoot"
+        type="text"
+        label="Ldap Search Base Root"
+        required="true"
+        placeholder="LDAP Search Base Root"
+        [parentForm]="ldapConfigurationForm"
+        fieldName="ldapSearchBaseRoot"
+      >
+      </v-input>
+    </div>
+
+    <div class="col-lg-7">
+      <v-input
+        formControlName="ldapSearchBase"
+        type="text"
+        label="Ldap Search Base "
+        required="true"
+        placeholder="LDAP Search Base "
+        [parentForm]="ldapConfigurationForm"
+        fieldName="ldapSearchBase"
+      ></v-input>
+    </div>
+
+    <div class="col-lg-7">
+      <v-input
+        formControlName="ldapConnectionTimeoutPeriod"
+        type="text"
+        label="Ldap Connection TimeOut(ms)"
+        required="false"
+        placeholder="5000"
+        [parentForm]="ldapConfigurationForm"
+        fieldName="ldapConnectionTimeoutPeriod"
+        readonly
+      >
+      </v-input>
+    </div>
+
+    <div class="col-lg-7">
+      <v-input
+        formControlName="ldapResponseTimeoutPeriod"
+        type="text"
+        label="Ldap Read TimeOut(ms)"
+        required="false"
+        placeholder="1000"
+        [parentForm]="ldapConfigurationForm"
+        fieldName="ldapResponseTimeoutPeriod"
+        readonly
+       >
+      </v-input>
+    </div>
+
+    <div class="col-lg-7">
+      <v-button value="Ldap Config Tree" inline="true"> </v-button>
+    </div>
+
+    <div class="col-lg-7">
+      <v-button
+        btnActionType="submit"
+        btnType="form"
+        [parentForm]="ldapConfigurationForm"
+        value="Save"
+        (click)="submitForm()"
+        inline="true"
+      >
+      </v-button>
+    </div>
+
+    <v-tabs-container>
+      <div class="row" *ngIf="showHideTabs">
+        <h3>BUG Mapping</h3>
+        <v-grid
+          allowSideBar="true"
+          agToolBar="ad"
+           
+          [dataApi]="getBugLdapMapping"
+          agToolBar=""
+          [agColumns]="agColumns"
+          [pagination]="true"
+          [paginationPageSize]="10"
+          agPrimaryKey="configId"
+        >
+        </v-grid>
+      </div>
+    </v-tabs-container>
+  </div>
+</form>

@@ -1,0 +1,10 @@
+<div *ngFor="let data of gridObject; let i = index">
+<v-grid 
+allowSideBar="true"
+[agColumns]="data[1]"
+[pagination]="true"
+[dataApi]="data[2]"
+[paginationPageSize]="5"
+>
+</v-grid>
+</div>

@@ -1,0 +1,18 @@
+<mat-drawer-container >
+    <mat-drawer #drawer style="width:200px">
+        <div class="body-section">
+            <ul>
+                <li style="cursor: pointer; list-style-type:none;">
+                    <a>
+                        <span class="icon-img"><i class="fas fa-home"></i></span>
+                        <span class="title active">Home</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </mat-drawer>
+    <mat-drawer-content >
+        <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
+        <ng-content></ng-content>
+    </mat-drawer-content>
+  </mat-drawer-container>

@@ -1,0 +1,30 @@
+<form [formGroup]="logsUserForm" id="formRow">
+    <div class="row" >
+        <div class="col-lg-3">
+            <v-dropdown formControlName="userLogs" placeholder="User" label="User" [parentForm]="logsUserForm"
+                  fieldName="userLogs" required="true" [dataApi]="userLogs">
+             </v-dropdown>
+        </div>
+        <div class="col-lg-3">
+            <v-dropdown formControlName="application" placeholder="Application" label="Application" [parentForm]="logsUserForm"
+            fieldName="application" [dataApi]="application">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-3">
+            <v-input formControlName="loginDate" type="date" label="Login Date" placeholder="Login Date" required="false" [parentForm]="logsUserForm" fieldName="loginDate"> </v-input>
+        </div>
+         <div class="col-lg-3 d-flex align-items-center">
+            <v-button btnActionType="submit" btnType="form" [parentForm]="logsUserForm" value="Search" (click)="searchForm()">
+            </v-button>
+        </div> 
+    </div>
+</form>
+<v-grid *ngIf="isShown"
+        allowSideBar="true"
+         
+        [agColumns]="agColumns"
+        [pagination]="true"
+        [paginationPageSize]="15"
+        [dataApi]="userLogsGrid"
+        agPrimaryKey="id">
+</v-grid>

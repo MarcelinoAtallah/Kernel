@@ -1,0 +1,102 @@
+<v-tabs-container>
+    <v-tab tabTitle="Database">
+        <form [formGroup]="databaseForm">
+
+            <div class="group-title">
+                <div class="line"></div>Database Variables<div class="line"></div>
+            </div>
+    <br>
+                <div class="form-group">
+                    <v-input formControlName="databasePlatform" type="text" label="Database Platform" [parentForm]="databaseForm" fieldName="databasePlatform" [readonly]="true"></v-input>
+                </div>            
+                <div class="form-group">
+                    <v-input formControlName="databaseSize" type="text" label="Database Size" [parentForm]="databaseForm" fieldName="databaseSize" [readonly]="true"></v-input> 
+                </div>
+                <div class="form-group">
+                    <v-input formControlName="databaseTempSize" type="text" label="Temporary Space Size" [parentForm]="databaseForm" fieldName="databaseTempSize" [readonly]="true"></v-input>
+                </div>
+                <div class="form-group">
+                    <v-input formControlName="redoLogSize" type="text" label="Redo Log Size" [parentForm]="databaseForm" fieldName="redoLogSize" [readonly]="true"></v-input>
+                </div>
+
+                <br>
+                <div class="group-title">
+                    <div class="line"></div>DB Info<div class="line"></div>
+                </div>
+                <br>
+
+                    <v-grid
+                    allowSideBar="true"
+                    [allowSearch]="false"
+                    [agColumns]="agColumnsDBInfo"
+                    [pagination]="true"
+                    [paginationPageSize]="15"
+                    agToolBar=""
+                    agPrimaryKey=""
+                    ></v-grid>
+
+                <br>
+                <div class="group-title">
+                    <div class="line"></div>Oracle<div class="line"></div>
+                </div>
+                <br>
+                 <v-grid
+                 allowSideBar="true"
+                 [allowSearch]="false"
+                 [agColumns]="agColumnsOracle"
+                 [pagination]="true"
+                 [paginationPageSize]="15"
+                 agToolBar=""
+                 agPrimaryKey=""
+                 ></v-grid>
+
+        </form>
+    </v-tab>
+
+
+    <v-tab tabTitle="O/S">
+       <form [formGroup]="OSForm">
+
+            <div class="group-title">
+                <div class="line"></div>Operating System & System<div class="line"></div>
+            </div>
+                 <br>
+                <div class="form-group">
+                    <v-input formControlName="osName" type="text" label="O/S Name" [parentForm]="OSForm" fieldName="osName" [readonly]="true"></v-input>
+                </div>            
+                <div class="form-group">
+                    <v-input formControlName="osArchitecture" type="text" label="O/S Architecture" [parentForm]="OSForm" fieldName="osArchitecture" [readonly]="true"></v-input> 
+                </div>
+                <div class="form-group">
+                    <v-input formControlName="osVersion" type="text" label="O/S Version" [parentForm]="OSForm" fieldName="osVersion" [readonly]="true"></v-input>
+                </div>
+                <div class="form-group">
+                    <v-input formControlName="osAvailableProcessors" type="text" label="Available Processors" [parentForm]="OSForm" fieldName="osAvailableProcessors" [readonly]="true"></v-input>
+                </div>
+
+                <br>
+                <div class="group-title">
+                    <div class="line"></div>Java Heap utilization statistics [KB]<div class="line"></div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <v-input formControlName="osJreVersion" type="text" label="JRE Version" [parentForm]="OSForm" fieldName="osJreVersion" [readonly]="true"></v-input>
+                </div>            
+                <div class="form-group">
+                    <v-input formControlName="osJavaVendor" type="text" label="Java Vendor" [parentForm]="OSForm" fieldName="osJavaVendor" [readonly]="true"></v-input> 
+                </div>
+                <div class="form-group">
+                    <v-input formControlName="osUsedMemory" type="text" label="Used Memory" [parentForm]="OSForm" fieldName="osUsedMemory" [readonly]="true"></v-input>
+                </div>
+                <div class="form-group">
+                    <v-input formControlName="osFreeMemory" type="text" label="Free Memory" [parentForm]="OSForm" fieldName="osFreeMemory" [readonly]="true"></v-input>
+                </div>
+                <div class="form-group">
+                    <v-input formControlName="osTotalMemory" type="text" label="Total Memory" [parentForm]="OSForm" fieldName="osTotalMemory" [readonly]="true"></v-input>
+                </div>
+                <div class="form-group">
+                    <v-input formControlName="osMaxMemory" type="text" label="Max Memory" [parentForm]="OSForm" fieldName="osMaxMemory" [readonly]="true"></v-input>
+                </div>
+    </form>
+    </v-tab>
+  </v-tabs-container>

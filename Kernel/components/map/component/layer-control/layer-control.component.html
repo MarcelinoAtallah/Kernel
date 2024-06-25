@@ -1,0 +1,72 @@
+
+<div id="LazyLoad"  class="dropdown-content"  (scroll)="onScroll()" style="display: block;" >
+  <table id="myTable">
+  <tr>
+  </tr>
+  <tr>
+    <input type="text" [(ngModel)]="searchQuery" placeholder="🔍Search by name" (input)="performSearch()" style="width: 90%;">
+  </tr>
+  <table *ngIf="displayclusters===true">
+  <tr>
+    <td><input type="checkbox" id="tooltip" (change)="onTooltipChange($event)" checked> NameTooltip</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="tooltip" (change)="onDateTooltipChange($event)" checked> DateTooltip</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="activitydensity" (change)="onActivityDensityChange($event)" checked> ActivityDensity</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="activityhotspot" (change)="onActivityHotspotChange($event)" checked> ActivityHotspot</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="areademographics" (change)="onAreaDemographicsChange($event)" checked> AreaDemographics</td>
+  </tr>
+
+</table>
+<table  *ngIf="displaysectors===true">
+  <tr>
+    <td><input type="checkbox" id="Sectors" (change)="onSectorchange($event)" checked> Sectors</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="2G" (change)="onSectorTechnologychange($event,'2g')" checked>2G</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="3G" (change)="onSectorTechnologychange($event,'3g')" checked>3G</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="4G" (change)="onSectorTechnologychange($event,'4g')" checked>4G</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="alfa" (change)="onCellIdchange($event,'alfa')" checked>alfa</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="mtc" (change)="onCellIdchange($event,'mtc')" checked>mtc</td>
+  </tr>
+</table>
+<table  *ngIf="displayclusters===true" >
+  <tr *ngFor="let name of loadedNames">
+    <ng-container *ngIf="name.layer_control?.toLowerCase().includes(searchQuery?.toLowerCase())">
+    <td><input type="checkbox" [id]="name.layer_control" (change)="ondeviceClustersChange($event,name.layer_control)"  checked>{{ name.layer_control }}</td>
+    </ng-container>
+  </tr>
+</table>
+
+<table  *ngIf="displayRoute===true">
+  <!-- <tr>
+    <td><input type="checkbox" id="Routes" (change)="onRoutechange($event)" checked> Routes</td>
+  </tr> -->
+  <tr>
+    <td><input type="checkbox" id="Routes" (change)="onRoutechange($event)" checked> clear route</td>
+  </tr>
+
+</table>
+<!-- <table  *ngIf="displayRoute===true" >
+  <tr *ngFor="let name of routes">
+    <ng-container>
+    <td><input type="checkbox" [id]="name" (change)="onRoutedevice($event)"  checked>{{ name }}</td>
+    </ng-container>
+  </tr>
+</table> -->
+</table>
+</div>

@@ -1,0 +1,129 @@
+<div class="form-container">
+    <div class="group-title" style="font-size:18px;">
+        <div class="line"></div>Condition Form<div class="line"></div>
+      </div>
+      <br>
+    <form [formGroup]="dataFilterForm" enctype="multipart/form-data">
+        
+        <div class="form-group">
+            <v-dropdown 
+            formControlName="grouping"
+            [dataJSON]="groupingCondition"
+            label="Grouping"
+            [parentForm]="dataFilterForm"
+            fieldName="grouping"
+            [required]="true"
+          >
+          </v-dropdown>
+          <div class="error-msg" *ngIf="dataFilterForm.get('grouping').errors?.['required']"></div>
+    
+        </div>
+        
+
+
+        <div class="form-group">
+        <v-dropdown 
+        formControlName="firstOperand"
+        [dataJSON]="firstOperandTypes"
+        label="First Operand"
+        [parentForm]="dataFilterForm"
+        fieldName="firstOperand"
+        [required]="true"
+      >
+      </v-dropdown>
+      <div class="error-msg" *ngIf="dataFilterForm.get('firstOperand').errors?.['required']"></div>
+
+    </div>
+
+    <div class="form-group">
+        
+        <!-- FIRST OPERAND -->
+        <!-- for expression add dropdrown with condition under here -->
+
+        <v-dropdown *ngIf="this.dataFilterForm.get('firstOperand')?.value=='Field'"
+        formControlName="firstValue"
+        [dataJSON]="firstValueFieldList"
+        label="Value"
+        [parentForm]="dataFilterForm"
+        fieldName="firstValue"
+        [required]="true"
+      >
+      </v-dropdown>
+
+
+
+      <div class="error-msg" *ngIf="dataFilterForm.get('firstValue').errors?.['required']"></div>
+
+    </div>
+
+    <div class="form-group">
+        <v-dropdown 
+        formControlName="operator"
+        [dataJSON]="operatorTypes"
+        label="Operator"
+        [parentForm]="dataFilterForm"
+        fieldName="operator"
+        [required]="true"
+      >
+      </v-dropdown>
+      <div class="error-msg" *ngIf="dataFilterForm.get('operator').errors?.['required']"></div>
+
+    </div>
+
+
+    <div class="form-group">
+        <v-dropdown 
+        formControlName="secondOperand"
+        [dataJSON]="secondOperandTypes"
+        label="Second Operand"
+        [parentForm]="dataFilterForm"
+        fieldName="secondOperand"
+        [required]="true"
+      >
+      </v-dropdown>
+      <div class="error-msg" *ngIf="dataFilterForm.get('secondOperand').errors?.['required']"></div>
+
+    </div>
+
+    <div class="form-group">
+        <v-dropdown *ngIf="this.dataFilterForm.get('secondOperand')?.value=='Field'"
+        formControlName="secondValue"
+        [dataJSON]="secondValueFieldList"
+        label="Value"
+        [parentForm]="dataFilterForm"
+        fieldName="secondValue"
+        [required]="true"
+      >
+      </v-dropdown>
+
+      <v-input *ngIf="this.dataFilterForm.get('secondOperand')?.value=='Static'"
+       formControlName="secondValue"
+       type="text" 
+       label="Value" 
+       [parentForm]="dataFilterForm"
+       fieldName="secondValue"
+       [required]="true"
+       >
+      </v-input>
+
+      <v-dropdown *ngIf="this.dataFilterForm.get('secondOperand')?.value=='Parameter'"
+      formControlName="secondValue"
+      [dataJSON]="secondValueParameterList"
+      label="Value"
+      [parentForm]="dataFilterForm"
+      fieldName="secondValue"
+      [required]="true"
+    >
+    </v-dropdown>
+
+
+
+      <div class="error-msg" *ngIf="dataFilterForm.get('secondValue').errors?.['required']"></div>
+
+    </div>
+    
+    
+        <v-button btnActionType="submit" btnType="form" [parentForm]="dataFilterForm" value="Add Condition" (click)="addCondition()" [disabled]="!dataFilterForm.valid" class="submit-button"></v-button>
+      </form>
+    </div>
+    

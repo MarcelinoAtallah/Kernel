@@ -1,0 +1,33 @@
+
+<!--CONTENT-->
+<div style="height:100%; overflow:hidden;">
+    <!--TITLE-->
+    <div class="dialog-header">
+        <p class="dialog-title">Properties</p>
+        <p (click)="closeDialog()" class="dialog-close">X</p>
+    </div>
+    <form [formGroup]="form">
+        <v-input formControlName="name" type="text" label="BP Activity Name" required="true" [parentForm]="form"
+                    fieldName="name" id="name"></v-input>
+
+        <v-dropdown formControlName="step_0" 
+                    [required]="true" 
+                    [multiple]="false"
+                    [dataJSON]="ruleAction" 
+                    id="step_0" 
+                    label="Activity Name" 
+                    [parentForm]="form"
+                    fieldName="step_0" 
+                    *ngIf="data.category === 'events'"></v-dropdown>
+
+        <div class="v-buttons">
+            <v-button value="Modify" btnActionType="submit" (click)="modify(this.form.controls['step_0']?.value)"></v-button>
+            <v-button value="Create New" btnActionType="submit" (click)="modify(this.form.controls['step_0']?.value)"></v-button>
+        </div>
+    </form>
+
+    <button class="save-button" (click)="saveChanges()">Save</button>
+
+</div>
+
+

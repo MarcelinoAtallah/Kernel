@@ -1,0 +1,5 @@
+<div style="display:flex">
+    <input class="v-input-style" type="text" [formControl]="formField" [(ngModel)]="captchaInput">
+    <img src="{{captchaData}}"/>
+</div>
+<button style="display:none" id="regenerateCaptcha" (click)="rerun()">alert</button>

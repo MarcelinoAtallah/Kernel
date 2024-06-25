@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="input-group">
+    <v-input  type="text" label="FieldTest" placeholder="Input Field"  fieldName="FieldTest" [required]="true" class="input-field"></v-input>
+
+    <div class="button-group">
+      <button (click)="executee()" class="executee-button">Execute</button>
+      <button (click)="reset()" class="reset-button">Reset</button>
+    </div>
+  </div>
+
+  <v-grid
+  class="v-grid"
+    *ngIf="showGrid"
+    [agColumns]="agColumns"
+    [pagination]="true"
+    [paginationPageSize]="15"
+  ></v-grid>
+</div>

@@ -1,0 +1,36 @@
+<form [formGroup]="fieldHistoryLogForm">
+    <div class="row">
+        <div class="col-lg-2">
+            <v-dropdown formControlName="application" [dataApi]="getUSMApplicationComboApi" label="Application"
+                [parentForm]="fieldHistoryLogForm" (onChangeEvent)="onChangeApplicationName($event)"  fieldName="application"></v-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <v-dropdown formControlName="user" [dataApi]="getUserApi" label="User" [parentForm]="fieldHistoryLogForm"
+                fieldName="user"></v-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <v-dropdown formControlName="menu" [dataApi]="getMenuApi" label="Menu"  [parentForm]="fieldHistoryLogForm"
+                fieldName="menu"></v-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <v-dropdown formControlName="field" [dataApi]="getFieldApi" label="Field" [parentForm]="fieldHistoryLogForm"
+                fieldName="field"></v-dropdown>
+        </div>
+
+        </div>
+        <div class="col-lg-16">
+            <v-input formControlName="fromdate" type="date" label="From Date " placeholder="Date" required="true"
+                [parentForm]="fieldHistoryLogForm" fieldName="fromdate"></v-input>
+        </div>
+        <div class="col-lg-16">
+            <v-input formControlName="todate" type="date" label="To Date " placeholder="Date" required="true"
+                [parentForm]="fieldHistoryLogForm" fieldName="todate"></v-input>
+        </div>
+        <div class="col-lg-16 form-submit">
+            <v-button btnActionType="submit" btnType="form" [parentForm]="fieldHistoryLogForm" value="Search"
+                (click)="gridShow()"></v-button>
+
+
+        <v-grid *ngIf="isShown" allowSideBar="true"   [dataApi]="getUSMFieldHistoryLog" [agColumns]="agColumns"
+            [pagination]="true" [paginationPageSize]="30" agPrimaryKey="id"></v-grid>
+

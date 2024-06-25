@@ -1,0 +1,174 @@
+/* BASIC */
+
+* {
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/assets/img/valoores_bg.png');
+    background-color: #E8E9E9;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    background-position: center center;
+}
+
+*:focus {
+    outline: none;
+}
+
+.loginHeader {
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 8px;
+    color: var(--layout-foreground-color);
+}
+
+.appLogo img {
+    width: 200px;
+}
+
+.appLogo h5 {
+    letter-spacing: 1px;
+    margin-left: 2px;
+    font-size: 1em;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    text-align: center;
+    width: 30vw;
+    border-radius: 1.5rem;
+    padding: 2rem 3rem;
+    background-color: var(--app-background-color);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    max-width: 450px;
+    /* width: 400px;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 10px 10px 10px 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: var(--app-background-color);
+    gap: 40px;
+    --animate-duration: 0.7s;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1); */
+}
+
+.wrapper img {
+    width: 100%;
+}
+
+/* .wrapper .head-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.wrapper .head-section img {
+    max-width: 300px;
+} */
+
+/* .wrapper hr {
+    width: 0;
+    border: 1px solid black;
+    opacity: 0.4;
+    animation: fillBorder 2s linear forwards;
+    text-align: center;
+} */
+
+/* @keyframes fillBorder {
+    0% {
+      width: 0;
+      transform-origin: center;
+      transform: scaleX(0);
+    }
+    50% {
+      transform-origin: left;
+      transform: scaleX(1);
+    }
+    100% {
+      transform-origin: left;
+      width: 300px;
+      transform: scaleX(1);
+    }
+  } */
+
+/* .wrapper .head-section #appSlogant {
+    font-family: calibri;
+    font-size: 17px;
+    color: var(--black-color);
+    opacity: 0.5;
+    font-style: italic;
+    line-height: 1.2;
+    text-transform: Capitalize;
+    text-align: center;
+    margin-top: -10px;
+} */
+
+.wrapper .body-section {
+    display: flex;
+    flex-direction: column;
+    /* gap: 50px; */
+}
+
+.wrapper .body-section-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.wrapper .body-section-3 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.wrapper .advanced-access {
+    display: flex;
+    justify-content: center;
+}
+
+/* .wrapper h1 {
+    font-size: 2rem;
+    text-align: left;
+    margin-bottom: 60px !important;
+} */
+
+/* footer {
+    position: absolute;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    bottom: 4%;
+    font-size: 0.8rem;
+    font-weight: bold;
+} */
+
+form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}

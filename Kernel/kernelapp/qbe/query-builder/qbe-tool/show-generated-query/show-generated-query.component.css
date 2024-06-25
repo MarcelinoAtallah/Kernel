@@ -1,0 +1,16 @@
+.line {
+    flex: 1;
+    height: 1px;
+    background-color: black;
+    margin: 0 5px;
+  }
+
+
+  .group-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

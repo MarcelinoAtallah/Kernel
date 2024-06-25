@@ -1,0 +1,97 @@
+.button-container-0 {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  min-height: 82px;
+}
+
+.button-container-0 button {
+  text-align: right;
+}
+
+.button-container-00 {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 26px;
+}
+
+.button-container-1 {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: flex-end;
+}
+
+.button-container-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.labelForButton {
+  font-size: 14px;
+}
+
+.required::after{
+  content: '*';
+  color: red;
+}
+
+.checkDesign {
+  transform: scale(1.5); /* Adjust the scale factor for the checkbox size */
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  height: 15px;
+  width: 15px;
+  padding-right: 20px;
+}
+
+/* :host ::ng-deep .nav.nav-tabs.mt-3 {
+  position: fixed;
+  background-color: white; 
+  top: 160px; 
+  width: 75%;
+  z-index: 1000; 
+} */
+
+.body {
+  position: relative;
+}
+
+.header-dialog {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* .header-dialog {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  max-width: 75%;
+  justify-content: space-between;
+  background: white;
+  z-index: 1000;
+  top: 0;
+} */
+
+/* .tab-content {
+  margin-top: 155px;
+}  */
+
+.requiredMessage{
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  top: 100%;
+  left: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}

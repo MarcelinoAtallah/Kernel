@@ -1,0 +1,44 @@
+.fieldset {
+    position: relative;
+    text-align: center;
+    margin-top: -26px;
+}
+
+.fieldset hr {
+    color: black;
+    border: 1px solid;
+}
+
+.fieldset span {
+    position: absolute;
+    top: 11px;
+    left: 40px;
+    font-size: 16px;
+    letter-spacing: 3px;
+    padding-right: 15px;
+    padding-left: 15px;
+    background-color: var(--app-background-color);
+    color: var(--black-color);
+    font-style: italic;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.fieldset .button-container {
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    right: 40px;
+    background-color: var(--app-background-color);
+    padding-right: 15px;
+    padding-left: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.fieldset .button-container .icon-button {
+    border: 0;
+    background-color: transparent;
+    color: var(--black-color) !important;
+    font-size: 12px;
+}

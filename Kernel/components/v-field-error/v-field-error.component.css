@@ -1,0 +1,6 @@
+.field-error {
+    color: #ff0000 !important;
+    font-size: 13px;
+    float: left;
+    margin-top: 2px;
+}

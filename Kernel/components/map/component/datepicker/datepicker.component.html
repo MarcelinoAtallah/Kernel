@@ -1,0 +1,30 @@
+<div id="datecomp">
+
+  <mat-label>Begin Operation</mat-label>
+  <div class="input-container">
+    <div class="input-wrapper">
+      <input  type="date" [formControl]="startDateControl">
+    </div>
+    <div class="input-wrapper">
+      <input  id="appt" type="time"  #beginTimeInput>
+    </div>
+  </div>
+
+<hr>
+
+  <mat-label>End Operation</mat-label>
+  <div class="input-container">
+    <div class="input-wrapper">
+      <input  type="date" [formControl]="endDateControl">
+    </div>
+    <div class="input-wrapper">
+      <input  id="appt" type="time"   #endTimeInput>
+    </div>
+  </div>
+
+</div>
+
+<nav class="alertify-buttons">
+  <button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel"(click)="closepopup()">Cancel</button>
+  <button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="save()">Ok</button>
+</nav>

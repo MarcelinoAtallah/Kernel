@@ -1,0 +1,20 @@
+
+<h4 id="Title" style="color: black;text-align:center;font-weight: bold;">
+       <div (click)="openSelected1()"> 
+       {{Title}}
+       </div>
+</h4>
+
+<div id="canvas" >
+<canvas baseChart
+[type]="type"
+[datasets]="pieChartDatasets"
+[labels]="pieChartLabels"
+[plugins]="pieChartPlugins"
+[legend]="pieChartLegend"
+
+></canvas>
+</div>
+
+
+<!-- [options]="getChartOptions()" -->

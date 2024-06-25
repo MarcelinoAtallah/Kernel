@@ -1,0 +1,42 @@
+  canvas {
+    display: block;
+    box-shadow: 0 0 5px 1px #999;
+    margin: 2em auto;
+  }
+  .signature-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signature-canvas {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+} 
+
+.button-container {
+    display: inline-block;
+}
+
+.clear-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0px 9px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.clear-button:hover, .save-button:hover {
+    background-color: #0056b3;
+}
+
+.clear-button:focus, .save-button:focus {
+    outline: none;
+} 

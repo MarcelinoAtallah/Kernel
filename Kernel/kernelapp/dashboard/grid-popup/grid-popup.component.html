@@ -1,0 +1,8 @@
+<v-grid [agColumns]="agColumns" [pagination]="true" [paginationPageSize]="15" agPrimaryKey="id"
+  [dataApi]="getDashboardGridData"></v-grid>
+<div class="container">
+  <div class="col-lg-6">
+    <v-button class=".right-buttons" [value]="'Insert'" [btnActionType]="'button'" (click)="Insert()">
+    </v-button>
+  </div>
+</div>

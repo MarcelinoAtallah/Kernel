@@ -1,0 +1,75 @@
+<form [formGroup]="statusConfigurationForm">
+    <div class="row" >
+        <div class="col-lg-4">
+            <v-input formControlName="initiated" type="color" label="Initiated" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="initiated"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="running" type="color" label="Running" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="running"></v-input>
+        </div>
+        </div>
+        <div class="row" >
+        <div class="col-lg-4">
+            <v-input formControlName="active" type="color" label="Active" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="active"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="suspended" type="color" label="Suspended" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="suspended"></v-input>
+        </div>
+        </div>
+        <div class="row" >
+        <div class="col-lg-4">
+            <v-input formControlName="completed" type="color" label="Completed" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="completed"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="terminated" type="color" label="Terminated" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="terminated"></v-input>
+        </div>
+        </div>
+        <div class="row" >
+        <div class="col-lg-4">
+            <v-input formControlName="validated" type="color" label="Validated" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="validated"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="rejected" type="color" label="Rejected" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="rejected"></v-input>
+        </div>
+        </div>
+        <div class="row" >
+        <div class="col-lg-4">
+            <v-input formControlName="canceled" type="color" label="Canceled" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="canceled"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="delayed" type="color" label="Delayed" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="delayed"></v-input>
+        </div>
+        </div>
+        <div class="row" >
+        <div class="col-lg-4">
+            <v-input formControlName="simulated" type="color" label="Simulated" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="simulated"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="deleted" type="color" label="Deleted" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="deleted"></v-input>
+        </div>
+        </div>
+        <div class="row" >
+        <div class="col-lg-4">
+            <v-input formControlName="inactive" type="color" label="Inactive" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="inactive"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="notavailable" type="color" label="Not Available" required="true"
+            [parentForm]="statusConfigurationForm" fieldName="notavailable"></v-input>
+        </div>
+        </div>
+        <div class="col-lg-4 form-submit">
+            <v-button btnActionType="submit" btnType="form"  value="Search"></v-button>
+        </div>
+    </form>

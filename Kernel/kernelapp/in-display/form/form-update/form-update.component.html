@@ -1,0 +1,45 @@
+<div class="header-dialog space-between mb-3" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div></div>
+  <div class="dialogTitle"></div>
+  <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+
+<form [formGroup]="formUpdate" enctype="multipart/form-data">
+  <div class="row">
+
+    <div class="col-lg-12" *ngIf="actionType=='saveNew'">
+
+      <v-input formControlName="tables" [parentForm]="formUpdate" type="lookup" (lookupOnChange)="onTablesChange()"
+        [lookupDataApi]="getAllTablesCombo" lookupWidth="700px" lookupHeight="700px" label="Tables" fieldName="tables">
+      </v-input>
+
+    </div>
+
+    <div class="col-lg-12" *ngIf="actionType=='update'">
+      <v-input formControlName="descriptionent" type="text" label="Tables" [parentForm]="formUpdate" required="true"
+        fieldName="tables" [readonly]="true">
+      </v-input>
+
+    </div>
+    <!-- <div class="col-lg-12">
+
+      <v-input formControlName="Columns" [parentForm]="formUpdate"  type="lookup" [lookupDataApi]="GetColVal"
+        lookupWidth="700px" lookupHeight="700px" label="Columns" fieldName="Columns">
+      </v-input>
+
+    </div> -->
+    <div class="col-lg-12">
+      <v-dropdown formControlName="columns" [dataApi]="GetColVal" label="Columns" [multiple]="true"
+        placeholder="Columns" [parentForm]="formUpdate" fieldName="columns"></v-dropdown>
+    </div>
+    <div class="col-lg-12">
+      <v-input formControlName="order" type="text" label="Order" placeholder="Order" [parentForm]="formUpdate"
+        fieldName="order"></v-input>
+    </div>
+  </div>
+
+  <div class="col-lg-12 form-submit">
+    <v-button btnActionType="submit" btnType="form" [parentForm]="formUpdate" value="Save"
+      (click)="submitForm()"></v-button>
+  </div>
+</form>

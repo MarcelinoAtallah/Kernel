@@ -1,0 +1,41 @@
+<div id="agGrid" >
+  <!-- <div style='height:200px' *ngIf="selectdevices" ><label class='switch'><input type='checkbox'  (click)="selectShapes($event)"><span class='slider round'></span></label> -->
+<div *ngIf="distinct" class='hereOn'>  
+  <strong *ngIf="Grid2Type=='btn-54'"> <input type="checkbox" (change)="handleCheckboxChange($event)" id="selectall"></strong> <a *ngIf="Grid2Type=='btn-54'" style="color: blue;">   SelectAll</a> <strong style='flex:auto;'>{{Title}}</strong><a style='color: blue;cursor: pointer;'(click)="openpopup()">More..</a></div>
+   <ag-grid-angular id="{{GridID}}"  *ngIf="rowData != null;"
+   style="height: height;width: 100%;"
+   class="ag-theme-balham"
+   [rowData]="rowData"
+   [columnDefs]="columnDefs"
+   [paginationPageSize]="20"
+   [pagination]="pagination"
+   [headerHeight]="headerHeight"
+   [defaultColDef]="defaultColDef"
+   (firstDataRendered)="onFirstDataRendered($event)"
+   [copyHeadersToClipboard]="true"
+   [suppressCopyRowsToClipboard]="true"
+   [alwaysShowVerticalScroll]="false"
+   [rowSelection]="rowSelection"
+   (selectionChanged)="onSelectionChanged($event)"
+   [allowContextMenuWithControlKey]="true"
+   [groupDisplayType]="groupDisplayType"
+   [groupRowRendererParams]="groupRowRendererParams"
+   [suppressContextMenu]="contextmenu"
+   [frameworkComponents]="frameworkComponents"
+   [getContextMenuItems]="getContextMenuItems"
+   [autoGroupColumnDef]="autoGroupColumnDef"
+   [groupDefaultExpanded]="groupDefaultExpanded"
+   [treeData]="treeData"
+   [getDataPath]="getDataPath"
+   (gridReady)="onGridReady($event)"
+   >
+</ag-grid-angular>
+<div *ngIf="distinct" class='hereOn1'>  
+ <strong style='flex:auto;'>Total:</strong><a>{{total}}</a></div>
+</div>
+<!-- <app-popup #popup>
+ <div id="popupcontent">test</div>
+</app-popup> -->
+<!--    
+[suppressExcelExport]="true"
+[suppressCsvExport]="true" -->

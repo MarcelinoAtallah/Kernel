@@ -1,0 +1,17 @@
+<div class="header-dialog space-between mb-3">
+    <div></div>
+    <div class="dialogTitle"></div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+
+<form [formGroup]="reportParameterForm">
+    <div  class="form-group" *ngIf="showInput">
+        <div class="form-group" *ngFor="let p of reportParameters">
+          <v-input [formControlName]="p.paramName" type="text"  [label]="p.paramName" 
+                [parentForm]="reportParameterForm" [fieldName]="p.paramName" required="true"></v-input>
+        </div>
+      </div>
+    <br>
+    <v-button btnActionType="submit" btnType="form" [parentForm]="reportParameterForm" value="Submit" (click)="execution()" [disabled]="!reportParameterForm.valid" class="submit-button"></v-button>
+
+</form>

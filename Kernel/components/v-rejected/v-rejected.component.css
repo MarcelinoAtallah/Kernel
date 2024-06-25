@@ -1,0 +1,29 @@
+.header-dialog {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+.close-button{
+    display: flex !important;
+    position: sticky !important;
+    left: 100% !important;
+}  
+
+.BODY{
+   display: flex;
+   position: relative;
+   align-items: center;
+   justify-content: center;
+   height: 90%;
+   width: 100%;
+}
+
+.Message{
+    display: flex;
+    position: absolute;
+    font-size: 75px;
+    color: darkgray;
+    font-weight: bold;
+}

@@ -1,0 +1,24 @@
+<div class="header-dialog space-between mb-3" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div></div>
+  <!-- <div class="dialogTitle"></div> -->
+  <span style="font-size: 15px; letter-spacing: 1px; color: var(--popup-title-color); font-weight: bold;">{{label}}</span>
+
+  <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+
+<v-grid
+  allowSideBar="true"
+  agPrimaryKey="ID"
+  [agColumns]="agColumns"
+  [pagination]="true"
+  [paginationPageSize]="10"
+  [isGridInLookup]="true"
+  [dataApi]="lookupDataApi"
+  [staticData]="lookupStaticData"
+  [lookupFieldName]="lookupFieldName"
+  agRowSelection="{{ lookupSelection }}"
+  [isReadOnly]="readonly"
+  >
+</v-grid>
+
+<v-button *ngIf="!readonly" id="lookupSubmitButton" type="button" value="Submit" (click)="submitLookup()"></v-button>

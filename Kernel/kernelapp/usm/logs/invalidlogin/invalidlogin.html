@@ -1,0 +1,22 @@
+<form [formGroup]="invalidLoginForm">
+    <div class="row">
+        <div class="col-lg-4">
+            <v-input formControlName="invalidloginDate" type="date" label="Date " placeholder="Date" required="true"
+                [parentForm]="invalidLoginForm" fieldName="invalidloginDate"></v-input>
+        </div>
+        <div class="col-lg-2 form-submit d-flex align-items-center ">
+            <v-button btnActionType="submit" btnType="form" [parentForm]="invalidLoginForm" value="Search"
+                (click)="gridShow()"></v-button>
+        </div>
+
+
+
+        <v-grid 
+            *ngIf="isShown"
+            allowSideBar="true" 
+              
+            [dataApi]="getUSMInvalidLoginApi" 
+            [agColumns]="agColumns"
+            [pagination]="true" 
+            [paginationPageSize]="15" 
+            agPrimaryKey="id"></v-grid>

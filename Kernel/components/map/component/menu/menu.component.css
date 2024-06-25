@@ -1,0 +1,178 @@
+.navigation-bar {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  /* width: 100%; */
+}
+
+.nav-button {
+  padding: 5px 10px;
+  margin: 0 5px;
+}
+
+.menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.menu-item {
+  padding: 5px 10px;
+  /* margin: -2px 3px; */
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); /* Adding shadow */
+  border-top-right-radius: 10px;
+  min-width: 80px;
+  max-width: 140px;
+  background: #b1b1b1;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 8px;
+
+}
+
+
+.menu-trash {
+  padding: 5px 10px;
+  margin: -2px 3px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); /* Adding shadow */
+  border-top-right-radius: 10px;
+  width:30px
+}
+
+.active-tab {
+  background-color: #6fc8ff; /* Choose your desired background color */
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f9f9f9;
+  border: none;
+  border-radius: 4px;
+  margin-top: -2px;
+  z-index: 9999;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adding shadow */
+}
+
+button:hover {
+  background-color: #6fc8ff;
+}
+
+
+.submenu-item {
+  display: block;
+  padding: 5px 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.submenu-arrow {
+  margin-left: 5px;
+}
+
+.menu:hover .submenu {
+  display: block;
+}
+
+button {
+  background: transparent;
+  border: none;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .menu-item {
+    padding: 5px;
+  }
+
+  .nav-button {
+    padding: 5px;
+    margin: 0 3px;
+  }
+
+  .submenu {
+    top: initial;
+    left: initial;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+    margin-top: -2px;
+  }
+
+  .submenu-item {
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .submenu-item:last-child {
+    border-bottom: none;
+  }
+}
+
+.custom-context-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* padding: 2px 0; */
+  min-width: 120px;
+  z-index: 999999999; /* Ensure it's above other elements */
+}
+
+.custom-context-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.custom-context-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+.smartinput{
+  border: none;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+}
+.smartinput:focus{
+  outline: none; /* Remove default focus outline */
+  border: none; /* Remove border */
+}
+
+.input-with-icon {
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon .smartinput {
+  margin-right: 8px; /* Adjust as needed */
+}
+
+.input-with-icon i {
+  cursor: pointer; /* If you want the icon to be clickable */
+}
+
+
+
+/* .tooltipsssss {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  transform: translateY(10px);
+  z-index: 9999999999;
+} */

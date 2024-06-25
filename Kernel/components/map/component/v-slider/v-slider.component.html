@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-lg-10">
+        <mat-slider thumbLabel 
+            aria-label="unit(s)" 
+            [min]="min" 
+            [max]="max"
+            [value]="value"
+            (input)="onchange($event)">
+        </mat-slider>
+    </div>
+    <div class="col-lg-2">
+        <mat-form-field [appearance]="matAppearance" class="text-center" [floatLabel]="floatLabel">
+            <input matInput
+                [id]="fieldName" 
+                [name]="fieldName" 
+                [value]="value"
+                (blur)="touched"
+                [disabled]="isDisabled"
+                [formControl]="formField">
+        </mat-form-field>
+    </div>
+</div>

@@ -1,0 +1,321 @@
+<div *ngIf="loaderService.isLoading | async" class="loading-animation animate__animated animate__fadeIn">
+  <div class="loading-elements">
+    <img src="assets/img/clientlogo.png" alt="User Icon" />
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</div>
+
+<form [formGroup]="menuForm">
+  <div class="space-between">
+    <div class="col-lg-3 mt-4 mb-4" *ngIf="isEditable">
+      <v-input formControlName="menuName" type="text" label="Menu Name" placeholder="Menu Name" required="true"
+        [parentForm]="menuForm" fieldName="menuName" readonly="true"></v-input>
+    </div>
+    <div style="display: flex; flex-direction: row; gap: 5px;">
+      <v-button fontawesome="fa fa-plus" value="New Custom Field" (click)="openNewCustomField()"
+        btnType="button"></v-button>
+      <v-button fontawesome="fa fa-grip" value="Order Management" (click)="openOrderManagement()"
+        btnType="button"></v-button>
+      <v-button fontawesome="fa fa-plus" value="New Tab" (click)="onAddTabClick()" btnType="button"></v-button>
+      <v-button fontawesome="fa fa-plus" value="New Button" (click)="onAddButtonForm()" btnType="button"></v-button>
+      <v-button fontawesome="fa-solid fa-eye" value="Preview" (click)="onPreviewForm()" btnType="button"></v-button>
+    </div>
+  </div>
+</form>
+
+<v-tabs-container>
+  <form [formGroup]="hiddenForm" #hiddenFormElem></form>
+  <v-tab *ngFor="let tableOption of tableOptions1" [tabTitle]="tableOption.tableName" [tabId]="tableOption.tabId"
+    isForIndisplayModify="1" [isForIndisplayDelete]="tableOption.isDelete" id="tabId_{{tableOption.tabName}}">
+    <div *ngIf="tableOption.tableName == selectedTabName">
+
+      <form [formGroup]="elemForm">
+        <div class="form-group row" style="display: flex; position: relative;">
+          <div *ngFor="let fields of test" [ngClass]="{'col-lg-12': fields.fieldSetName != '', 
+                                                     'col-lg-4': fields.fieldSetName == '',
+                                                     'hidden': fields.columnType == 'hidden'}">
+
+            <v-fieldset *ngIf="fields.fieldSetName != ''" title="{{ fields.fieldSetName }}" [fromInDisplay]="true"
+              (onFieldSetModify)="onFieldSetModifyClick(fields.fieldSetId)" (onFieldSetBtnAdd)="onFieldSetAddClick()"
+              (onFieldSetBtnDelete)="onFieldSetBtndeleteClick(fields.fieldSetId)"></v-fieldset>
+
+            <!-- File -->
+            <!-- <div class="form-ele-parent mb-3" *ngIf="(fields.columnTypeCode == 11) && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <v-file [formControlName]="fields.name" [parentForm]="elemForm" [required]="fields.isMandatory"
+                    [isForIndisplay]="true" fieldName="media" acceptedFileTypes="images" id="field_{{fields.id}}"
+                    [disabled]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly">
+                    </v-file>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <input type="{{ fields.columnType }}" class="v-input-style" [formControlName]="fields.name"
+                      [maxlength]="fields.columnLength" [required]="fields.isMandatory" id="field_{{fields.id}}"
+                      [readonly]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly">
+                  </div>
+                </div>
+              </div> -->
+
+            <!-- Inputs -->
+            <div class="form-ele-parent mb-3"
+              *ngIf="(fields.columnTypeCode == 1 || fields.columnTypeCode == 16  || fields.columnTypeCode == 2 || fields.columnTypeCode == 6) && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <input type="{{ fields.columnType }}" class="v-input-style" [formControlName]="fields.name"
+                      [maxlength]="fields.columnLength" [required]="fields.isMandatory" id="field_{{fields.id}}"
+                      [readonly]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Inputs Date Time-->
+            <div class="form-ele-parent mb-3"
+              *ngIf="(fields.columnTypeCode == 17) && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <input type="datetime-local" class="v-input-style" [formControlName]="fields.name"
+                      [maxlength]="fields.columnLength" [required]="fields.isMandatory" id="field_{{fields.id}}"
+                      [readonly]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+<!-- Time-->
+<div class="form-ele-parent mb-3"
+*ngIf="(fields.columnTypeCode == 19) && fields.columnType != 'hidden'">
+<div class="row">
+  <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+    <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+      [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+      (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+  </div>
+  <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+    <div class="form-ele-child">
+      <input type="time" class="v-input-style" [formControlName]="fields.name"
+        [maxlength]="fields.columnLength" [required]="fields.isMandatory" id="field_{{fields.id}}"
+        [readonly]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly">
+    </div>
+  </div>
+</div>
+</div>
+
+
+            <!-- Text Area -->
+            <div class="form-ele-parent mb-3" *ngIf="(fields.columnTypeCode == 13) && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                  <!-- <v-input type="textarea" textareaCols="30" textareaRows="2" [formControlName]="fields.name" id="field_{{fields.id}}" [parentForm]="elemForm"
+                      [fieldName]="fields.name" [hasSuspendedStyle]="fields.isSuspended" [required]="fields.isMandatory"
+                      [readonly]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly">
+                    </v-input> -->
+                    <textarea rows="5" cols="30" class="v-input-style" [formControlName]="fields.name"
+                        [maxlength]="fields.columnLength" [required]="fields.isMandatory" id="field_{{fields.id}}"
+                        [readonly]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly">
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Signature -->
+            <!-- <div class="form-ele-parent mb-3"
+            *ngIf="(fields.columnTypeCode == 15) && fields.columnType != 'hidden'">
+            <div class="row">
+              <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)">
+              </v-label>
+                </div>
+              </div>
+              <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                <div class="form-ele-child">
+                  <app-v-signature></app-v-signature>
+                </div>            
+              </div>
+            </div> -->
+
+
+
+<!--------- PHONE NUMBER ----------->
+<div class="form-ele-parent mb-3" *ngIf="(fields.columnTypeCode == 18) && fields.columnType != 'hidden'">
+  <div class="row">
+    <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+        <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+          [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+          (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)">
+        </v-label>
+      </div>
+    <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+      <div class="form-ele-child">
+        <v-phone [ngClass]="{'disabled-field': tableOption.isReadOnly}"
+          [formControlName]="fields.name"
+          class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} w-100"
+          [parentForm]="elemForm"
+          [fieldName]="fields.name">
+         </v-phone> 
+      </div>            
+    </div>
+  </div>
+</div>
+
+        
+             <!-- Signature -->
+             
+             <div class="form-ele-parent mb-3"
+             *ngIf="(fields.columnTypeCode == 15) && fields.columnType != 'hidden'">
+             <div class="row">
+               <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                 <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                 [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                 (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)">
+               </v-label>
+                 </div>
+               </div>
+               <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                 <div class="form-ele-child">
+                   <app-v-signature></app-v-signature>
+                 </div>            
+               </div>
+             </div>
+ 
+ 
+
+
+
+
+            <!-- CheckBox -->
+            <div class="form-ele-parent mb-3" *ngIf="(fields.columnTypeCode == 5 ) && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <input type="{{ fields.columnType }}" class="checkDesign" [formControlName]="fields.name"
+                      [maxlength]="fields.columnLength" [required]="fields.isMandatory" id="field_{{fields.id}}"
+                      [readonly]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Combo -->
+            <div class="form-ele-parent mb-3" *ngIf="(fields.columnTypeCode == 3) && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <v-dropdown [formControlName]="fields.name" id="field_{{fields.id}}" [parentForm]="elemForm"
+                      [fieldName]="fields.name" [hasSuspendedStyle]="fields.isSuspended" [required]="fields.isMandatory"
+                      [readonly]="tableOption.isReadOnly == 1 ? 1 : fields.qbeReadOnly" [dataJSON]="fields.query"
+                      style="width: 100%" [isForIndisplay]="true">
+                    </v-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- LookUp -->
+            <div class="form-ele-parent mb-3" *ngIf="fields.columnTypeCode == 4 && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <v-input class="w-100" [formControlName]="fields.name" id="field_{{fields.id}}"
+                      [parentForm]="elemForm" type="lookup" lookupWidth="700px" lookupHeight="700px"
+                      [fieldName]="fields.name" [lookupStaticData]="fields.query" [isForIndisplay]="true">
+                    </v-input>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- File -->
+            <div class="form-ele-parent mb-3" *ngIf="fields.columnTypeCode == 11 && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="{{ fields.columnDescription }}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onModifierClick(tableOption.objectId, fields.id, fields.isLink)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <v-file [formControlName]="fields.name" [parentForm]="elemForm" [required]="fields.isMandatory"
+                      [fieldName]="fields.name" acceptedFileTypes="all" [isForIndisplay]="true"></v-file>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-ele-parent mb-3" *ngIf="fields.columnTypeCode == 14 && fields.columnType != 'hidden'">
+              <div class="row">
+                <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                  <v-label text="Button_{{fields.id}}" [required]="fields.isMandatory" [isForIndisplay]="true"
+                    [hasSuspendedStyle]="fields.isSuspended" id="lbl_{{fields.id}}"
+                    (onLabelClick)="onUpdateButtonForm(fields.id)"></v-label>
+                </div>
+                <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                  <div class="form-ele-child">
+                    <v-button value="{{fields.name}}" btnActionType="button" id="btn_{{fields.id}}"></v-button>
+                    <button class="icon-button" (click)="onDeleteButtonForm(fields.id)" type="button">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </v-tab>
+</v-tabs-container>

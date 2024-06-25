@@ -1,0 +1,93 @@
+<v-tabs-container>
+  <v-tab tabTitle="Type">
+<form>
+    <div class="example-list listContainer1">
+
+
+         <div class="box"  *ngFor="let options of newChartObject let i = index" >
+          <div class="chart-row"> 
+            <ng-container >
+              <div class="chart-container">
+                <v-highcharts [Highcharts]="Highcharts" [options]="options" (click)="nextTab(options.chart.type)"></v-highcharts>
+              </div>
+            </ng-container>
+          </div>    
+        </div> 
+        <div class="box"  *ngFor="let options2 of stockObject let i = index" >
+          <div class="chart-row"> 
+            <ng-container >
+              <div class="chart-container">
+                <!-- <v-highstock [Highcharts]="Highcharts" [options]="options2" (click)="nextTab(options.chart.type)"></v-highstock> -->
+              </div>
+            </ng-container>
+          </div>    
+        </div> 
+
+        
+    </div>
+    <!-- <v-button  (click)="goNext()"  value="Next"></v-button> -->
+</form>
+
+</v-tab>
+<v-tab tabTitle="Source"   *ngIf="isSource==1">
+  <form [formGroup]="chartForm">
+    <div class="row">
+        <div class="col-lg-5">
+            <v-input  formControlName="title" [parentForm]="chartForm" type="text" label="Title"  required="true" fieldName="title"></v-input>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5">
+        <v-input formControlName="query" [parentForm]="chartForm" type="lookup" 
+                 [lookupDataApi]="getQueryName" lookupWidth="700px" lookupHeight="400px" label="Source Query"
+                 fieldName="query" (ngModelChange)="onQueryChange($event)">
+        </v-input>
+      </div >
+    </div>
+     <div class="row">
+      <div class="col-lg-5">
+        <v-input formControlName="Row" [parentForm]="chartForm" type="lookup" lookupSelection="multiple"
+                 [lookupDataApi]="getRowDate" lookupWidth="700px" lookupHeight="400px" label="Row Source"
+                 fieldName="Row">
+        </v-input>
+      </div >
+    </div>
+    <div class="row">
+      <div class="col-lg-5">
+        <v-input formControlName="Column" [parentForm]="chartForm" type="lookup" lookupSelection="multiple"
+                 [lookupDataApi]="getRowDate" lookupWidth="700px" lookupHeight="400px" label="Column Source"
+                 fieldName="Column">
+        </v-input>
+      </div >
+    </div>  
+      <v-button value="Save" (click)="Next()"></v-button>
+    </form>
+  </v-tab>
+
+
+
+
+  <v-tab  tabTitle="Advanced Settings" *ngIf="isAdvanced==1" >
+     <form [formGroup]="chartForm">
+    <div class="col-lg-4">
+      <v-toggle label="Is Show Legend" formControlName="isShowLegend" [parentForm]="chartForm"
+        fieldName="isShowLegend"> </v-toggle>
+    </div>
+    <div class="col-lg-4">
+      <v-toggle label="Is3d" formControlName="is3d"  [parentForm]="chartForm"
+        fieldName="is3d"> </v-toggle>
+    </div>
+    <div class="col-lg-4">
+      <v-toggle label="Is Horizental" formControlName="isHorizental"  [parentForm]="chartForm" 
+      fieldName="isHorizental"> </v-toggle>
+    </div>
+    <div class="col-lg-4">
+      <v-toggle label="Is Drilldown" formControlName="isDrilldown"  [parentForm]="chartForm" 
+      fieldName="isDrilldown"> </v-toggle>
+    </div>
+    <v-button value="Submit" (click)="submit()"></v-button>
+  </form>
+  </v-tab>
+  
+
+</v-tabs-container>

@@ -1,0 +1,55 @@
+<!-- Build in buttons to be used dynamically
+<div class="header-toolbar mt-2 space-between width-98">
+    <div class="">
+        <v-input type="text" placeholder="Search Here ..." label="Search Here" (input)="agQuickFilter($event)" fontawesome="fa fa-search" [allowLabel]="false"></v-input>
+    </div>
+    <div class="flex">
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('a') && accessRights.display == '1' && this.accessRights.add == '1'"
+                    fontawesome="fa fa-plus-circle" 
+                    style="border-radius: 0.5rem" 
+                    (click)="onAddClick()"
+                    [disabled]="isAdd"
+                    customStyle="background-color: var(--add-btn-color) !important; 
+                                border-color: var(--add-btn-color) !important; 
+                                border-radius: 0"></v-button>
+                            
+        <span *ngIf="agToolBar != '' && agToolBar.includes('m') && agOnGridEvents == false && accessRights.display == '1'  && this.accessRights.modify == '1'">&nbsp;</span>
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('m') && agOnGridEvents == false && accessRights.display == '1' && this.accessRights.modify == '1'"
+                    fontawesome="fa fa-edit" style="border-radius: 0.5rem" 
+                    (click)="onUpdateClick()"
+                    [disabled]="isUpdate"
+                    customStyle="background-color: var(--edit-btn-color) !important; 
+                                border-color: var(--edit-btn-color) !important;
+                                border-radius: 0"></v-button>
+
+        <span *ngIf="agToolBar != '' && agToolBar.includes('d') && accessRights.display == '1' && this.accessRights.delete == '1'">&nbsp;</span>
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('d') && accessRights.display == '1' && this.accessRights.delete == '1'"
+                    fontawesome="fa fa-trash" style="border-radius: 0.5rem" 
+                    (click)="onDeleteClick()"
+                    [disabled]="isDelete"
+                    customStyle="background-color: var(--del-btn-color) !important; 
+                                border-color: var(--del-btn-color) !important;
+                                border-radius: 0"></v-button>
+    </div>
+</div>  
+
+<div class="ag-container width-98">
+    <ag-grid-angular #agGrid
+                     id="aggridId"
+                     class="ag-theme-material" 
+                     [columnDefs]="ColDef"
+                     [defaultColDef]="defaultColDef"
+                     rowSelection="multiple" 
+                     [rowModelType]="rowModelType"
+                     [animateRows]="true" 
+                     (gridReady)="onGridReady($event)"
+                     [pagination]="pagination"
+                     [paginationPageSize]="paginationPageSize"
+                     (rowSelected)="onRowSelected($event)"
+                     (cellEditingStopped)="onCellEditingStopped($event)">
+    </ag-grid-angular>
+</div>
+
+<div *ngIf="agOnGridEvents == true" class="agSubmitBtn p-3">
+    <v-button btnActionType="button" value="Submit" (click)="submit()"></v-button>
+</div> -->

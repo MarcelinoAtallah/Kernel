@@ -1,0 +1,4 @@
+<label class="mb-1" [ngClass]="{'label-required': required == 'true'}">
+    {{ text }}
+    <i><small *ngIf="required == 'false'">(Optional)</small></i>
+</label>

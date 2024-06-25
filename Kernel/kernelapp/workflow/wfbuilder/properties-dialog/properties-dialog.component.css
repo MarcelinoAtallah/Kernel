@@ -1,0 +1,45 @@
+.dialog-header {
+  margin-bottom: 3%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #000;
+  overflow: hidden;
+}
+.dialog-title {
+  color: blue;
+  margin-left: 40%;
+  font-size:17px;
+}
+.dialog-close {
+  color:blue; 
+  font-size:15px; 
+  cursor: pointer;
+}
+
+.save-button {
+  margin: 15% 0 0 40%;
+  font-size: 13px;
+  background-color: white;
+  color: blue;
+  border: 1px solid blue;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.save-button:hover {
+  background-color: blue;
+  color: white;
+}
+
+.v-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center horizontally */
+}
+
+.v-buttons v-button {
+  margin: 10% 15%; /* Adjust the space between buttons */
+}
+

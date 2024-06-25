@@ -1,0 +1,23 @@
+<div class="form-group mb-3">
+  <mat-form-field [appearance]="matAppearance" [floatLabel]="floatLabel">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput
+          type="{{ type }}"
+          class="completer-input form-control mdb-autocomplete"
+          placeholder="{{ placeholder }}"
+          (input)="onChange($event)"
+          (blur)="touched"
+          [value]="value"
+          [formControl]="formField"
+          [matAutocomplete]="auto"
+          [errorStateMatcher]="matcher">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let dataList of filteredOptions | async" [value]="dataList">
+        {{ dataList }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="formField.hasError('required')">
+      <v-field-error errorMessage="{{ label }} is required"></v-field-error>
+    </mat-error>
+  </mat-form-field>
+</div>

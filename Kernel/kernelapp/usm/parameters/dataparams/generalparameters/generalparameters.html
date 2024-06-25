@@ -1,0 +1,70 @@
+<form [formGroup]="generalParametersForm">
+    <div class="row">
+        <h3>General Parameters</h3>
+        <div class="col-lg-4">
+            <v-dropdown formControlName="paysInstitutionnel" [dataApi]="getPaysInstitutionnel"
+                label="Pays Institutionnel" placeholder="Pays Institutionnel" [parentForm]="generalParametersForm"
+                fieldName="paysInstitutionnel">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="mO" type="text" label="Taille maximum fichier multimedia" required="true"
+                placeholder="Taille maximum fichier multimedia" [parentForm]="generalParametersForm" fieldName="mO">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-toggle label="Allow grid expand and compress" formControlName="AGEAC"
+                [parentForm]="generalParametersForm" fieldName="AGEAC">
+            </v-toggle>
+        </div>
+        <div class="col-lg-4">
+            <v-dropdown formControlName="defaultCurrency" [dataApi]="getDefaultCurrency" label="Default Currency"
+                placeholder="Default Currency" [parentForm]="generalParametersForm" fieldName="defaultCurrency">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-4">
+            <v-dropdown formControlName="defaultLanguage" [dataApi]="getDefaultLanguage" label="Default Language"
+                placeholder="Default Language" [parentForm]="generalParametersForm" fieldName="defaultLanguage">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-4">
+            <v-dropdown formControlName="elementStructureAppearance" [dataApi]="getElementStructureAppearance"
+                label="Element structure appearance" placeholder="Element structure appearance"
+                [parentForm]="generalParametersForm" fieldName="elementStructureAppearance">
+            </v-dropdown>
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>File Upload Details</h3>
+        <div class="col-lg-4">
+            <v-input formControlName="FUMISL" type="text" label="File Upload Map Id - Sanctions List" required="true"
+                placeholder="File Upload Map Id - Sanctions List" [parentForm]="generalParametersForm"
+                fieldName="FUMISL"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="FUMIECU" type="text" label="File Upload Map Id - External Customers Upload"
+                required="true" placeholder="File Upload Map Id - External Customers Upload"
+                [parentForm]="generalParametersForm" fieldName="FUMIECU"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="PSU" type="text" label="POX Sourcing Upload" required="true"
+                placeholder="POX Sourcing Upload" [parentForm]="generalParametersForm" fieldName="PSU"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="FUMIRU" type="text" label="File Upload Map Id - RBA Upload" required="true"
+                placeholder="File Upload Map Id - RBA Upload" [parentForm]="generalParametersForm" fieldName="FUMIRU">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="FUMIBDL" type="text" label="File Upload Map Id - BDL 2010 Report" required="true"
+                placeholder="File Upload Map Id - BDL 2010 Report" [parentForm]="generalParametersForm"
+                fieldName="FUMIBDL"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="s" type="text" label="File Upload Map Id - Name Definition Translation"
+                required="true" placeholder="File Upload Map Id - Name Definition Translation"
+                [parentForm]="generalParametersForm" fieldName="FUMINDT"></v-input>
+        </div>
+    </div>
+</form>

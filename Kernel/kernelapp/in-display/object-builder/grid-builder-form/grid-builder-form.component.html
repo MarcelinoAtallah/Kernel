@@ -1,0 +1,18 @@
+<form [formGroup]="gridForm">
+    <div class="row">
+        <div class="col-lg-5">
+            <v-input  type="text" formControlName="title" [parentForm]="gridForm" label="Title" fieldName="title" required="true"></v-input>
+        </div>
+    </div>
+    
+    <div class="row">
+       <div class="col-lg-5">
+                <v-input formControlName="query" [parentForm]="gridForm" type="lookup"
+                [lookupDataApi]="getQueryName" lookupWidth="700px" lookupHeight="700px" label="Source Query"
+                fieldName="query">
+            </v-input>
+        </div >
+    </div>  
+    <v-button value="Submit" (click)="submit()"></v-button>
+
+</form> 

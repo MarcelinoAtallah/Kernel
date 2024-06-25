@@ -1,0 +1,13 @@
+<v-grid
+  allowSideBar="true"
+  [agColumns]="agColumns"
+  [pagination]="true"
+  [paginationPageSize]="10"
+  [frameworkComponents]="frameworkComponents"
+  agToolBar="ae"
+  agPrimaryKey="objectId"
+  [dataApi]="inDisplayGrid"
+  (onGridAdd)="onGridAdd()"
+  (onGridDelete)="onGridDelete()"
+>
+</v-grid>

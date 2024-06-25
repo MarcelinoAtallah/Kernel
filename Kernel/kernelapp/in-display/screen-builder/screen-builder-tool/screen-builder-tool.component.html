@@ -1,0 +1,368 @@
+<div class="container">
+
+  <div class="row">
+    <div [class]="showRightButtons ? 'col-lg-8' : 'col-lg-12'" [attr.colspan]="showRightButtons ? '1' : '2'">
+
+      <div cdkDropList class="example-list listContainer" (cdkDropListDropped)="drop($event)">
+        <div class="example-box columnsGrid" *ngFor="let item of itemsData;let i = index" cdkDrag>
+          <div class="row">
+            <div style="margin-bottom:10px;margin-right: 10px;" class="col-lg-12">
+              <v-button style="float:right;" value="" fontawesome="fa-solid fa-x"
+                (click)="removeScreenElement(item.id)">
+              </v-button>
+            </div>
+              <div class="listContainerCol mx-auto text-center" style="width: fit-content;">
+              <ng-container *ngIf="item.type === 'Chart'; then chart"></ng-container>
+              <div>
+                <ng-template #chart>
+                  <!-- <div cdkDrag style="display:flex;width:40%;height:400px;max-width:fit-content;">
+                    <ng-container
+                      *ngIf="item.formData[0][0][0]=== 'gauge'; then gaugeTemplate else chartTemplate"></ng-container>
+
+                    <ng-template #gaugeTemplate style="height: 100px;">
+                      <app-v-gauge [gaugeType]="item.formData[0][1][0]" [gaugeValue]="item.formData[0][2][0]"
+                        [gaugeLabel]="item.formData[0][3][0]" [gaugeAppendText]="item.formData[0][4][0]"
+                        [Title]="item.formData[0][5]"></app-v-gauge>
+                    </ng-template>
+
+                    <ng-template #chartTemplate style="height: 100px;">
+                      <app-v-charts [type]="item.formData[0][0] " [pieChartLabels]="item.formData[0][1]"
+                        [pieChartDatasets]="item.formData[0][2]" [Title]="item.formData[0][3]"></app-v-charts>
+                    </ng-template>
+                  </div> -->
+                  <div cdkDrag style="display:flex;width:40%;height:400px;max-width:fit-content;"> 
+                  <div class="box" style="position:absolute"  *ngFor="let options of newChartObject; let i = index" cdkDrag >
+                    <div class="chart-row">
+                     <ng-container >
+                       <div class="chart-container">
+                         <v-highcharts [Highcharts]="Highcharts" [options]="item.formData[0]"></v-highcharts>
+                       </div>
+                     </ng-container>
+                   </div>   
+                   </div>
+                   </div>
+                </ng-template>
+              </div>
+            </div>
+
+            <div class="listContainerCol">
+              <ng-container *ngIf="item.type === 'Kpi'; then KpiTemplate"></ng-container>
+              <ng-template #KpiTemplate>
+                <div>
+                  <div style="width: 100%;text-align: center;">
+                    <p>{{item.formData.Headers[0].header}}</p>
+                  </div>
+                  <div style="width: 80%;text-align: center;margin-top: 30px;font-size: 25px; margin-left: 10%;">
+                    <p><b>{{item.formData.Records[0].TITLE}}</b></p>
+                  </div>
+                  <div style="width: 100%;display: flex;flex-direction: row;margin-top: 30px;">
+                    <p style="width:50% ;text-align: center; font-size:18px">
+                      {{item.formData.Records[0].COUNTRY}}
+                    </p>
+                    <p style="width:50% ;text-align: center;font-size:18px"><b>
+                        {{item.formData.Records[0].MONTH}}
+                      </b></p>
+                  </div>
+                  <div style="width: 100%;display: flex;flex-direction: row;">
+                    <p style=" width :50%;text-align: center;">
+
+                      {{item.formData.Headers[1].header}}
+                    </p>
+                    <p style=" width :50%;text-align: center;">
+                      {{item.formData.Headers[2].header}}
+                    </p>
+                  </div>
+                </div>
+                <div
+                  style="text-align: center; display: flex; flex-direction: row;justify-content: center;background-color: transparent;width: 100%;">
+                  <v-button style="font-size: 16px;margin: 0px 5px;border: none;"
+                    [fontawesome]="'fa-solid fa-chart-simple'" (click)="openChart(item)"></v-button>
+                  <v-button style="font-size: 16px;margin: 0px 5px;" [fontawesome]="'fa fa-th kpi_title_color'"
+                    (click)="openGrid(item)"></v-button>
+
+                </div>
+              </ng-template>
+              <ng-container *ngIf="item.type === 'Grid'; then gridTemplate"></ng-container>
+              <ng-template #gridTemplate style="width: max-content;">
+                <div>
+                  <v-grid allowSideBar="true" [agColumns]="item.formData[0][0]" [pagination]="true"
+                    [dataApi]="item.formData[1]" [paginationPageSize]="5">
+                  </v-grid>
+                </div>
+              </ng-template>
+
+            </div>
+    
+
+          </div>
+          
+          <!-- <div class="listItem"
+          *ngIf="item.type=='Text'"
+          [innerHTML]="item.value" >
+        </div>
+           -->
+          <ckeditor class="listItem" *ngIf="item.type=='Editor'" tagName="textarea" [(ngModel)]="item.value"
+            (editorModeChange)="editorChange(i,item.id)" (change)="editorChange(i,item.id)" style="display:block">
+          </ckeditor>
+          <!-- [config]="editorConfig" -->
+
+          <div class="listItem">
+            <app-input class="listItem" *ngIf="item.type=='Form'" fromScreenBuilder="1"
+              [screenBuilderObjId]="item.value">
+            </app-input>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div style="overflow:visible" class="slider-panel" [class.open]="showRightButtons">
+
+    <button (click)="toggleRightButtons()" class="arrow-button">
+      <i class="fas" [ngClass]="showRightButtons ? 'fa-arrow-left' : 'fa-arrow-right'"></i>
+    </button>
+
+    <div style="overflow:auto;border-top:none;height: 100%;top:0%;" class="slider-panel"
+      [class.open]="showRightButtons">
+      <div *ngIf="!showPanel && showForm">
+        <div class="group-title">
+          <div class="line"></div>Forms<div class="line"></div>
+        </div>
+        <v-grid allowSideBar="true" [agColumns]="agColumns" [pagination]="true" [paginationPageSize]="15"
+          agPrimaryKey="objectId" [dataApi]="inDisplayGrid" [frameworkComponents]="frameworkComponents">
+        </v-grid>
+        <v-button class="right-buttons .right-buttons" [value]="'Back'" [btnActionType]="'button'"
+          [fontawesome]="'fa-solid fa-backward'" (click)="goBack()">
+        </v-button>
+
+      </div>
+
+
+      <div *ngIf="!showPanel && showGrid">
+        <div class="group-title">
+          <div class="line"></div>Grids<div class="line"></div>
+        </div>
+        <v-grid allowSideBar="true" [agColumns]="agColumns1" [pagination]="true" [paginationPageSize]="10"
+          agPrimaryKey="GRID_ID" [dataApi]="getAllGridScreenBuilder" [frameworkComponents]="frameworkComponents">
+        </v-grid>
+        <v-button class="right-buttons .right-buttons" [value]="'Back'" [btnActionType]="'button'"
+          [fontawesome]="'fa-solid fa-backward'" (click)="goBack()">
+        </v-button>
+
+      </div>
+      <div *ngIf="!showPanel && showChart">
+        <div class="group-title">
+          <div class="line"></div>Charts<div class="line"></div>
+        </div>
+        <v-grid allowSideBar="true" [agColumns]="agColumns2" [pagination]="true" [paginationPageSize]="10"
+          agPrimaryKey="CHART_ID" [dataApi]="getAllChartScreenBuilder" [frameworkComponents]="frameworkComponents">
+        </v-grid>
+        <v-button class="right-buttons .right-buttons" [value]="'Back'" [btnActionType]="'button'"
+          [fontawesome]="'fa-solid fa-backward'" (click)="goBack()">
+        </v-button>
+
+      </div>
+
+
+      <div *ngIf="!showPanel && showKpi">
+        <div class="group-title">
+          <div class="line"></div>kpi<div class="line"></div>
+        </div>
+        <v-grid allowSideBar="true" [agColumns]="agColumns3" [pagination]="true" [paginationPageSize]="10"
+          agPrimaryKey="KPI_ID" [dataApi]="getAllKpiScreenBuilder" [frameworkComponents]="frameworkComponents">
+        </v-grid>
+        <v-button class="right-buttons .right-buttons" [value]="'Back'" [btnActionType]="'button'"
+          [fontawesome]="'fa-solid fa-backward'" (click)="goBack()">
+        </v-button>
+
+      </div>
+
+
+
+
+
+
+
+
+      <div *ngIf="showPanel">
+
+        <div class="popover-content">
+          <div class="button-container-vertical">
+            <div class="group-title">
+              <div class="line"></div>In KPRI<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+              <div class="row">
+                <div class="col-lg-6">
+                  <v-button class=".right-buttons" [value]="'Chart'" [btnActionType]="'button'"
+                    [fontawesome]="'fa-solid fa-chart-simple'" (click)="addChart()">
+                  </v-button>
+                </div>
+
+                <div class="col-lg-6">
+
+                  <v-button class=".right-buttons" [value]="'Grid'" [btnActionType]="'button'"
+                    [fontawesome]="'fa-solid fa-table'" (click)="addGrid()">
+                  </v-button>
+                </div>
+              </div>
+
+              <div class="row"></div>
+              <div class="row"></div>
+
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <v-button class=".right-buttons" [value]="'KPI'" [btnActionType]="'button'"
+                    [fontawesome]="'fa-solid fa-toolbox'" (click)="addKpi()">
+                  </v-button>
+                </div>
+
+                <!-- <div class="col-lg-6">
+              <v-button class=".right-buttons" [value]="'Ratio'" [btnActionType]="'button'"
+                 [fontawesome]="'fa-solid fa-percent'"
+                >
+              </v-button>
+              </div>  -->
+              </div>
+
+            </div>
+            <div class="group-title">
+              <div class="line"></div>Form Builder<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <v-button class=".right-buttons" [value]="'Editor'" [btnActionType]="'button'"
+                    [fontawesome]="'fa-solid fa-newspaper'" (click)="addEditor()">
+
+                  </v-button>
+                </div>
+                <div class="col-lg-6">
+                  <v-button class=".right-buttons" [value]="'Form'" [btnActionType]="'button'"
+                    [fontawesome]="'fa-solid fa-text-slash'" (click)="addForm()">
+                  </v-button>
+                </div>
+              </div>
+            </div>
+
+            <div class="group-title">
+              <div class="line"></div>Data Visualization<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <v-button class=".right-buttons" [value]="'Preview'" [btnActionType]="'button'"
+                    [fontawesome]="'fa-solid fa-magnifying-glass'" (click)="showPreview()">
+
+                  </v-button>
+                </div>
+                <div class="col-lg-6">
+                  <v-button class=".right-buttons" [value]="'HTML'" [btnActionType]="'button'"
+                    [fontawesome]="'fa-solid fa-code'" (click)="addForm()">
+                  </v-button>
+                </div>
+              </div>
+
+              <div class="row"></div>
+              <div class="row"></div>
+
+
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <v-button class=".right-buttons" [value]="'PDF'" [btnActionType]="'button'"
+                    [fontawesome]="'fa-solid fa-file-pdf'" (click)="addEditor()">
+
+                  </v-button>
+                </div>
+              </div>
+
+            </div>
+            <div class="group-title">
+              <div class="line"></div>Form Info<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+
+
+
+              <div class="form-container">
+                <form [formGroup]="screenForm" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <v-input formControlName="screenName" type="text" label="Name" [parentForm]="screenForm"
+                      fieldName="screenName" [required]="true"></v-input>
+                  </div>
+
+
+
+                  <div class="form-group">
+                    <v-toggle label="is Template" formControlName="screenIsTemplate" [parentForm]="screenForm"
+                      fieldName="screenIsTemplate">
+                    </v-toggle>
+                  </div>
+
+
+                  <div class="row form-group">
+
+                    <div class="col-lg-8">
+                      <v-input formControlName="screenApplicationId" style="display:none" label="Application"
+                        [parentForm]="screenForm" fieldName="screenApplicationId" [required]="true" readonly></v-input>
+
+                      <v-input formControlName="screenApplication" type="text" label="Application"
+                        [parentForm]="screenForm" fieldName="screenApplication" [required]="true" readonly></v-input>
+                    </div>
+
+                    <div style="margin-top:50px;" class="col-lg-4">
+                      <v-button btnActionType="submit" value=". . ." class="right-buttons"
+                        (click)="showApplicationList()"></v-button>
+
+                    </div>
+                  </div>
+
+
+
+                  <div class=" row form-group">
+                    <div class="col-lg-8">
+                      <v-input formControlName="screenParentMenuId" style="display:none" label="Parent Menu"
+                        [parentForm]="screenForm" fieldName="screenParentMenuId" [required]="true" readonly></v-input>
+
+                      <v-input formControlName="screenParentMenu" type="text" label="Parent Menu"
+                        [parentForm]="screenForm" fieldName="screenParentMenu" [required]="true" readonly></v-input>
+                    </div>
+                    <div style="margin-top:50px;" class="col-lg-4">
+                      <v-button btnActionType="submit" value=". . ." class="right-buttons"
+                        (click)="showParentMenu()"></v-button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <v-toggle label="is Suspended" formControlName="screenIsSuspended" [parentForm]="screenForm"
+                      fieldName="screenIsSuspended">
+                    </v-toggle>
+                  </div>
+                  <div class="form-group">
+                    <v-toggle label="Next Action" formControlName="nextAction" [parentForm]="screenForm"
+                      fieldName="nextAction">
+                    </v-toggle>
+                  </div>
+                  <v-button *ngIf="!isUpdate" style="float:right" btnActionType="submit" btnType="form"
+                    [parentForm]="screenForm" value="Submit" (click)="submitScreenForm()" [disabled]="!screenForm.valid"
+                    class="submit-button"></v-button>
+                  <v-button *ngIf="isUpdate" style="float:right" btnActionType="submit" btnType="form"
+                    [parentForm]="screenForm" value="Update" (click)="updateScreenForm()" [disabled]="!screenForm.valid"
+                    class="submit-button"></v-button>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<v-grid
+allowSideBar="true"
+[dataApi]="getQbeQueryApi"
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="15"
+agToolBar="amd"
+agPrimaryKey="QBE_ID,import_flag"
+[frameworkComponents]="frameworkComponents"
+agRowSelection="single"
+(onGridAdd)="onAddClick()"
+(onGridDelete)="onDeleteClick()"
+(onGridUpdate)="onUpdateClick()"
+></v-grid>
+
+<div class="popup-window" *ngIf="showPopup">
+  <button class="exit-button" (click)="onExitButtonClick()">&times;</button>
+  <button (click)="onStaticQueryBuilderClick()">Static Query Builder</button>
+  <button (click)="onQBEClick()">QBE</button>
+  <button (click)="onCQLClick()">CQL</button>
+  <button (click)="importQuery()">Import</button>
+  <button (click)="exportQuery()">Export</button>
+</div>

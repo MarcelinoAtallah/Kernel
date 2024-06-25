@@ -1,0 +1,29 @@
+<div class="example-header">
+  <mat-form-field style="background-color: white !important;font-size: 14px !important;">
+    <input style="padding: 6px !important;" matInput (keyup)="applyFilter($event.target.value)" placeholder="Search....">
+  </mat-form-field>
+</div>
+<div class="example-container mat-elevation-z8">
+
+  <mat-table #table [dataSource]="dataSource" matSort matPaginator>
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="checkbox">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element" id="celltable">
+        <mat-checkbox  [(ngModel)]="element.checked" (change)="handleCheckboxClick($event,element)"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+       <mat-header-cell  *matHeaderCellDef >  Name </mat-header-cell>
+      <mat-cell *matCellDef="let element" id="cellname" style="padding-left:10px !important;"> {{element.name}} </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row id="headerName" *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+   <mat-paginator   [showFirstLastButtons]="true"></mat-paginator>
+
+</div>

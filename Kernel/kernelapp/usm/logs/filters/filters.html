@@ -1,0 +1,34 @@
+<v-tabs-container>
+    <v-tab tabTitle="Application events">
+        <form [formGroup]="applicationForm" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <v-dropdown formControlName="application" [dataApi]="getUSMApplicationComboApi"
+                                label="Application" placeholder="Application" [parentForm]="applicationForm"
+                                fieldName="application"  required="true">
+                            </v-dropdown>
+                        </div>
+                        <div class="col-lg-4">
+                            <v-input formControlName="loginDate" type="date" label="LogIn Date " placeholder="Date"
+                                required="true" [parentForm]="applicationForm" fieldName="loginDate"></v-input>
+                        </div>
+                        <div class="col-lg-4">
+                            <v-input formControlName="logoutDate" type="date" label="LogOut Date " placeholder="Date"
+                                 [parentForm]="applicationForm" fieldName="logoutDate"></v-input>
+                        </div>
+                        <div class="col-lg-2 d-flex align-items-center form-submit">
+                            <v-button btnActionType="submit" btnType="form" [parentForm]="applicationForm" value="Search" (click)="gridShow()">
+                            </v-button>
+                            </div>
+                            </div>
+            <v-grid  *ngIf="isShown"
+                    allowSideBar="true"
+                     
+                    [dataApi]="getApplicationEvent"
+                    [agColumns]="agColumns"
+                    [pagination]="true"
+                    [paginationPageSize]="30"
+                    agPrimaryKey="id"></v-grid>
+        </form>
+    </v-tab>
+

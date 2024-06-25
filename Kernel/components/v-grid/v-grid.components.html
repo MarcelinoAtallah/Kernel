@@ -1,0 +1,141 @@
+<!-- Build in buttons to be used dynamically -->
+<div class="header-toolbar mt-2 space-between width-100">
+    <!-- <div class="row"> -->
+        <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
+       
+       
+        <div class="searchBox" style="min-width: 250px" >
+            <v-input type="text" *ngIf="isAdvancedSearch==0" 
+                     [isForGrid]="true" 
+                     placeholder="Search Here ..." 
+                     label="Search Here" 
+                     (input)="agQuickFilter($event)" 
+                     fontawesome="fa fa-search" 
+                     [allowLabel]="false"></v-input>
+        </div>    
+
+        
+
+
+        <!-- </div> -->
+    <!-- </div> -->
+    <!-- <div class="flex-elements">
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('a') && accessRights.display == '1' && this.accessRights.add == '1'"
+                    fontawesome="fa fa-plus-circle"
+                    btnActionType="gridButton"
+                    style="border-radius: 0.5rem"
+                    (click)="onAddClick()"
+                    customStyle="background-color: var(--add-btn-color) !important;
+                                border-color: var(--add-btn-color) !important;
+                                border-radius: 0"></v-button>
+
+        <span *ngIf="agToolBar != '' && agToolBar.includes('m') && agOnGridEvents == false && accessRights.display == '1'  && this.accessRights.modify == '1'">&nbsp;</span>
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('m') && agOnGridEvents == false && accessRights.display == '1' && this.accessRights.modify == '1'"
+                    fontawesome="fa fa-edit"
+                    btnActionType="gridButton"
+                    style="border-radius: 0.5rem"
+                    (click)="onUpdateClick()"
+                    customStyle="background-color: var(--edit-btn-color) !important;
+                                border-color: var(--edit-btn-color) !important;
+                                border-radius: 0"></v-button>
+
+        <span *ngIf="agToolBar != '' && agToolBar.includes('d') && accessRights.display == '1' && this.accessRights.delete == '1'">&nbsp;</span>
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('d') && accessRights.display == '1' && this.accessRights.delete == '1'"
+                    fontawesome="fa fa-trash"
+                    btnActionType="gridButton"
+                    style="border-radius: 0.5rem"
+                    id="deletebtn"
+                    (click)="onDeleteClick()"
+                    customStyle="background-color: var(--del-btn-color) !important;
+                                border-color: var(--del-btn-color) !important;
+                                border-radius: 0"></v-button>
+    </div> -->
+
+    <div class="flex-elements">
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('a')"
+                    fontawesome="fa fa-plus-circle"
+                    btnActionType="gridButton"
+                    style="border-radius: 0.5rem"
+                    (click)="onAddClick()"
+                    customStyle="background-color: var(--add-btn-color) !important;
+                                border-color: var(--add-btn-color) !important;
+                                border-radius: 0"></v-button>
+
+        <span *ngIf="agToolBar != '' && agToolBar.includes('m') && agOnGridEvents == false">&nbsp;</span>
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('m') && agOnGridEvents == false"
+                    fontawesome="fa fa-edit"
+                    btnActionType="gridButton"
+                    style="border-radius: 0.5rem"
+                    (click)="onUpdateClick()"
+                    customStyle="background-color: var(--edit-btn-color) !important;
+                                border-color: var(--edit-btn-color) !important;
+                                border-radius: 0"></v-button>
+
+        <span *ngIf="agToolBar != '' && agToolBar.includes('d')">&nbsp;</span>
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('d')"
+                    fontawesome="fa fa-trash"
+                    btnActionType="gridButton"
+                    style="border-radius: 0.5rem"
+                    id="deletebtn"
+                    (click)="onDeleteClick()"
+                    customStyle="background-color: var(--del-btn-color) !important;
+                                border-color: var(--del-btn-color) !important;
+                                border-radius: 0"></v-button>
+        
+        <span *ngIf="agToolBar != '' && agToolBar.includes('e')">&nbsp;</span>
+        <v-button *ngIf="agToolBar != '' && agToolBar.includes('e')"
+                    fontawesome="fa fa-download"
+                    btnActionType="gridButton"
+                    style="border-radius: 0.5rem"
+                    id="deletebtn"
+                    (click)="onDownloadClick()"
+                    customStyle="background-color: var(--blue-color) !important;
+                                border-color: var(--blue-color) !important;
+                                border-radius: 0"></v-button>
+    </div>
+</div>
+
+<div class="ag-container width-100" [ngClass]="{'DisabledGrid': NoneGrid == 'disabled', 'scrollable-grid': isGridInLookup || isForQueryForm}">
+    <ag-grid-angular #agGrid
+                     id="aggridId"
+                     class="ag-theme-alpine"
+                     [columnDefs]="ColDef"
+                     rowSelection="{{ agRowSelection }}"
+                     [rowModelType]="rowModelType"
+                     [animateRows]="true"
+                     (gridReady)="onGridReady($event)"
+                     [pagination]="pagination"
+                     [paginationPageSize]="paginationPageSize"
+                     (rowSelected)="onRowSelected($event)"
+                     (cellEditingStopped)="onCellEditingStopped($event)"
+                     (firstDataRendered)="onFirstDataRendered($event)"
+                     [rowData]="rowData"
+                     rowGroupPanelShow="always"
+                     (rowDoubleClicked)="onRowDoubleClicked($event)"
+                     [getMainMenuItems]="getMainMenuItems"
+                     [frameworkComponents]="frameworkComponents"
+                     [pivotMode]="pivotMode"
+                     [groupDisplayType]="groupDisplayType"
+                     [autoGroupColumnDef]="autoGroupColumnDef"
+                     [groupAllowUnbalanced]="true"
+                     >
+    </ag-grid-angular>
+    <form style="position: absolute;" [formGroup]="paginationChange" *ngIf="allowPagination">
+        <v-dropdown id="paginationSizeToggle" 
+                    (onChangeEvent)="changeGridPagination()" 
+                    formControlName="value" 
+                    fieldName="value" 
+                    [parentForm]="paginationChange" 
+                    [allowSearchInCombo]="false" 
+                    [required]="true" 
+                    [multiple]="false" 
+                    [dataJSON]="paginationSizeList" 
+                    [allowLabel]="false">
+        </v-dropdown>
+    </form>
+</div>
+
+<div *ngIf="showOrHideButton == true" class="agSubmitBtn p-3">
+    <v-button btnActionType="button" value="Submit" (click)="onGridEventSaveFn()"></v-button>
+</div>
+

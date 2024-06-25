@@ -1,0 +1,117 @@
+<div class="form-group" [ngClass]="{'mb-2': !isForIndisplay || !allowLabel}">
+  <div class="form-ele-parent" [ngClass]="{'my-3': !isForIndisplay || !allowLabel, 'm22': isphone}">
+    <div class="row">
+      <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 align-items-center" *ngIf="!isForIndisplay || !allowLabel">
+        <v-label *ngIf="allowLabel" [text]="label" [required]="required"></v-label>
+      </div>
+      <div class="col-sm-12 col-xs-12" [ngClass]="{'col-lg-8 col-md-9': !isForIndisplay || allowLabel, 'col-lg-12 col-md-12': isForIndisplay || !allowLabel}">
+        <div class="form-ele-child">
+
+          <ng-container *ngIf="isComponentPhoneNumbers; else defaultDropdownTemplate">
+            <!-- Custom dropdown template for phone numbers -->
+            <ng-multiselect-dropdown 
+              [placeholder]="placeholder" 
+              [settings]="dropdownSettings" 
+              [data]="dropdownList"
+              [(ngModel)]="selectedItems" 
+              [disabled]="disabled" 
+              (onSelect)="onItemSelect($event)" 
+              id="v-dropdown_{{fieldName}}"
+              (onSelectAll)="onSelectAll($event)" 
+              (onDeSelect)="onDeSelect($event)" 
+              (onDeSelectAll)="onDeSelectAll()" 
+              [ngClass]="{'single-select-dropdown': singleSelection,
+              'v-dropdown-style': !isComponentPhoneNumbers, 'phone-number-dropdown-style': isComponentPhoneNumbers}"
+              [trackByFn]="trackByFn"
+              [singleSelection]="singleSelection">
+              <ng-template #dropdownTemplate let-item>
+                <div class="single-selection-item" [ngClass]="{'multiselect-item-checkbox': !multipleSelectionDroppDown}">{{ item.text }}</div>
+              </ng-template>
+            </ng-multiselect-dropdown>
+          </ng-container>
+
+
+
+
+
+          <ng-template #defaultDropdownTemplate>
+            <ng-container *ngIf="!singleSelection; else elseTemplate">
+              <ng-multiselect-dropdown 
+                  [placeholder]="placeholder" 
+                  [settings]="dropdownSettings" 
+                  [data]="dropdownList"
+                  [(ngModel)]="selectedItems" 
+                  [disabled]="disabled" 
+                  (onSelect)="onItemSelect($event)" 
+                  id="v-dropdown_{{fieldName}}"
+                  (onSelectAll)="onSelectAll($event)" 
+                  (onDeSelect)="onDeSelect($event)" 
+                  (onDeSelectAll)="onDeSelectAll()" 
+                  class="{{dropdownClass}} {{dropdownId}} v-dropdown-style"
+                  [trackByFn]="trackByFn"
+                  [singleSelection]="singleSelection">
+                  <!-- Custom dropdown template for multiple selection -->
+                
+                  <ng-template #dropdownTemplate let-item>
+                    <div class="single-selection-item" [ngClass]="{'multiselect-item-checkbox': !multipleSelectionDroppDown}">{{ item.text }}</div>
+                  </ng-template>
+              </ng-multiselect-dropdown>
+            </ng-container>
+            
+            <ng-template #elseTemplate>
+              <ng-container *ngIf="!isDropdownEmpty; else elseTemplate2">
+                <!-- Render this block if dropdownList is not empty -->
+                <ng-multiselect-dropdown 
+                  [placeholder]="placeholder" 
+                  [settings]="dropdownSettings" 
+                  [data]="dropdownList"
+                  [(ngModel)]="selectedItems" 
+                  [disabled]="disabled" 
+                  (onSelect)="onItemSelect($event)" 
+                  id="v-dropdown_{{fieldName}}"
+                  (onSelectAll)="onSelectAll($event)" 
+                  (onDeSelect)="onDeSelect($event)" 
+                  (onDeSelectAll)="onDeSelectAll()" 
+                  [ngClass]="{
+                    'single-select-dropdown': singleSelection,
+                    'v-dropdown-style': singleSelection
+                  }"
+                  [trackByFn]="trackByFn"
+                  [singleSelection]="singleSelection"
+                  class="{{dropdownClass}} {{dropdownId}} v-dropdown-style">
+                  <!-- Custom dropdown template for single selection -->
+                  <ng-template #dropdownTemplate let-item>
+                    <div class="single-selection-item">{{ item.text }}</div>
+                  </ng-template>
+                </ng-multiselect-dropdown>
+              </ng-container>
+              
+              <ng-template #elseTemplate2>
+                <ng-multiselect-dropdown 
+                  [placeholder]="placeholder" 
+                  [settings]="dropdownSettings" 
+                  [data]="dropdownList"
+                  [(ngModel)]="selectedItems" 
+                  [disabled]="disabled" 
+                  (onSelect)="onItemSelect($event)" 
+                  id="v-dropdown_{{fieldName}}"
+                  (onSelectAll)="onSelectAll($event)" 
+                  (onDeSelect)="onDeSelect($event)" 
+                  (onDeSelectAll)="onDeSelectAll()" 
+                  class="{{dropdownClass}} {{dropdownId}} v-dropdown-style"
+                  [trackByFn]="trackByFn"
+                  [singleSelection]="singleSelection">
+                  <!-- Custom dropdown template for multiple selection -->
+                
+                  <ng-template #dropdownTemplate let-item>
+                    <div class="single-selection-item" [ngClass]="{'multiselect-item-checkbox': !multipleSelectionDroppDown}">{{ item.text }}</div>
+                  </ng-template>
+              </ng-multiselect-dropdown>
+              </ng-template>
+            </ng-template>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

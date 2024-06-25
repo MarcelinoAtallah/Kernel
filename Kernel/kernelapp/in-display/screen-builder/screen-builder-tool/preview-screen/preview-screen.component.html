@@ -1,0 +1,82 @@
+<div class="container" style="overflow-y:auto;">
+<div  class="row" *ngFor="let item of itemsData">
+    
+    <div class="listItem" *ngIf="item.type=='Editor'" tagName="textarea" style="display:block" [innerHtml]="sanitizeHtml(item.value)"></div>
+    <main-preview-form fromScreenBuilder="1" screenBuilderObjId="{{item.value}}" *ngIf="item.type=='Form'"></main-preview-form>
+
+    <div>
+    <div class=" mx-auto text-center" style="width: fit-content;padding: 20px;" >
+      <ng-container *ngIf="item.type === 'Chart'; then chart"></ng-container>
+      <div>
+        <ng-template #chart>
+          <div  style="border: 0.5px solid #000000;border-radius: 8px;display:flex;height:400px;max-width:fit-content;">
+            <ng-container *ngIf="item.formData[0][0][0]=== 'gauge'; then gaugeTemplate else chartTemplate"></ng-container>
+            <ng-template #gaugeTemplate style="height: 100px;">
+              <app-v-gauge [gaugeType]="item.formData[0][1][0]" [gaugeValue]="item.formData[0][2][0]"
+                [gaugeLabel]="item.formData[0][3][0]" [gaugeAppendText]="item.formData[0][4][0]"
+                [Title]="item.formData[0][5]"></app-v-gauge>
+            </ng-template>
+
+            <ng-template #chartTemplate style="height: 100px;">
+              <!-- <app-v-charts [type]="item.formData[0][0] " [pieChartLabels]="item.formData[0][1]"
+                [pieChartDatasets]="item.formData[0][2]" [Title]="item.formData[0][3]"></app-v-charts> -->
+            </ng-template>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="listContainerCol">
+      <ng-container *ngIf="item.type === 'Kpi'; then KpiTemplate"></ng-container>
+      <ng-template #KpiTemplate>
+        <div style="padding: 20px;border: 0.5px solid #000000;border-radius: 8px;">
+          <div style="width: 100%;text-align: center;">
+            <p>{{item.formData.Headers[0].header}}</p>
+          </div>
+          <div style="width: 80%;text-align: center;margin-top: 30px;font-size: 25px; margin-left: 10%;">
+            <p><b>{{item.formData.Records[0].TITLE}}</b></p>
+          </div>
+          <div style="width: 100%;display: flex;flex-direction: row;margin-top: 30px;">
+            <p style="width:50% ;text-align: center; font-size:18px">
+              {{item.formData.Records[0].COUNTRY}}
+            </p>
+            <p style="width:50% ;text-align: center;font-size:18px"><b>
+                {{item.formData.Records[0].MONTH}}
+              </b></p>
+          </div>
+          <div style="width: 100%;display: flex;flex-direction: row;">
+            <p style=" width :50%;text-align: center;">
+
+              {{item.formData.Headers[1].header}}
+            </p>
+            <p style=" width :50%;text-align: center;">
+              {{item.formData.Headers[2].header}}
+            </p>
+          </div>
+       
+        <div
+          style="text-align: center; display: flex; flex-direction: row;justify-content: center;background-color: transparent;width: 100%;">
+          <v-button style="font-size: 16px;margin: 0px 5px;border: none;"
+            [fontawesome]="'fa-solid fa-chart-simple'" (click)="openChart(item)"></v-button>
+          <v-button style="font-size: 16px;margin: 0px 5px;" [fontawesome]="'fa fa-th kpi_title_color'"
+            (click)="openGrid(item)"></v-button>
+
+        </div>
+      </div>
+      </ng-template>
+      <ng-container *ngIf="item.type === 'Grid'; then gridTemplate"></ng-container>
+      <ng-template #gridTemplate style="width: max-content;padding: 20px;">
+        <div>
+          <v-grid allowSideBar="true" [agColumns]="item.formData[0][0]" [pagination]="true"
+            [dataApi]="item.formData[1]" [paginationPageSize]="5">
+          </v-grid>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+  </div>
+</div>
+<!-- 
+[screenBuilderObjId]="item.value" 
+    [tableOptions]="item.formData" -->

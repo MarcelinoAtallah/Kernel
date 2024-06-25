@@ -1,0 +1,14 @@
+<v-grid
+allowSideBar="true"
+ 
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="15"
+agToolBar="amd"
+agPrimaryKey="id"
+
+></v-grid>
+<div class="button-group">
+  <v-button btnActionType="submit" btnType="form"  value="Save" (click)="save()"  class="save-button"></v-button>
+  <v-button btnActionType="submit" btnType="form"  value="Menu Assignment" (click)="menuAssignment()"  class="menu-assignment-button"></v-button>
+  </div>

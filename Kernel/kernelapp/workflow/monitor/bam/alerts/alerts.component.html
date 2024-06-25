@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-lg-1 form-submit">
+        <v-button btnActionType="submit" btnType="form"  value="Inbox"></v-button>
+    </div>
+    <div class="col-lg-1 form-submit">
+        <v-button btnActionType="submit" btnType="form"  value="Outbox"></v-button>
+    </div>
+<div class="col-lg-1 form-submit">
+    <v-button btnActionType="submit" btnType="form"  value="Deleted"></v-button>
+</div>
+</div>
+<v-grid
+  allowSideBar="true"
+   
+  
+  [agColumns]="agColumns"
+  [pagination]="true"
+  [paginationPageSize]="15"
+  agToolBar="d"
+  agPrimaryKey="id"
+>
+</v-grid>

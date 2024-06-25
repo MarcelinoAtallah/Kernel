@@ -1,0 +1,15 @@
+.ag-container {
+    width: 100%;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.agSubmitBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.agSubmitBtn button {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}

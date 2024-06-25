@@ -1,0 +1,15 @@
+<h4 id="Title" style="color: black;text-align:center;font-weight: bold
+">
+ <div (click)="openSelected1()">
+    {{Title}}
+ </div>
+</h4> 
+
+ <ngx-gauge [type]="gaugeType" 
+           [value]="gaugeValue" 
+           [label]="gaugeLabel"  
+           [append]="gaugeAppendText"
+           [thresholds]="thresholdConfig"
+           [duration]='2000'
+           >
+</ngx-gauge>

@@ -1,0 +1,12 @@
+<form [formGroup]="chartForm">
+  <div class="box" style="position:absolute"  *ngFor="let options of newChartObject; let i = index" cdkDrag >
+  <div class="chart-row">
+   <ng-container >
+     <div class="chart-container">
+       <v-highcharts [Highcharts]="Highcharts" [options]="options"></v-highcharts>
+     </div>
+   </ng-container>
+ </div>   
+ </div>
+
+</form>

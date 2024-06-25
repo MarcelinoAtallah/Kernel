@@ -1,0 +1,15 @@
+<div *ngIf="btnActionType == 'submit'">
+    <button [disabled]="disabled" [ngClass]="{'vibrate': step =='true'}" type="{{ btnActionType }}" class="{{ btnClass }}" (click)="formValidation()">
+        <i *ngIf="fontawesome != ''" class="{{ fontawesome }}"></i>
+        <span *ngIf="fontawesome != '' && value != ''">&nbsp;</span>
+        <span *ngIf="value != ''">{{ value }}</span>
+    </button>
+</div>
+
+<div *ngIf="btnActionType != 'submit'">
+    <button [disabled]="disabled" type="{{ btnActionType }}" class="{{ btnClass }}">
+        <i *ngIf="fontawesome != ''" class="{{ fontawesome }}"></i>
+        <span *ngIf="fontawesome != '' && value != ''">&nbsp;</span>
+        <span *ngIf="value != ''">{{ value }}</span>
+    </button>
+</div>

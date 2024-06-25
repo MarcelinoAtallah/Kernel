@@ -1,0 +1,621 @@
+<div class="header-dialog space-between mb-3" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div></div>
+    <div class="dialogTitle"></div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+
+<form [formGroup]="form">
+    <v-fieldset title="Rule Information" class="mb-2"></v-fieldset>
+    <div class="row">
+        <div class="col-lg-4">
+            <v-input formControlName="ruleDescription" [required]="true" [parentForm]="form" label="Description"
+                type="text" id="ruleDescription" fieldName="ruleDescription"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="orderNo" [required]="true" [parentForm]="form" label="Order No" type="number"
+                id="orderNo" fieldName="orderNo"></v-input>
+        </div>
+        <div class="col-lg-4">
+                <v-toggle label="Is Excluded" formControlName="isExcluded" [parentForm]="form"
+                fieldName="isExcluded"></v-toggle>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <v-dropdown formControlName="step_0" [required]="true" (onChangeEvent)="handleAllRules()" [multiple]="false"
+                [dataJSON]="ruleAction" id="step_0" label="Rule Action" [parentForm]="form"
+                fieldName="step_0"></v-dropdown>
+        </div>
+        <!-- NEW -->
+        <div class="col-lg-4">
+            <v-dropdown formControlName="actionType" [required]="true" (onChangeEvent)="handleAllRules()"
+                [dataJSON]="ActionType" id="step_0" label="Action Type" [parentForm]="form"
+                fieldName="actionType"></v-dropdown>
+        </div>
+        <!-- NEW -->
+        <div class="col-lg-4">
+            <v-toggle label="Has Advanced Conditions" formControlName="hasAdvancedConditions" [parentForm]="form"
+                fieldName="hasAdvancedConditions" (toggleChange)="showAdvancedConditions()" id="Advanced"></v-toggle>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 hasAdvancedConditions hidden">
+            <v-button btnActionType="button" (click)="openAdvancedConditions()"
+                value="Open Advanced Conditions"></v-button>
+        </div>
+    </div>
+</form>
+<div class="row" class="RuleConditions"></div>
+<v-fieldset title="Rule Conditions" class="my-2"></v-fieldset>
+
+<div class="onChangeGroup" *ngIf="selectedRuleAction == '1'">
+    <form [formGroup]="form_onChangeGroup">
+        <div class="row">
+            <div class="col-lg-12 step_1">
+                <v-dropdown formControlName="step_1" [required]="false"
+                    [disabled]="actionType == 'update' ? true : false"
+                    (onChangeEvent)="onChangedSteps('step_1', selectedRuleAction)" [multiple]="false"
+                    [dataApi]="getAllColumns" id="step_1" label="Form Fields" [parentForm]="form_onChangeGroup"
+                    fieldName="step_1"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_2">
+                <v-dropdown formControlName="step_2" [required]="false"
+                    (onChangeEvent)="onChangedSteps('step_2', selectedRuleAction)" [multiple]="false"
+                    [dataJSON]="conditions" id="step_2" label="Conditions" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2"></v-dropdown>
+            </div>
+
+            <div class="col-lg-12 step_2_0_0">
+                <v-dropdown formControlName="step_2_0_0"
+                    (onChangeEvent)="onChangedSteps('step_2_0_0', selectedRuleAction)" [multiple]="false"
+                    [dataApi]="getAllColumns" id="step_2_0_0" label="Value Of Field" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2_0_0"></v-dropdown>
+            </div>
+
+            <div class="col-lg-12 step_2_0">
+                <v-dropdown formControlName="step_2_0" (onChangeEvent)="onChangedSteps('step_2_0', selectedRuleAction)"
+                    [multiple]="false" [dataJSON]="dateTypes" id="step_2_0" label="Type Of Date"
+                    [parentForm]="form_onChangeGroup" fieldName="step_2_0"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_2_0_3">
+                <v-input formControlName="step_2_0_3" (lookupOnChange)="onChangedSteps('step_2_0_3', selectedRuleAction)"
+                    [parentForm]="form_onChangeGroup" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_2_0_3"
+                    lookupWidth="700px" lookupHeight="700px" label="Execute Queries" fieldName="step_2_0_3"></v-input>
+            </div>
+            <div class="col-lg-12 step_2_0_1">
+                <v-dropdown formControlName="step_2_0_1"
+                    (onChangeEvent)="onChangedSteps('step_2_0_1', selectedRuleAction)" [multiple]="false"
+                    [dataApi]="getAllColumns" id="step_2_0_1" label="Date Form Fields" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2_0_1"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_2_0_2">
+                <v-dropdown formControlName="step_2_0_2"
+                    (onChangeEvent)="onChangedSteps('step_2_0_2', selectedRuleAction)" [multiple]="false"
+                    [dataApi]="getAllColumns" id="step_2_0_2" label="And Form Fields" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2_0_2"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_2_1">
+                <v-input formControlName="step_2_1" (change)="onChangedSteps('step_2_1', selectedRuleAction)"
+                    type="date" id="step_2_1" label="Calendar" [parentForm]="form_onChangeGroup" fieldName="step_2_1"
+                    [readonly]="readOnly"></v-input>
+            </div>
+
+            <!-- calculate date-->
+            <div class="col-lg-12 step_2_1_1">
+                <v-dropdown formControlName="step_2_1_1" [disabled]="actionType == 'update' ? true : false"
+                    (onChangeEvent)="onChangedSteps('step_2_1_1', selectedRuleAction)" [multiple]="false"
+                    [dataJSON]="TypeOfDifference" id="step_2_1_1" label="Type Of Difference"
+                    [parentForm]="form_onChangeGroup" fieldName="step_2_1_1"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_2_1_0">
+                <v-dropdown formControlName="step_2_1_0"
+                    (onChangeEvent)="onChangedSteps('step_2_1_0', selectedRuleAction)" [multiple]="false"
+                    [dataJSON]="operations" id="step_2_1_0" label="Operations" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2_1_0"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_2_1_2">
+                <v-input formControlName="step_2_1_2" (change)="onChangedSteps('step_2_1_2', selectedRuleAction)"
+                    type="text" id="step_2_1_2" label="Difference" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2_1_2"></v-input>
+            </div>
+            <!-- end calculation -->
+            <div class="col-lg-12 step_2_2">
+                <v-input formControlName="step_2_2" (change)="onChangedSteps('step_2_2', selectedRuleAction)"
+                    type="date" id="step_2_2" label="Between" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2_2"></v-input>
+            </div>
+            <div class="col-lg-12 step_2_3">
+                <v-input formControlName="step_2_3" (change)="onChangedSteps('step_2_3', selectedRuleAction)"
+                    type="date" id="step_2_3" label="And" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2_3"></v-input>
+            </div>
+            <div class="col-lg-12 step_2_4">
+                <v-dropdown formControlName="step_2_4" (onChangeEvent)="onChangedSteps('step_2_4', selectedRuleAction)"
+                    [multiple]="false" [dataApi]="getAllColumns" id="step_2_4" label="Fill Into"
+                    [parentForm]="form_onChangeGroup" fieldName="step_2_4"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_2_8">
+                <v-dropdown formControlName="step_2_8" (onChangeEvent)="onChangedSteps('step_2_8', selectedRuleAction)"
+                    [multiple]="false" [dataJSON]="TypeOfFillInto" id="step_2_8" label="Type Of Fill Into"
+                    [parentForm]="form_onChangeGroup" fieldName="step_2_8"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_2_6">
+                <v-dropdown formControlName="step_2_6" (onChangeEvent)="onChangedSteps('step_2_6', selectedRuleAction)"
+                    [multiple]="true" [dataApi]="getAllColumns" id="step_2_6" label="Choosen Field"
+                    [parentForm]="form_onChangeGroup" fieldName="step_2_6"></v-dropdown>
+            </div>
+            <!-- <div class="col-lg-12 step_2_7">
+                <v-dropdown formControlName="step_2_7" (onChangeEvent)="onChangedSteps('step_2_7', selectedRuleAction)"
+                    [multiple]="true" [dataJSON]="minusSysdate" id="step_2_7" label="minus Sysdate"
+                    [parentForm]="form_onChangeGroup" fieldName="step_2_7"></v-dropdown>
+            </div> -->
+            <div class="col-lg-12 step_2_9">
+                <v-dropdown formControlName="step_2_9" (onChangeEvent)="onChangedSteps('step_2_9', selectedRuleAction)"
+                    [multiple]="false" [dataJSON]="plusMinusOperator" id="step_2_9" label="operator"
+                    [parentForm]="form_onChangeGroup" fieldName="step_2_9"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_3_0">
+                <v-dropdown formControlName="step_3_0" (onChangeEvent)="onChangedSteps('step_3_0', selectedRuleAction)"
+                    [multiple]="true" [dataJSON]="plusMinusoptions" id="step_3_0" label="operator Options"
+                    [parentForm]="form_onChangeGroup" fieldName="step_3_0"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_3_0_1">
+                <v-input formControlName="step_3_0_1" (lookupOnChange)="onChangedSteps('step_3_0_1', selectedRuleAction)"
+                    [parentForm]="form_onChangeGroup" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_3_0_1"
+                    lookupWidth="700px" lookupHeight="700px" label="Execute Queries" fieldName="step_3_0_1"></v-input>
+            </div>
+            <div class="col-lg-12 step_2_5">
+                <v-input formControlName="step_2_5" (change)="onChangedSteps('step_2_5', selectedRuleAction)"
+                    type="number" id="step_2_5" label="Order Number" [parentForm]="form_onChangeGroup"
+                    fieldName="step_2_5"></v-input>
+            </div>
+            <div class="col-lg-12 step_3">
+                <v-dropdown formControlName="step_3" (onChangeEvent)="actionSelection('step_3', selectedRuleAction)"
+                    [multiple]="false" [dataJSON]="actionDecisions" id="step_3" label="Action"
+                    [parentForm]="form_onChangeGroup" fieldName="step_3"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_3_1">
+                <v-input formControlName="step_3_1" (change)="onChangedSteps('step_3_1', selectedRuleAction)"
+                    type="text" id="step_3_1" label="Value" [parentForm]="form_onChangeGroup"
+                    fieldName="step_3_1"></v-input>
+            </div>
+            <div class="col-lg-12 step_3_2">
+                <v-input formControlName="step_3_2" (lookupOnChange)="onChangedSteps('step_3_2', selectedRuleAction)"
+                    [parentForm]="form_onChangeGroup" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_4_2"
+                    lookupWidth="700px" lookupHeight="700px" label="Query" fieldName="step_3_2"></v-input>
+                <v-input formControlName="step_3_2_hidden" type="hidden" [parentForm]="form_onChangeGroup"
+                    fieldName="step_3_2_hidden"></v-input>
+            </div>
+            <!-- <div class="col-lg-12 step_3_3">
+                <v-input formControlName="step_3_3" (change)="onChangedSteps('step_3_3', selectedRuleAction)"
+                    type="text" id="step_3_3" label="Alert Text" [parentForm]="form_onChangeGroup"
+                    fieldName="step_3_3"></v-input>
+            </div> -->
+            <div class="col-lg-12 step_4">
+                <v-dropdown formControlName="step_4" (onChangeEvent)="actionSelection('step_4', selectedRuleAction)"
+                    [multiple]="false" [dataJSON]="executionAction" id="step_4" label="Action"
+                    [parentForm]="form_onChangeGroup" fieldName="step_4"></v-dropdown>
+            </div>
+
+            <div class="col-lg-12 step_6">
+                <v-input formControlName="step_6" (change)="onChangedSteps('step_6', selectedRuleAction)" type="text"
+                    id="step_6" label="Name Of Field" [parentForm]="form_onChangeGroup" fieldName="step_6"></v-input>
+            </div>
+
+            <div class="col-lg-12 step_4_0_0">
+                <v-input formControlName="step_4_0_0" (change)="onChangedSteps('step_4_0_0', selectedRuleAction)"
+                    type="text" id="step_4_0_0" label="Alert Value" [parentForm]="form_onChangeGroup"
+                    fieldName="step_4_0_0"></v-input>
+            </div>
+
+            <div class="col-lg-12 step_4_0_1">
+                <v-dropdown formControlName="step_4_0_1"
+                    (onChangeEvent)="onChangedSteps('step_4_0_1', selectedRuleAction)" [multiple]="false"
+                    [dataApi]="getAllRules" id="step_4_0_1" label="Choose a Rule Description"
+                    [parentForm]="form_onChangeGroup" fieldName="step_4_0_1"></v-dropdown>
+            </div>
+
+            <div class="col-lg-12 step_4_0">
+                <v-dropdown formControlName="step_4_0" (onChangeEvent)="onChangedSteps('step_4_0', selectedRuleAction)"
+                    [multiple]="true" [dataApi]="getAllFieldSets" id="step_4_0" label="Choose a FieldSet"
+                    [parentForm]="form_onChangeGroup" fieldName="step_4_0"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_4_1" *ngIf="ChooseAFieldButtonFirst">
+                <v-dropdown formControlName="step_4_1" (onChangeEvent)="onChangedSteps('step_4_1', selectedRuleAction)"
+                    [multiple]="true" [dataApi]="getAllColumns" id="step_4_111" label="Choose a field"
+                    [parentForm]="form_onChangeGroup" fieldName="step_4_1"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_4_1" *ngIf="ChooseAFieldButtonSecond">
+                <v-dropdown formControlName="step_4_1" (onChangeEvent)="onChangedSteps('step_4_1', selectedRuleAction)"
+                    [multiple]="true" [dataJSON]="testingListOfButtons" id="step_4_1" label="Choose a field"
+                    [parentForm]="form_onChangeGroup" fieldName="step_4_1"></v-dropdown>
+            </div>
+            <div class="col-lg-12 step_4_2">
+                <v-input formControlName="step_4_2" (lookupOnChange)="onChangedSteps('step_4_2', selectedRuleAction)"
+                    [parentForm]="form_onChangeGroup" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_4_2"
+                    lookupWidth="700px" lookupHeight="700px" label="Query" fieldName="step_4_2"></v-input>
+            </div>
+            <div class="col-lg-12 step_4_2_0">
+                <v-dropdown formControlName="step_4_2_0"
+                    (onChangeEvent)="onChangedSteps('step_4_2_0', selectedRuleAction)" [multiple]="false"
+                    [dataApi]="getAllColumns" id="step_4_2_0" label="Field Execute Query"
+                    [parentForm]="form_onChangeGroup" fieldName="step_4_2_0"></v-dropdown>
+            </div>
+
+            <div class="col-lg-12 step_4_3">
+                <v-input formControlName="step_4_3" (lookupOnChange)="onChangedSteps('step_4_3', selectedRuleAction)"
+                    [parentForm]="form_onChangeGroup" type="lookup" [lookupDataApi]="getAllProcAndPack" id="step_4_3"
+                    lookupWidth="700px" lookupHeight="700px" label="Call Procedure" fieldName="step_4_3"></v-input>
+            </div>
+            <div class="col-lg-12 step_4_3_0">
+                <v-dropdown formControlName="step_4_3_0"
+                    (onChangeEvent)="onChangedSteps('step_4_3_0', selectedRuleAction)" [multiple]="true"
+                    [dataApi]="getAllColumns" id="step_4_3_0" label="Parameters" [parentForm]="form_onChangeGroup"
+                    fieldName="step_4_3_0"></v-dropdown>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-lg-1">
+            <v-button btnActionType="submit" [parentForm]="form_onChangeGroup" value="Submit"
+                (click)="onFormSubmit()"></v-button>
+        </div>
+    </div>
+</div>
+
+<div class="onLoadGroup" *ngIf="selectedRuleAction == '2'">
+    <form [formGroup]="form_onLoadGroup">
+        <div class="row">
+            <div class="col-lg-12 step_00">
+                <v-dropdown formControlName="step_00" [required]="false"
+                    (onChangeEvent)="onChangedSteps('step_00', selectedRuleAction)" [multiple]="false"
+                    [dataJSON]="onloadOptions" id="step_00" label="On Load Options" [parentForm]="form_onLoadGroup"
+                    fieldName="step_00"></v-dropdown>
+            </div>
+        </div>
+    </form>
+
+    <form [formGroup]="form_onLoadGroup_3">
+        <div class="row">
+            <div class="onLoadGroup_3">
+                    <!-- [disable]="actionType == 'update' ? true : false" -->
+                <div class="col-lg-12 step_1_0">
+                    <v-input formControlName="step_1_0" (lookupOnChange)="onChangedSteps('step_1_0', selectedRuleAction)"
+                        [parentForm]="form_onLoadGroup_3" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_1_0"
+                        lookupWidth="700px"  lookupHeight="700px"
+                        label="Execute Query" fieldName="step_1_0"></v-input>
+                </div>
+                <div class="col-lg-12 step_1">
+                    <v-dropdown formControlName="step_1" [required]="false"
+                        (onChangeEvent)="onChangedSteps('step_1', selectedRuleAction)" [multiple]="false"
+                        [dataApi]="getAllColumns" id="step_1" label="Form Fields" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_1"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_2">
+                    <v-dropdown formControlName="step_2" [required]="false"
+                        (onChangeEvent)="onChangedSteps('step_2', selectedRuleAction)" [multiple]="false"
+                        [dataJSON]="conditions" id="step_2" label="Conditions" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_2"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_1_0_1">
+                    <v-dropdown formControlName="step_1_0_1" (onChangeEvent)="onChangedSteps('step_1_0_1', selectedRuleAction)"
+                        [multiple]="false" [dataJSON]="dateTypes" id="step_1_0_1" label="Type Of Date"
+                        [parentForm]="form_onLoadGroup_3" fieldName="step_1_0_1"></v-dropdown>
+                </div>
+        
+                <div class="col-lg-12 step_5_1">
+                    <v-dropdown formControlName="step_5_1" (onChangeEvent)="onChangedSteps('step_5_1', selectedRuleAction)"
+                        [multiple]="false" [dataApi]="getAllColumns" id="step_5_1" label="Fill Into"
+                        [parentForm]="form_onLoadGroup_3" fieldName="step_5_1"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_3">
+                    <v-dropdown formControlName="step_3" [required]="false"
+                        (onChangeEvent)="actionSelection('step_3', selectedRuleAction)" [multiple]="false"
+                        [dataJSON]="actionDecisions" id="step_3" label="Action" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_3"></v-dropdown>
+                </div>
+                
+            
+                <div class="col-lg-12 step_3_1">
+                    <v-input formControlName="step_3_1" (change)="onChangedSteps('step_3_1', selectedRuleAction)"
+                        type="text" id="step_3_1" label="Value" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_3_1"></v-input>
+                </div>
+                <div class="col-lg-12 step_1_0_2">
+                    <v-dropdown formControlName="step_1_0_2" [required]="false"
+                        (onChangeEvent)="onChangedSteps('step_1_0_2', selectedRuleAction)" [multiple]="false"
+                        [dataJSON]="executionAction" id="step_1_0_2" label="Action" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_1_0_2"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_3_2">
+                    <v-input formControlName="step_3_2"
+                        (lookupOnChange)="onChangedSteps('step_3_2', selectedRuleAction)"
+                        [parentForm]="form_onLoadGroup_3" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_4_2"
+                        lookupWidth="700px" lookupHeight="700px" label="Query" fieldName="step_3_2"></v-input>
+                    <v-input formControlName="step_3_2_hidden" type="hidden" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_3_2_hidden"></v-input>
+                </div>
+             
+                <div class="col-lg-12 step_4">
+                    <v-dropdown formControlName="step_4" [required]="false"
+                        (onChangeEvent)="actionSelection('step_4', selectedRuleAction)" [multiple]="false"
+                        [dataJSON]="executionAction" id="step_4" label="Action" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_4"></v-dropdown>
+                </div>
+       
+                <div class="col-lg-12 step_6">
+                    <v-input formControlName="step_6" (change)="onChangedSteps('step_6', selectedRuleAction)"
+                        type="text" id="step_6" label="Field Name" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_6"></v-input>
+                </div>
+                <div class="col-lg-12 step_4_0_1">
+                    <v-dropdown formControlName="step_4_0_1"
+                        (onChangeEvent)="onChangedSteps('step_4_0_1', selectedRuleAction)" [multiple]="false"
+                        [dataApi]="getAllRules" id="step_4_0_1" label="Choose a Rule Description"
+                        [parentForm]="form_onLoadGroup_3" fieldName="step_4_0_1"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_4_0">
+                    <v-dropdown formControlName="step_4_0"
+                        (onChangeEvent)="onChangedSteps('step_4_0', selectedRuleAction)" [multiple]="true"
+                        [dataApi]="getAllFieldSets" id="step_4_0" label="Choose a FieldSet"
+                        [parentForm]="form_onLoadGroup_3" fieldName="step_4_0"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_4_1">
+                    <v-dropdown formControlName="step_4_1"
+                        (onChangeEvent)="onChangedSteps('step_4_1', selectedRuleAction)" [multiple]="true"
+                        [dataApi]="getAllColumns" id="step_4_1" label="Choose a field" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_4_1"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_4_2">
+                    <v-input formControlName="step_4_2"
+                        (lookupOnChange)="onChangedSteps('step_4_2', selectedRuleAction)"
+                        [parentForm]="form_onLoadGroup_3" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_4_2"
+                        lookupWidth="700px" lookupHeight="700px" label="Query" fieldName="step_4_2"></v-input>
+                </div>
+                <div class="col-lg-12 step_4_2_0">
+                    <v-dropdown formControlName="step_4_2_0"
+                        (onChangeEvent)="onChangedSteps('step_4_2_0', selectedRuleAction)" [multiple]="false"
+                        [dataApi]="getAllColumns" id="step_4_2_0" label="Field Execute Query"
+                        [parentForm]="form_onLoadGroup_3" fieldName="step_4_2_0"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_5_2">
+                    <v-dropdown formControlName="step_5_2" [required]="false"
+                        (onChangeEvent)="onChangedSteps('step_5_2', selectedRuleAction)" [multiple]="false"
+                        [dataApi]="getAllColumns" id="step_5_2" label="Choosen Field" [parentForm]="form_onLoadGroup_3"
+                        fieldName="step_5_2"></v-dropdown>
+                </div>
+                <div class="col-lg-12 step_5">
+                    <v-dropdown formControlName="step_5" (onChangeEvent)="onChangedSteps('step_5', selectedRuleAction)"
+                        [multiple]="true" [dataJSON]="minusSysdate" id="step_5" label="minus Sysdate"
+                        [parentForm]="form_onLoadGroup_3" fieldName="step_5"></v-dropdown>
+                </div>   
+                <!----------------------------------------->
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-lg-1">
+            <v-button btnActionType="submit" [parentForm]="form_onLoadGroup_3" value="Submit"
+                (click)="onFormSubmit()"></v-button>
+        </div>
+    </div>
+</div>
+
+<div class="onWhereCondition" *ngIf="selectedRuleAction == '5'">
+    <form [formGroup]="form_whereCondition">
+        <div class="col-lg-12 step_0">
+            <v-dropdown formControlName="step_0" [required]="false"
+                (onChangeEvent)="onChangedSteps('step_0', selectedRuleAction)" [multiple]="false" [dataApi]="tabTables"
+                id="step_0" label="Tables" [parentForm]="form_whereCondition" fieldName="step_0"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_1">
+            <v-dropdown formControlName="step_1" [required]="false"
+                (onChangeEvent)="onChangedSteps('step_1', selectedRuleAction)" [multiple]="false"
+                [dataApi]="getAllColumnsByTable" id="step_1" label="Form Fields" [parentForm]="form_whereCondition"
+                fieldName="step_1"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_2">
+            <v-dropdown formControlName="step_2" [required]="false"
+                (onChangeEvent)="onChangedSteps('step_2', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="conditions" id="step_2" label="Conditions" [parentForm]="form_whereCondition"
+                fieldName="step_2"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_3">
+            <v-dropdown formControlName="step_3" [required]="false"
+                (onChangeEvent)="actionSelection('step_3', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="actionDecisions" id="step_3" label="Action" [parentForm]="form_whereCondition"
+                fieldName="step_3"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_3_1">
+            <v-input formControlName="step_3_1" (change)="onChangedSteps('step_3_1', selectedRuleAction)" type="text"
+                id="step_3_1" label="Value" [parentForm]="form_whereCondition" fieldName="step_3_1"></v-input>
+        </div>
+        <div class="col-lg-12 step_3_2">
+            <v-input formControlName="step_3_2" (lookupOnChange)="onChangedSteps('step_3_2', selectedRuleAction)"
+                [parentForm]="form_whereCondition" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_4_2"
+                lookupWidth="700px" lookupHeight="700px" label="Query" fieldName="step_3_2"></v-input>
+            <v-input formControlName="step_3_2_hidden" type="hidden" [parentForm]="form_whereCondition"
+                fieldName="step_3_2_hidden"></v-input>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-lg-1">
+            <v-button btnActionType="submit" [parentForm]="form_whereCondition" value="Submit"
+                (click)="onFormSubmit()"></v-button>
+        </div>
+    </div>
+</div>
+
+<div class="onBeforeSave" *ngIf="selectedRuleAction == '3'">
+    <form [formGroup]="form_onBeforeSave">
+        <!-- <div class="col-lg-12 step_4">
+                <v-dropdown formControlName="step_4" [required]="false" [disabled]="actionType == 'update' ? true : false"
+                (onChangeEvent)="onChangedSteps('step_4', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="actionDecisions" id="step_4" label="Action" [parentForm]="form_onBeforeSave"
+                fieldName="step_4"></v-dropdown>
+        </div> -->
+         <div class="col-lg-12 step_8">
+            <v-dropdown formControlName="step_8" [required]="false" [disabled]="actionType == 'update' ? true : false"
+            (onChangeEvent)="onChangedSteps('step_8', selectedRuleAction)" [multiple]="false"
+            [dataJSON]="actionDecisions" id="step_8" label="Action" [parentForm]="form_onBeforeSave"
+            fieldName="step_8"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_1">
+            <v-input formControlName="step_1" (lookupOnChange)="onChangedSteps('step_1', selectedRuleAction)"
+                [parentForm]="form_onBeforeSave" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_1"
+                lookupWidth="700px" [disable]="actionType == 'update' ? true : false" lookupHeight="700px"
+                label="Execute Query" fieldName="step_1"></v-input>
+        </div>
+        <div class="col-lg-12 step_2">
+            <v-dropdown formControlName="step_2" [required]="false"
+                (onChangeEvent)="onChangedSteps('step_2', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="conditions" id="step_2" label="Conditions" [parentForm]="form_onBeforeSave"
+                fieldName="step_2"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_3">
+            <v-input formControlName="step_3" (change)="onChangedSteps('step_3', selectedRuleAction)" type="text"
+                id="step_3" label="Value" [parentForm]="form_onBeforeSave" fieldName="step_3"></v-input>
+        </div>
+        <div class="col-lg-12 step_4">
+            <v-dropdown formControlName="step_4" [required]="false" [disabled]="actionType == 'update' ? true : false"
+                (onChangeEvent)="onChangedSteps('step_4', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="actionDecisions" id="step_4" label="Action" [parentForm]="form_onBeforeSave"
+                fieldName="step_4"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_5">
+            <v-input formControlName="step_5" type="text" id="step_5" label="Value" [parentForm]="form_onBeforeSave"
+                fieldName="step_5"></v-input>
+        </div>
+
+        <!-- New By Nadine -->
+        <div class="col-lg-12 step_6">
+            <v-input formControlName="step_6" (lookupOnChange)="onChangedSteps('step_6', selectedRuleAction)"
+                [parentForm]="form_onBeforeSave" type="lookup" [lookupDataApi]="getAllProcAndPack" id="step_6"
+                lookupWidth="700px" [disable]="actionType == 'update' ? true : false" lookupHeight="700px"
+                label="Call Procedure" fieldName="step_6"></v-input>
+        </div>
+        <div class="col-lg-12 step_7">
+            <v-dropdown formControlName="step_7" (onChangeEvent)="onChangedSteps('step_7', selectedRuleAction)"
+                [multiple]="true" [dataApi]="getAllColumns" id="step_7" label="Parameters"
+                [parentForm]="form_onBeforeSave" fieldName="step_7"></v-dropdown>
+        </div>
+
+    </form>
+    <div class="row">
+        <div class="col-lg-1">
+            <v-button btnActionType="submit" [parentForm]="form_onBeforeSave" value="Submit"
+                (click)="onFormSubmit()"></v-button>
+        </div>
+    </div>
+</div>
+
+<div class="onAfterSave" *ngIf="selectedRuleAction == '4'">
+    <form [formGroup]="form_onAfterSave">
+        <div class="col-lg-12 step_1">
+            <v-dropdown formControlName="step_1" [required]="true" [disabled]="actionType == 'update' ? true : false"
+                (onChangeEvent)="onChangedSteps('step_1', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="actionDecisions" id="step_1" label="Action" [parentForm]="form_onAfterSave"
+                fieldName="step_1"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_2">
+            <v-input formControlName="step_2" (lookupOnChange)="actionSelection('step_2', selectedRuleAction)"
+                [parentForm]="form_onAfterSave" type="lookup" [lookupDataApi]="getAllProcAndPack" id="step_2"
+                lookupWidth="700px" [disable]="actionType == 'update' ? true : false" lookupHeight="700px"
+                label="Call Procedure" fieldName="step_2"></v-input>
+        </div>
+        <div class="col-lg-12 step_2_1">
+            <v-dropdown formControlName="step_2_1" (onChangeEvent)="onChangedSteps('step_2_1', selectedRuleAction)"
+                [multiple]="true" [dataApi]="getAllColumns" id="step_2_1" label="Parameters"
+                [parentForm]="form_onAfterSave" fieldName="step_2_1"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_3">
+            <v-dropdown formControlName="step_3" (onChangeEvent)="onChangedSteps('step_3', selectedRuleAction)"
+                [multiple]="true" [dataApi]="getAllColumns" id="step_3" label="Parameters"
+                [parentForm]="form_onAfterSave" fieldName="step_3"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_3_1">
+            <v-input formControlName="step_3_1" (change)="onChangedSteps('step_3_1', selectedRuleAction)" type="text"
+                id="step_3_1" label="EndOfUrl" [parentForm]="form_onAfterSave" fieldName="step_3_1"></v-input>
+        </div>
+        <div class="col-lg-12 step_4">
+            <v-dropdown formControlName="step_4" [required]="false"
+                [disabled]="actionType == 'update' ? true : false"
+                (onChangeEvent)="onChangedSteps('step_4', selectedRuleAction)" [multiple]="false"
+                [dataApi]="getAllColumns" id="step_4" label="Form Fields" [parentForm]="form_onAfterSave"
+                fieldName="step_4"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_4_1">
+            <v-dropdown formControlName="step_4_1" [required]="false"
+                (onChangeEvent)="onChangedSteps('step_4_1', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="conditions" id="step_4_1" label="Conditions" [parentForm]="form_onAfterSave"
+                fieldName="step_4_1"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_4_2">
+            <v-dropdown formControlName="step_4_2" (onChangeEvent)="onChangedSteps('step_4_2', selectedRuleAction)"
+                [multiple]="false" [dataJSON]="dateTypes" id="step_4_2" label="Type Of Date"
+                [parentForm]="form_onAfterSave" fieldName="step_4_2"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_4_3">
+            <v-input formControlName="step_4_3" (change)="onChangedSteps('step_4_3', selectedRuleAction)"
+                type="text" id="step_4_3" label="Value" [parentForm]="form_onAfterSave"
+                fieldName="step_4_3"></v-input>
+        </div>
+        <div class="col-lg-12 step_4_4">
+            <v-dropdown formControlName="step_4_4" (onChangeEvent)="onChangedSteps('step_4_4', selectedRuleAction)"
+                [multiple]="false" [dataJSON]="actionDecisions" id="step_4_4" label="Action"
+                [parentForm]="form_onAfterSave" fieldName="step_4_4"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_4_5">
+            <v-input formControlName="step_4_5" (lookupOnChange)="onChangedSteps('step_4_5', selectedRuleAction)"
+                [parentForm]="form_onAfterSave" type="lookup" [lookupDataApi]="getAllProcAndPack" id="step_4_3"
+                lookupWidth="700px" lookupHeight="700px" label="Call Procedure" fieldName="step_4_5"></v-input>
+        </div>
+        <div class="col-lg-12 step_4_6">
+            <v-dropdown formControlName="step_4_6"
+                (onChangeEvent)="onChangedSteps('step_4_6', selectedRuleAction)" [multiple]="true"
+                [dataApi]="getAllColumns" id="step_4_6" label="Parameters" [parentForm]="form_onAfterSave"
+                fieldName="step_4_6"></v-dropdown>
+        </div>
+        
+        <div class="col-lg-12 step_4_7">
+            <v-input formControlName="step_4_7" (lookupOnChange)="onChangedSteps('step_4_7', selectedRuleAction)"
+                [parentForm]="form_onAfterSave" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_1"
+                lookupWidth="700px" [disable]="actionType == 'update' ? true : false" lookupHeight="700px"
+                label="Execute Query" fieldName="step_4_7"></v-input>
+        </div>
+
+
+        <!-- <div class="col-lg-12 step_4_8">
+            <v-input formControlName="step_1" (lookupOnChange)="onChangedSteps('step_1', selectedRuleAction)"
+                [parentForm]="form_onAfterSave" type="lookup" [lookupDataApi]="getAllQbeQueries" id="step_1"
+                lookupWidth="700px" [disable]="actionType == 'update' ? true : false" lookupHeight="700px"
+                label="Execute Query" fieldName="step_1"></v-input>
+        </div>
+        <div class="col-lg-12 step_4_9">
+            <v-dropdown formControlName="step_2" [required]="false"
+                (onChangeEvent)="onChangedSteps('step_2', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="conditions" id="step_2" label="Conditions" [parentForm]="form_onAfterSave"
+                fieldName="step_2"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_5_0">
+            <v-input formControlName="step_3" (change)="onChangedSteps('step_3', selectedRuleAction)" type="text"
+                id="step_3" label="Value" [parentForm]="form_onAfterSave" fieldName="step_3"></v-input>
+        </div>
+        <div class="col-lg-12 step_5_1">
+            <v-dropdown formControlName="step_4" [required]="false" [disabled]="actionType == 'update' ? true : false"
+                (onChangeEvent)="onChangedSteps('step_4', selectedRuleAction)" [multiple]="false"
+                [dataJSON]="actionDecisions" id="step_4" label="Action" [parentForm]="form_onAfterSave"
+                fieldName="step_4"></v-dropdown>
+        </div>
+        <div class="col-lg-12 step_5_2">
+            <v-input formControlName="step_5" type="text" id="step_5" label="Value" [parentForm]="form_onAfterSave"
+                fieldName="step_5"></v-input>
+        </div> -->
+    </form>
+    <div class="row">
+        <div class="col-lg-1">
+            <v-button btnActionType="submit" [parentForm]="form_onAfterSave" value="Submit"
+                (click)="onFormSubmit()"></v-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,563 @@
+<div *ngIf="loaderService.isLoading | async" class="loading-animation animate__animated animate__fadeIn">
+    <div class="loading-elements">
+        <img src="assets/img/clientlogo.png" alt="User Icon" />
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+</div>
+
+<div class="header-dialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div></div>
+    <div class="dialogTitle"></div>
+    <button type="button" id="closeId" class="btn-close" aria-label="Close" (click)="closeDialog(true)"></button>
+
+</div>
+
+<v-tabs-container>
+    <form [formGroup]="hiddenForm" #hiddenFormElem></form>
+    <ng-container *ngFor="let tableOption of tableOptions1">
+        <v-tab id="{{tableOption.tabId}}" [tabTitle]="tableOption.tableName" menuVariable="augmentedConfig"
+            (tabActionClick)="getAllColums()" *ngIf="tableOption.condition !== 0">
+            <div id="screen-container">
+                <div class="body" *ngIf="tableOption.tableName == selectedTabName">
+                    <form [formGroup]="dynamicForm"
+                        *ngIf="tableOption.isQueryForm!='1' && !isPageGrid && test_1 == '1'">
+                        <div class="row">
+                            <div class="form-group row">
+                                <div *ngFor="let fields of test" class="mb-3" [ngClass]="{'hidden': fields.columnType == 'hidden',
+                                        'col-lg-4': fields.sizeField == 1 && fields.columnType != 'hidden',
+                                        'col-lg-6': fields.sizeField == 2 && fields.columnType != 'hidden',
+                                        'col-lg-12': fields.sizeField == 3 && fields.columnType != 'hidden'}">
+
+
+                                    <v-fieldset id="fieldSet_{{ fields.fieldSetId }}" *ngIf="fields.fieldSetName != ''"
+                                        title="{{ fields.fieldSetName }}" class="fieldsetElem"></v-fieldset>
+
+                                    <!-- Inputs -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="(fields.columnTypeCode == 1 || fields.columnTypeCode == 2 || fields.columnTypeCode == 6 || fields.columnTypeCode == 16) && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div class="align-items-center"
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <label id="lbl_{{ fields.id }}"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div
+                                                [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                                         'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                                         'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                                         'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <!-- email -->
+                                                <div class="form-ele-child"
+                                                    *ngIf="fields.isArabic == '13' && fields.columnType =='e-mail'">
+                                                    <input type="{{ fields.columnType }}"
+                                                        [formControlName]="fields.name"
+                                                        class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} v-input-style"
+                                                        [maxlength]="fields.columnLength" id="field_{{ fields.id }}"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        (change)="registerTouchedField(fields.name);dynamicDRBOnchange(fields.id,-1);EmailValidation(fields.name)"
+                                                        (keydown)="onKeyDown($event)" appNumericInput
+                                                        [ngClass]="{'disabled-field': tableOption.isReadOnly}">
+                                                    <div *ngFor="let elem of showRequiredMessage">
+                                                        <div *ngIf="fields.name == elem">
+                                                            <div
+                                                                class="requiredMessage">
+                                                                Required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-ele-child"
+                                                    *ngIf="fields.isArabic == '13' && fields.columnType !='e-mail'">
+                                                    <input type="{{ fields.columnType }}"
+                                                        [formControlName]="fields.name"
+                                                        class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} v-input-style"
+                                                        [maxlength]="fields.columnLength" id="field_{{ fields.id }}"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        (change)="registerTouchedField(fields.name);dynamicDRBOnchange(fields.id,-1)"
+                                                        (keydown)="onKeyDown($event)" appNumericInput
+                                                        [ngClass]="{'disabled-field': tableOption.isReadOnly}">
+                                                    <div *ngFor="let elem of showRequiredMessage">
+                                                        <div *ngIf="fields.name == elem">
+                                                            <div
+                                                                class="requiredMessage">
+                                                                Required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-ele-child" *ngIf="fields.isArabic == '137' ">
+                                                    <input type="{{ fields.columnType }}"
+                                                        [formControlName]="fields.name"
+                                                        class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} v-input-style"
+                                                        [maxlength]="fields.columnLength" id="field_{{ fields.id }}"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        (change)="registerTouchedField(fields.name);dynamicDRBOnchange(fields.id,-1); checkIfArabic(fields)"
+                                                        (input)="checkIfArabic(fields)" (keydown)="onKeyDown($event)"
+                                                        appNumericInput
+                                                        [ngClass]="{'disabled-field': tableOption.isReadOnly}">
+                                                    <div *ngFor="let elem of showRequiredMessage">
+                                                        <div *ngIf="fields.name == elem">
+                                                            <div
+                                                                class="requiredMessage">
+                                                                Required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Inputs date-time -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="fields.columnTypeCode == 17 && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div class="align-items-center"
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <label id="lbl_{{ fields.id }}"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div
+                                                [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                                         'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                                         'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                                         'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <div class="form-ele-child">
+                                                    <input type="datetime-local" [formControlName]="fields.name"
+                                                        class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} v-input-style"
+                                                        [maxlength]="fields.columnLength" id="field_{{ fields.id }}"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        (change)="registerTouchedField(fields.name);dynamicDRBOnchange(fields.id,-1);"
+                                                        (keydown)="onKeyDown($event)"
+                                                        [ngClass]="{'disabled-field': tableOption.isReadOnly}">
+                                                    <div *ngFor="let elem of showRequiredMessage">
+                                                        <div *ngIf="fields.name == elem">
+                                                            <div
+                                                                class="requiredMessage">
+                                                                Required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                          <!--Time -->
+                                          <div class="form-ele-parent mb-3"
+                                          *ngIf="fields.columnTypeCode == 19 && fields.columnType != 'hidden'">
+                                          <div class="row">
+                                              <div class="align-items-center"
+                                                  [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                          'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                          'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                          'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                  <label id="lbl_{{ fields.id }}"
+                                                      [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                      {{ fields.columnDescription }}
+                                                  </label>
+                                              </div>
+                                              <div
+                                                  [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                                           'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                                           'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                                           'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                  <div class="form-ele-child">
+                                                      <input type="time" [formControlName]="fields.name"
+                                                          class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} v-input-style"
+                                                          [maxlength]="fields.columnLength" id="field_{{ fields.id }}"
+                                                          [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                          [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                          (change)="registerTouchedField(fields.name);dynamicDRBOnchange(fields.id,-1);"
+                                                          (keydown)="onKeyDown($event)"
+                                                          [ngClass]="{'disabled-field': tableOption.isReadOnly}">
+                                                      <div *ngFor="let elem of showRequiredMessage">
+                                                          <div *ngIf="fields.name == elem">
+                                                              <div
+                                                                  class="requiredMessage">
+                                                                  Required
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                    <!-- Signature -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="(fields.columnTypeCode == 15) && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div class="align-items-center"
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <label id="lbl_{{ fields.id }}"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-7 col-md-9 col-sm-12 col-xs-12">
+                                                <!-- [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                        'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                        'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3} -->
+                                                <div>
+                                                    <app-v-signature [oldsignature]="oldsignature"
+                                                        (signaturedata)="signaturedatafct($event)">
+                                                    </app-v-signature>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Phone Number -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="(fields.columnTypeCode == 18) && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div class="align-items-center"
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <label id="lbl_{{ fields.id }}" style="margin-top: 10px;"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div
+                                                [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                                        'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                                        'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+
+                                                <div>
+                                                    <v-phone [ngClass]="{'disabled-field': tableOption.isReadOnly}"
+                                                        [formControlName]="fields.name" id="field_{{ fields.id }}"
+                                                        class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} w-100"
+                                                        [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        [parentForm]="dynamicForm" [fieldName]="fields.name"
+                                                        style="position: absolute;width: 170px !important;margin-top: -30px;">
+                                                    </v-phone>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Text Area -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="(fields.columnTypeCode == 13) && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div class="align-items-center"
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <!-- <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12 align-items-center"> -->
+                                                <label id="lbl_{{ fields.id }}"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div
+                                                [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                                        'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                                        'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <div class="form-ele-child">
+                                                    <textarea style="overflow:hidden;resize:none;  box-sizing: content-box; padding:0px ;margin: -2px 0;" cdkTextareaAutosize [formControlName]="fields.name"  cols="15"      class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} v-input-style"
+                                                         id="field_{{ fields.id }}"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        (change)="registerTouchedField(fields.name);dynamicDRBOnchange(fields.id,-1)"
+                                                        resizable="false"
+                                                        [ngClass]="{'disabled-field': tableOption.isReadOnly}">
+                                                        <!-- [maxlength]="fields.columnLength" -->
+                                                    <div *ngFor="let elem of showRequiredMessage">
+                                                        <div *ngIf="fields.name == elem">
+                                                            <div class="requiredMessage" >
+                                                                Required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CheckBox -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="(fields.columnTypeCode == 5 ) && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div class="align-items-center"
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <label id="lbl_{{ fields.id }}"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div
+                                                [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                                        'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                                        'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <div class="form-ele-child">
+                                                    <mat-checkbox [formControlName]="fields.name"
+                                                        id="field_{{ fields.id }}"
+                                                        class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} w-100"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        (change)="registerTouchedField(fields.name);dynamicDRBOnchange(fields.id,-1)">
+                                                    </mat-checkbox>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- LookUp -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="fields.columnTypeCode == 4 && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div class="align-items-center"
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <label id="lbl_{{ fields.id }}"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <div class="form-ele-child">
+                                                    <v-input [formControlName]="fields.name"
+                                                        class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }} w-100"
+                                                        [parentForm]="dynamicForm" type="lookup" lookupWidth="700px"
+                                                        lookupHeight="700px" [fieldName]="fields.name"
+                                                        id="field_{{ fields.id }}" [lookupStaticData]="fields.query"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        [isForIndisplay]="true"
+                                                        [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        (lookupOnChange)="handleLookupOnChangeEvents(fields.id, -1)"
+                                                        (dblclick)="handleLookupOnChangeEvents(fields.id, -1)"
+                                                        lookupSelection="{{fields.isMultiple == 1 ? 'multiple' : 'single'}}"
+                                                        [ngClass]="{'disabled-field': tableOption.isReadOnly}">
+                                                    </v-input>
+                                                    <div *ngFor="let elem of showRequiredMessage">
+                                                        <div *ngIf="fields.name == elem">
+                                                            <div
+                                                                class="requiredMessage">
+                                                                Required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Combo -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="(fields.columnTypeCode == 3) && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div class="align-items-center"
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <label id="lbl_{{ fields.id }}"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div
+                                                [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                                        'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                                        'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <div class="form-ele-child">
+                                                    <v-dropdown [formControlName]="fields.name"
+                                                        *ngIf="(fields.columnTypeCode == 3) && fields.columnType != 'hidden'"
+                                                        dropdownId="field_{{ fields.id }}"
+                                                        dropdownClass="{{ fields.name }} fieldSet_{{ fields.fieldSetId }}"
+                                                        [parentForm]="dynamicForm" [fieldName]="fields.name"
+                                                        (onChangeEvent)="registerTouchedField(fields.name);handleComboOnChangeEvents(fields.id, -1)"
+                                                        [disabled]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        [isForIndisplay]="true"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        [dataJSON]="fields.query" style="width: 100%"
+                                                        [multiple]="fields.isMultiple == 1 ? true : false">
+                                                    </v-dropdown>
+                                                    <div *ngFor="let elem of showRequiredMessage">
+                                                        <div *ngIf="fields.name == elem">
+                                                            <div
+                                                                class="requiredMessage">
+                                                                Required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- File -->
+                                    <div class="form-ele-parent mb-3"
+                                        *ngIf="fields.columnTypeCode == 11 && fields.columnType != 'hidden'">
+                                        <div class="row">
+                                            <div
+                                                [ngClass]="{'col-lg-5': fields.sizeField == 1, 'col-lg-7': fields.sizeField == 2,
+                                                        'col-lg-9': fields.sizeField == 3, 'col-md-5': fields.sizeField == 1,
+                                                        'col-md-7': fields.sizeField == 2, 'col-md-9': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <label id="lbl_{{ fields.id }}"
+                                                    [ngClass]="{'label-required': fields.isMandatory ? true : fields.mandatoryQuery, 'required': fields.isMandatory ? true : fields.mandatoryQuery, 'label': !fields.isMandatory ? true : fields.mandatoryQuery}">
+                                                    {{ fields.columnDescription }}
+                                                </label>
+                                            </div>
+                                            <div
+                                                [ngClass]="{'col-lg-7': fields.sizeField == 1, 'col-lg-5': fields.sizeField == 2,
+                                                        'col-lg-3': fields.sizeField == 3, 'col-md-7': fields.sizeField == 1,
+                                                        'col-md-5': fields.sizeField == 2, 'col-md-3': fields.sizeField == 3,
+                                                        'col-sm-12': fields.sizeField == 1 || fields.sizeField == 2 || fields.sizeField == 3}">
+                                                <div class="form-ele-child">
+                                                    <v-file [formControlName]="fields.name" id="field_{{ fields.id }}"
+                                                        [parentForm]="dynamicForm"
+                                                        [required]="fields.isMandatory ? true : fields.mandatoryQuery"
+                                                        [readonly]="tableOption.isReadOnly ? true : fields.qbeReadOnly"
+                                                        [fieldName]="fields.name" acceptedFileTypes="all"
+                                                        [isForIndisplay]="true"
+                                                        fileClass="{{ fields.name }}"></v-file>
+                                                    <div *ngFor="let elem of showRequiredMessage">
+                                                        <div *ngIf="fields.name == elem">
+                                                            <div
+                                                                class="requiredMessage">
+                                                                Required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hidden -->
+                                    <div *ngIf="fields.columnType == 'hidden'">
+                                        <input type="hidden" [formControlName]="fields.name"
+                                            [maxlength]="fields.columnLength"
+                                            class="{{ fields.name }} fieldSet_{{ fields.fieldSetId }}"
+                                            [required]="false" id="field_{{ fields.id }}">
+                                    </div>
+
+                                    <div *ngIf="fields.columnTypeCode == 14 && fields.mainAndPreview == false && fields.columnType != 'hidden'"
+                                        class="button-container-2 fieldSet_{{ fields.fieldSetId }}">
+                                        <v-button value="{{ fields.name }}" btnActionType="button"
+                                            id="field_{{ fields.id }}" (click)="onShowButtonForm(fields.id)"
+                                            style="max-width: 125px" [disabled]="fields.conditionResult"></v-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <v-grid *ngIf="showGrid" 
+                            allowSideBar="false"
+                            [agColumns]="gridColumns"
+                            [paginationPageSize]="50"
+                            agToolBar="ad"
+                            [allowPagination]="false"
+                            [agOnGridEvents]="true"
+                            (onGridEventSave)="gridEventSave($event)"
+                            [showOrHideButton]="true"
+                            [dataApi]="test"
+                            [showOrHideButton]="false"
+                            [dataApiParam]="dataApiParam">
+                    </v-grid>
+                    <div class="row" *ngIf="tableOption.isSave == 1 && tableOption.isQueryForm!='1' && tableOption.isDynamicReport!='1'">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-1">
+                                <v-button *ngIf="!isPageGrid" [parentForm]="dynamicForm" btnActionType="submit"
+                                    btnType="form" value="Save" (click)="submitForm()" [allowErrorAlertOnSubmit]="false"
+                                    style="max-width: 125px" id="field_1234"></v-button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                     
+
+
+                    <div *ngIf="tableOption.isAdvancedSearch == 1 && isPageGrid && test_1 == '1' ">
+                        <v-dynamic-search [objectId]="tableOption.objectId" [sourceQuery]="tableOption.sourceQuery"
+                            (onSearchSubmit)="onSearchSubmit($event)"></v-dynamic-search>
+                    </div>
+                    <v-grid *ngIf="isPageGrid && test_1 == '1'" allowSideBar="true" [agPrimaryKey]="columnId"
+                        [agToolBar]="toolBar" [agColumns]="agColumns" [pagination]="true" [paginationPageSize]="10"
+                        [dataApi]="previewGridApi" [dataApiParam]="previewGridApiParam" (onGridAdd)="onAddClick()"
+                        [isAdvancedSearch]="tableOption.isAdvancedSearch" (onGridUpdate)="onUpdateClick()"
+                        (onGridDelete)="onDeleteClick()" [staticData]="gridStaticData" [isForInDisplay]="true">
+                    </v-grid>
+
+
+                       <!--------DYNAMIC REPORT BUTTONS----------->
+                       <div *ngIf="tableOption.isDynamicReport=='1' && tableOption.isQueryForm!='1' && tableOption.isSave != 1 " class="row justify-content-center">
+                        <div class="col-lg-1">
+                            <v-button  [parentForm]="dynamicForm" btnActionType="submit"
+                                btnType="form" value="Preview" (click)="previewDynamicReport()" [allowErrorAlertOnSubmit]="false"
+                                style="max-width: 125px" id="field_1234"></v-button>
+                        </div>
+                        <div class="col-lg-1">
+                            <v-button  [parentForm]="dynamicForm" btnActionType="submit"
+                                btnType="form" value="Save As" (click)="saveAsDynamicReport()" [allowErrorAlertOnSubmit]="false"
+                                style="max-width: 125px" id="field_1234"></v-button>
+                        </div>
+                    </div>
+                
+                    <!--------------------------------->
+
+
+                    <v-query-form *ngIf="tableOption.isQueryForm=='1' && test_1 == '1'" objectId="{{objectId}}">
+                    </v-query-form>
+                    <div *ngIf="isPageGrid && test_1 == '1' && previewButton">
+                        <div *ngFor="let x of testButtons" class="mb-3">
+                            <div class="button-container-2">
+                                <v-button value="{{ x.name }}" btnActionType="button" (click)="onShowButtonForm(x.id)"
+                                    [disabled]="x.readOnly" style="max-width: 125px">1</v-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </v-tab>
+        
+    </ng-container>
+</v-tabs-container>

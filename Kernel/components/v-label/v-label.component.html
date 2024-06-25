@@ -1,0 +1,10 @@
+<label *ngIf="!isForIndisplay" [ngClass]="{'label': !required,'label-required': required}">
+    {{ text }}
+    <span *ngIf="required" class="label-required-span">*</span>
+</label>
+
+<label class="link-style" *ngIf="isForIndisplay" [ngClass]="{'v-label': !required,'v-label-required': required, 'label-strikethrough': hasSuspendedStyle}" (click)="onLabelClickFn()">
+    {{ text }}
+    <!-- <span *ngIf="required" class="label-required-span">*</span> -->
+</label>
+

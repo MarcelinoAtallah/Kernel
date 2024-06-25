@@ -1,0 +1,13 @@
+<v-grid
+allowSideBar="true"
+[dataApi]="getDynReports"
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="15"
+agToolBar="ad"
+agPrimaryKey="reportDynamicConfigId"
+agRowSelection="single"
+[frameworkComponents]="frameworkComponents"
+(onGridAdd)="onAddClick()"
+(onGridDelete)="onDeleteClick()"
+></v-grid> 

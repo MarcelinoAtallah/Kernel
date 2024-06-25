@@ -1,0 +1,12 @@
+<v-grid
+allowSideBar="true"
+[dataApi]="getAllScreens"
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="15"
+agToolBar="amd"
+agPrimaryKey="ID"
+(onGridAdd)="onAddClick()"
+(onGridDelete)="onDeleteClick()"
+(onGridUpdate)="onUpdateClick()"
+></v-grid>

@@ -1,0 +1,18 @@
+<form [formGroup]="logsByHeatmapForm">
+    <div class="row" >
+        <div class="col-lg-4">
+            <v-input formControlName="loginDate" type="date" label="Login Date"
+            [parentForm]="logsByHeatmapForm" fieldName="loginDate" required="true"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="logoutDate" type="date" label="Logout Date"
+            [parentForm]="logsByHeatmapForm" fieldName="logoutDate" ></v-input>
+        </div>
+
+        </div>
+        <div class="col-lg-4 form-submit">
+            <v-button btnActionType="submit" btnType="form" [parentForm]="logsByHeatmapForm" value="Search" (click)="searchForm()"></v-button>
+        </div>
+</form>
+<!-- <VChartComponent *ngIf="isShown" [dataApi]="logsByHeatmap"></VChartComponent> -->
+<VChartHeatmapComponent *ngIf="isShown" [dataApi]="logsByHeatmap" ></VChartHeatmapComponent>

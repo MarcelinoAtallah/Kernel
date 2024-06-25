@@ -1,0 +1,36 @@
+<form [formGroup]="Parameters">
+    <div class="row">
+        <h3>Parameters</h3>
+        <div class="col-lg-4">
+            <v-input formControlName="currentServerIp" type="text" label="Current Server IP" required="true"
+                placeholder="Current Server IP" [parentForm]="Parameters" fieldName="currentServerIp"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="currentServerName" type="text" label="Current Server Name" required="true"
+                placeholder="Current Server Name" [parentForm]="Parameters" fieldName="currentServerName"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="wfmServerIp" type="text" label="WFM Server IP" required="true"
+                placeholder="WFM Server IP" [parentForm]="Parameters" fieldName="wfmServerIp"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="wfmServerPort" type="text" label="WFM Server Port" required="true"
+                placeholder="WFM Server Port" [parentForm]="Parameters" fieldName="wfmServerPort"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="infoLinkServerIp" type="text" label="InfoLink Server IP" required="true"
+                placeholder="InfoLink Server IP" [parentForm]="Parameters" fieldName="infoLinkServerIp"></v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="infoLinkServerPort" type="text" label="InfoLink Server Port" required="true"
+                placeholder="InfoLink Server Port" [parentForm]="Parameters" fieldName="infoLinkServerPort"></v-input>
+        </div>
+
+        <v-toggle label="Status Engine Active" formControlName="StatusEngineActive" [parentForm]="Parameters"
+            fieldName="StatusEngineActive">
+        </v-toggle>
+
+        <v-toggle label="WFM Engine Active" formControlName="wfmEngineActive" [parentForm]="Parameters"
+            fieldName="wfmEngineActive">
+        </v-toggle>
+    </div>

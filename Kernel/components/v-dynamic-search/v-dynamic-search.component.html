@@ -1,0 +1,121 @@
+<form [formGroup]="dynamicSearchForm">
+  <div *ngFor="let fields of formElem; let i = index" [formGroup]="fields.formGroup">
+    <div class="row mt-2" *ngIf="!clearAll">
+      <div class="col-md-2">
+        <v-dropdown  
+          id="dropdown1"
+          [formControlName]="fields.typeDropdown"
+          [dataJSON]="fieldsCombo"
+          [allowLabel]="false"
+          [fieldName]="fields.typeDropdown"
+          [parentForm]="dynamicSearchForm"
+          (onChangeEvent)="onDropdownChange($event, fields, fields.thirdDropdown, i)"
+          class="dropdown-hover"
+        ></v-dropdown>
+      </div>
+
+      <div class="col-md-2">
+        <v-dropdown
+          id="dropdown2"
+          [formControlName]="fields.searchType"
+          [dataJSON]="fields.secondDropdownOptions"
+          [allowLabel]="false"
+          [fieldName]="fields.searchType"
+          [parentForm]="dynamicSearchForm"
+          (change)="onDropdownChange($event, fields, fields.thirdDropdown, i)"
+        ></v-dropdown>
+      </div>
+
+      <div class="col-md-2">
+        <ng-container *ngIf="isDropdownStatus[i]; else isDateInput">
+
+          <!-- <v-dropdown
+            id="dropdown3"
+            [formControlName]="fields.thirdDropdown"
+            [dataJSON]="fields.thirdDropdownOptions"
+            [allowLabel]="false"
+            [fieldName]="fields.thirdDropdown"
+            [parentForm]="fields.formGroup"
+          ></v-dropdown> -->
+
+          <v-dropdown
+          id="dropdown3"
+          [formControlName]="fields.thirdDropdown"
+          [dataJSON]="fields.thirdDropdownOptions"
+          [allowLabel]="false"
+          [fieldName]="fields.thirdDropdown"
+          [parentForm]="dynamicSearchForm"
+          (change)="onDropdownChange($event, fields, fields.thirdDropdown, i)"
+
+        ></v-dropdown>
+        </ng-container>
+
+        <ng-template #isDateInput>
+          <ng-container *ngIf="isDate[i]; else textInput">
+            <v-input
+              id="datee"
+              [formControlName]="fields.text"
+              type="date"
+              [dataJSON]=""
+              [allowLabel]="false"
+              [fieldName]="fields.text"
+              [parentForm]="dynamicSearchForm"
+            ></v-input>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #textInput>
+          <div    style="margin-top: 16px;">
+          <v-input
+            id="txt"
+            [formControlName]="fields.text"
+            type="text"
+            [allowLabel]="false"
+            [dataJSON]=""
+            [allowLabel]="false"
+            [fieldName]="fields.text"
+            [parentForm]="dynamicSearchForm"
+          ></v-input>
+        </div>
+        </ng-template>
+
+        <ng-template #numberInput>
+          <ng-container *ngIf="isNumber[i]; else textInput">
+            <v-input
+              id="nbr"
+              [formControlName]="fields.text"
+              type="number"
+              [allowLabel]="false"
+              [dataJSON]=""
+              [fieldName]="fields.text"
+              [parentForm]="dynamicSearchForm"
+            ></v-input>
+          </ng-container>
+        </ng-template>
+      </div>
+
+      <!-- <div class="col-md-3"></div> -->
+
+      <div class="col-md-3" style="display: flex; justify-content: center; align-items: center; gap: 10px">
+
+      <span >
+        <v-button id="btnx" *ngIf="formElem.length > 1 && i !== 0" btnActionType="button" btnType="form" value="x" (click)="removeCondition(i)"></v-button>
+      </span>
+
+      <span  *ngIf="i === formElem.length - 1">
+        <v-button id="btn+" btnActionType="button" btnType="form" value="+" (click)="addCondition()"></v-button>
+      </span>
+
+      <span  *ngIf="i === formElem.length - 1">
+        <v-button id="btns" btnActionType="button" btnType="form" value="Search" [parentForm]="dynamicSearchForm" (click)="onSubmit()"></v-button>
+      </span>
+
+      <span  *ngIf="i === formElem.length - 1">
+        <v-button id="btns" btnActionType="button" btnType="form" value="Reset" [parentForm]="dynamicSearchForm" (click)="onReset()"></v-button>
+      </span>
+
+    </div>
+
+    </div>
+  </div>
+</form>

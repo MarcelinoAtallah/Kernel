@@ -1,0 +1,90 @@
+<div class="header-dialog space-between mb-3" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div></div>
+    <div class="dialogTitle"></div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+
+<form [formGroup]="buttonForm">
+    <div class="row">
+        <div class="col-lg-12">
+            <v-input formControlName="buttonId" type="hidden" [parentForm]="buttonForm" fieldName="buttonId"></v-input>
+        </div>
+        <div class="col-lg-12">
+            <v-input formControlName="buttonName" type="text" label="Button Name" required="true" placeholder=""
+                [parentForm]="buttonForm" fieldName="buttonName">
+            </v-input>
+        </div>
+        <div class="col-lg-12">
+            <v-input formControlName="buttonOrder" type="number" label="Order" required="true" placeholder=""
+                [parentForm]="buttonForm" fieldName="buttonOrder">
+            </v-input>
+        </div>
+        <div class="col-lg-12">
+            <v-toggle label="Show in Grid" formControlName="isMainPreview" [parentForm]="buttonForm"
+                    fieldName="isMainPreview" (click)="onActionChange()"></v-toggle>
+        </div>
+        <div class="col-lg-12">
+            <v-dropdown formControlName="fieldSet" [dataApi]="AllFieldSet" label="Field Set" placeholder=""
+                 [parentForm]="buttonForm" fieldName="fieldSet" required="true">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-12">
+            <v-dropdown formControlName="ButtonAction" [dataJSON]="AllAction" label="Action" placeholder=""
+                required="true" [parentForm]="buttonForm" fieldName="ButtonAction" (onChangeEvent)="onActionChange()">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-12" *ngIf="FormOpeningSelected">
+            <v-dropdown formControlName="Menus" [dataApi]="AllMenus" label="Menus" placeholder=""
+                [parentForm]="buttonForm" fieldName="Menus" (onChangeEvent)="showCondition()">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-12" *ngIf="ApiSelected">
+            <v-input formControlName="procedureName" type="text" label="Procedure Name" placeholder=""
+                [parentForm]="buttonForm" fieldName="procedureName">
+            </v-input>
+        </div>
+       
+        <div class="col-lg-12" *ngIf="ApiSelected1">
+            <v-input formControlName="url" type="text" label="URL" placeholder=""
+            [parentForm]="buttonForm" fieldName="url">
+        </v-input>
+        </div>
+        <div class="col-lg-12" *ngIf="ApiSelected1">
+            <v-dropdown formControlName="allColumns" [dataJSON]="ALLcol" label="Columns" placeholder=""
+                [parentForm]="buttonForm" fieldName="allColumns" [multiple]="true" (onChangeEvent)="showCondition()">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-12" *ngIf="Condition">
+            <v-input formControlName="condition" [parentForm]="buttonForm" type="lookup"
+                     [lookupDataApi]="getSourceQuery" lookupWidth="700px"
+                     lookupHeight="700px" label="Condition" fieldName="condition">
+            </v-input>
+        </div>
+        <div class="col-lg-12" *ngIf="Condition">
+            <v-input formControlName="OtherCondition" [parentForm]="buttonForm" type="lookup"
+                     [lookupDataApi]="getSourceQuery" lookupWidth="700px"
+                     lookupHeight="700px" label="OtherCondition" fieldName="OtherCondition">
+            </v-input>
+        </div>
+        <div class="col-lg-12" *ngIf="Condition">
+            <v-input formControlName="alertValue" type="text" label="Alert Message" placeholder=""
+            [parentForm]="buttonForm" fieldName="alertValue">
+        </v-input>
+        </div>
+        <div class="col-lg-12" *ngIf="Condition">
+            <v-input formControlName="thirdCondition" [parentForm]="buttonForm" type="lookup"
+                     [lookupDataApi]="getSourceQuery" lookupWidth="700px"
+                     lookupHeight="700px" label="thirdCondition" fieldName="thirdCondition">
+            </v-input>
+        </div>
+        <div class="col-lg-12" *ngIf="Condition">
+            <v-input formControlName="alertMessage" type="text" label="Alert Message" placeholder=""
+            [parentForm]="buttonForm" fieldName="alertMessage">
+        </v-input>
+        </div>
+    </div>
+    <div class="col-lg-12 form-submit text-center">
+        <v-button btnActionType="submit" btnType="form" [parentForm]="buttonForm" value="Save"
+            (click)="submitForm()"></v-button>
+    </div>
+</form>

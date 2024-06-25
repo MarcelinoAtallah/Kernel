@@ -1,0 +1,89 @@
+
+   .popup-window {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .popup-window button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .popup-window button.exit-button {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 20px;
+    height: 10px;
+    background-color: transparent;
+    color: #000000;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold; 
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    box-shadow: none;
+    appearance: none;
+  }
+  
+  .popup-window button.exit-button:hover {
+    color: #000000;
+  }
+  
+  .popup-window button:hover {
+    background-color: #0056b3;
+  }
+  
+  .arrow-button {
+    position: absolute;
+    left: -30px; 
+    top: 0;  
+    
+  }
+  
+  .close-button {
+    position: absolute;
+    right: 10px;  
+    top: 10px;  
+    
+  }
+  
+
+  .run-button {
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  
+  .run-button:hover {
+    background-color: #45a049;
+  }
+  

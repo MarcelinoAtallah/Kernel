@@ -1,0 +1,19 @@
+<div class="header-dialog space-between mb-3" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div></div>
+    <!-- <div class="dialogTitle"></div> -->
+    <span style="font-size: 15px; letter-spacing: 1px; color: var(--popup-title-color); font-weight: bold;">Report</span>
+  
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+   </div>
+    <div class="form-container">
+      <form [formGroup]="reportForm" enctype="multipart/form-data">
+    
+          <div class="form-group">
+            <v-input formControlName="reportName" type="text" label="Report name" placeholder="Report name" [parentForm]="reportForm" fieldName="reportName" [required]="true"></v-input>
+            <div class="error-msg" *ngIf="reportForm.get('reportName').errors?.['required']"></div>
+          </div>
+      
+          <v-button btnActionType="submit" btnType="form" [parentForm]="reportForm" value="Submit" (click)="saveReport()" [disabled]="!reportForm.valid" class="submit-button"></v-button>
+        </form>
+      </div>
+    

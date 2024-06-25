@@ -1,0 +1,25 @@
+ <div class="form-ele-parent" [ngClass]="{'mb-2': fieldName != ''}">
+    <div class="row">
+        <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 align-items-center" *ngIf="fieldName != ''">
+            <v-label text="{{label}}"></v-label>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" *ngIf="fieldName != ''">
+            <!-- <mat-slide-toggle *ngIf="fieldName == ''"  [checked]="checked">{{ label }}</mat-slide-toggle> -->
+            <div class="formToggle align-content-left">
+                <mat-slide-toggle *ngIf="fieldName != ''" (blur)="touched" (change)="onToggleChange($event)" [id]="fieldName"
+                    [name]="fieldName" [checked]="checked" [disabled]="disabled" [formControl]="formField"></mat-slide-toggle>
+            </div>
+        </div>
+        <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fieldName == ''">
+            <mat-slide-toggle  [checked]="checked">{{ label }}</mat-slide-toggle> 
+         </div> -->
+    </div>
+</div>  
+
+
+
+
+
+
+
+

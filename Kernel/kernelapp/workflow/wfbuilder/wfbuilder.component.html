@@ -1,0 +1,142 @@
+<!-- <iframe 
+src="http://10.1.8.26:8081/wfm/common/conf/common/menu/menuAction.do?actionType=loadSection&menuVar=wfmBuilder&isMoz=null"  
+width="1300"
+height="800" 
+frameborder="0">
+</iframe> -->
+
+<div class="row" style="align-items: stretch !important;" oncontextmenu="return false" (click)="menuDisappear()">
+  <!--The left side of the page-->
+  <div class="col-lg-3" cdkDropListGroup>
+    <!--Events DropList-->
+    <div class="example-container">
+      <h3 style="user-select: none;">Events</h3>
+      <div cdkDropList [cdkDropListData]="events" class="example-list" cdkDropListSortingDisabled
+        (cdkDropListDropped)="drop($event, 'events')" >
+        <div *ngFor="let event of events" cdkDrag (mousedown)="saveClickedItem(event)" >
+          <img [src]="event.icon" alt="Icon" width="20" height="20">
+          <label>{{event.name}}</label>
+        </div>
+      </div>
+    </div>
+    <!--Conditions DropList-->
+    <div class="example-container">
+      <h3 style="user-select: none;">Conditions</h3>
+      <div cdkDropList [cdkDropListData]="conditions" class="example-list" cdkDropListSortingDisabled
+        (cdkDropListDropped)="drop($event, 'conditions')" >
+        <div *ngFor="let condition of conditions" cdkDrag (mousedown)="saveClickedItem(condition)">
+          <img [src]="condition.icon" alt="Icon" width="20" height="20">
+          <label> {{condition.name}} </label>
+        </div>
+      </div>
+    </div>
+    <!--Conditions DropList-->
+    <div class="example-container">
+      <h3 style="user-select: none;">Actions</h3>
+      <div cdkDropList [cdkDropListData]="actions" class="example-list" cdkDropListSortingDisabled
+        (cdkDropListDropped)="drop($event, 'actions')" >
+        <div *ngFor="let action of actions" cdkDrag (mousedown)="saveClickedItem(action)">
+          <img [src]="action.icon" alt="Icon" width="20" height="20">
+          <label>{{action.name}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--The middle element div-->
+  <div class="example-container col-lg-8">
+
+    <h2></h2>
+    <!--Div that envelopes the three element divs with the arrow div-->
+    <div id="stackedDivs" style="width: 100%; height: 80vh; position: relative;" (click)="menuDisappear()" >
+      <!--Div that enveloppes the three element divs-->
+      <div id="eventArea" style="width: 100%; height: 80vh; position: absolute; top: 0; left: 0; overflow: hidden; " (contextmenu)="rightClickedElementOutside($event)" #myDiv>
+        <!--EVENTS-->
+        <div id="eventsContainer" class="example-boundary listContainer" style="height: 33%; width: 100%;">
+          <div *ngFor="let element of eventsElements">
+            <div [id]="element.id" cdkDrag style="position: absolute; z-index: 2;" (click)="elementClicked(element)" (dblclick)="openProperties(element)" 
+              (contextmenu)="rightClickedElement($event, element)" (cdkDragStarted)="dragStarted($event, element.id)" (cdkDragMoved)="elementMoved($event, element.id, 'events')"
+              (cdkDragEnded)="dragEnded($event, element.id, 'events')" cdkDragBoundary="#eventsContainer">
+              <img [src]="element.icon" alt="{{element.name}}">
+              <p style="pointer-events: none;">{{element.name}}</p>
+            </div>
+          </div>
+        </div>
+        <!--CONDITIONS-->
+        <div id="conditionsContainer" class="example-boundary listContainer" style="height: 33%; width: 100%;">
+          <div *ngFor="let element of conditionsElements">
+            <div [id]="element.id" cdkDrag style="position: absolute; z-index: 2;" (click)="elementClicked(element)" (dblclick)="openProperties(element)" 
+              (contextmenu)="rightClickedElement($event, element)" (cdkDragStarted)="dragStarted($event, element.id)" (cdkDragMoved)="elementMoved($event, element.id, 'conditions')"
+              (cdkDragEnded)="dragEnded($event, element.id, 'conditions')" cdkDragBoundary="#conditionsContainer">
+              <img [src]="element.icon" alt="{{element.name}}">
+              <p style="pointer-events: none;">{{element.name}}</p>
+            </div>
+          </div>
+        </div>
+        <!--ACTIONS-->
+        <div id="actionsContainer" class="example-boundary listContainer" style="height: 33%; width: 100%;">
+          <div *ngFor="let element of actionsElements">
+            <div [id]="element.id" cdkDrag style="position: absolute; z-index: 2;" (click)="elementClicked(element)" (dblclick)="openProperties(element)" 
+              (contextmenu)="rightClickedElement($event, element)" (cdkDragStarted)="dragStarted($event, element.id)" (cdkDragMoved)="elementMoved($event, element.id, 'actions')"
+              (cdkDragEnded)="dragEnded($event, element.id, 'actions')" cdkDragBoundary="#actionsContainer">
+              <img [src]="element.icon" alt="{{element.name}}">
+              <p style="pointer-events: none;">{{element.name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--for all arrow related purposes-->
+      <div id="arrowsDiv" style="width: 100%; height: 80vh; position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" style="position:absolute; width: 100%; height: 100%; z-index: 9999;" >
+          <line *ngFor="let arrow of arrows" 
+            [attr.x1]="getArrowX(arrow.from)"
+            [attr.y1]="getArrowY(arrow.from)"
+            [attr.x2]="arrow.x2 || getArrowX(arrow.to)"
+            [attr.y2]="arrow.y2 || getArrowY(arrow.to)"
+            stroke="red" stroke-width="2" marker-end="url(#arrowhead)" />
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="3" refY="3" orient="auto">
+              <polygon points="0 0, 6 3, 0 6" fill="red" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      
+    </div>
+
+    <!--context menu-->
+    <div id="contextMenuDiv" style="z-index: 9999;" class="contextMenu">
+      <ul>
+        <li class="noBorder" (click)="undoElementOrArrow(); menuDisappear()" *ngIf="undoHistory && undoHistory.length > 0">Undo</li>
+        <li (click)="openProperties(onRightClickInformation)">Properties</li>
+        <li (click)="cutElement(onRightClickInformation); menuDisappear()">Cut</li>
+        <li class="noBorder" (click)="copyElement(onRightClickInformation); menuDisappear();">Copy</li>
+        <li (click)="deleteElement(onRightClickInformation); menuDisappear();" >Delete</li>
+        <!-- <li>Select All</li> -->
+      </ul>
+    </div>
+    <!--context menu-->
+    <div id="contextMenuDiv2" style="z-index: 9999;" class="contextMenu">
+      <ul>
+        <li class="noBorder" (click)="undoElementOrArrow(); menuDisappear()" *ngIf="undoHistory && undoHistory.length > 0">Undo</li>
+        <li (click)="pasteElement($event,onCopyInformation) ;menuDisappear()" *ngIf="onCopyInformation">Paste</li>
+        <!-- <li (click)="menuDisappear()">Select All</li> -->
+      </ul>
+    </div>
+    
+  </div>
+
+  <!--Testing buttons-->
+  <div class="example-container col-lg-1">
+    <label style="user-select: none;">Clear</label>
+    <button (click)="clearElementsAndArrows()"><i class="fas fa-sync-alt"></i></button>
+    <label style="user-select: none;">Undo</label>
+    <button (click)="undoElementOrArrow()"><i class="fas fa-undo"></i></button>
+    <br>
+    <label style="user-select: none;">Arrow Activation</label>
+    <button (click)="toggleFunctionActivation()" style="background-color:red" id="test"><i
+        class="fas fa-hand-pointer"></i></button>
+  </div>
+</div>

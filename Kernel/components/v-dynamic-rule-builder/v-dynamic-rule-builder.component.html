@@ -1,0 +1,23 @@
+
+<div style="width:100%; display: flex; ">
+  <v-grid style="width: 100%;"
+    allowSideBar="true"
+    [agColumns]="agColumns"
+    [pagination]="true"
+    [paginationPageSize]="15"
+    agToolBar="amde"
+    agPrimaryKey="ruleId"
+    [dataApi]="getDynamicRuleBuilderGrid"
+    (onGridAdd)="onGridAdd()"
+    (onGridDelete)="onGridDelete()"
+    (onGridUpdate)="onGridUpdate()"
+    (onGridDownload)="showPopup = !showPopup"
+    agRowSelection="multiple">
+  </v-grid>
+
+  <div class="popup-window" *ngIf="showPopup">
+    <input type="file" accept=".json" style="display: none" (change)="importRules($event)" #fileInput>
+    <button (click)="fileInput.click()">Import</button>
+    <button (click)="exportRules()">Export</button>
+  </div>
+</div>

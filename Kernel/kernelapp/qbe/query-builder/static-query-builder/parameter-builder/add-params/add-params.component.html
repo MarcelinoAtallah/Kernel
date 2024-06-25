@@ -1,0 +1,37 @@
+<div class="form-container">
+    <form [formGroup]="paramForm" enctype="multipart/form-data">
+  
+        <div class="form-group">
+          <v-input formControlName="paramName" type="text" label="Parameter Name" [parentForm]="paramForm" fieldName="paramName" [required]="true"></v-input>
+          <div class="error-msg" *ngIf="paramForm.get('paramName').errors?.['required']"></div>
+        </div>
+    
+        
+
+        <div class="form-group">
+        <v-dropdown 
+        formControlName="paramType"
+        [dataApi]="getParamTypes"
+        label="Type"
+        [parentForm]="paramForm"
+        fieldName="paramType"
+        [required]="true"
+      >
+      </v-dropdown>
+      <div class="error-msg" *ngIf="paramForm.get('paramType').errors?.['required']"></div>
+
+    </div>
+
+    <div class="form-group">
+        <v-toggle label="Default From Query" formControlName="defaultype"
+            [parentForm]="paramForm" fieldName="defaultype">
+        </v-toggle>
+    </div>
+     <div class="form-group">
+          <v-input formControlName="paramDefault" type="text" label="Default Value" [parentForm]="paramForm" fieldName="paramDefault"></v-input>
+     </div>
+    
+        <v-button btnActionType="submit" btnType="form" [parentForm]="paramForm" value="Submit" (click)="submitForm()" [disabled]="!paramForm.valid" class="submit-button"></v-button>
+      </form>
+    </div>
+    

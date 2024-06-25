@@ -1,0 +1,101 @@
+<form [formGroup]="selectedQueryForm">
+<div id="mainQueryInputParent" class="row">
+    <div class="col-lg-4">
+
+    <v-input 
+    id="mainQueryinput"
+    formControlName="selectedMainQuery"
+    label="Query"
+    [parentForm]="selectedQueryForm" 
+    fieldName="selectedMainQuery"
+    type="lookup" 
+    [lookupDataApi]="getQueryList"
+    (lookupOnChange)="querySelected($event)"
+       >
+   </v-input>
+   </div>
+</div>
+</form>
+
+<div id="queryTitle" *ngIf="showInput" class="group-title">
+    <div class="line"></div>{{queryName}}<div class="line"></div>
+  </div>
+
+  <!-- <form [formGroup]="queryParamsForm">
+  <div id="allParamInputs" *ngIf="showInput" >
+    <div class="row" *ngFor="let p of parameters">
+    <div class="col-md-5 mb-3" >
+  
+      <v-input *ngIf="p.paramType.toLowerCase()!='query'" id="p.paramId" [formControlName]="p.paramName" [type]="p.paramType.toLowerCase()"  [label]="p.paramName | titlecase" 
+            [parentForm]="queryParamsForm" [fieldName]="p.paramName" ></v-input>
+    
+
+      <v-lookup-v2 *ngIf="p.paramType=='query'" id="p.paramId" 
+            label="{{p.paramName | titlecase}}"
+            queryId="{{p.paramDefault}}" [formControlName]="p.paramName" [type]="p.paramType"  [label]="p.paramName | titlecase" 
+            [parentForm]="queryParamsForm" [fieldName]="p.paramName"></v-lookup-v2>
+   
+        </div>
+        </div>
+  </div> -->
+
+  
+  <form [formGroup]="queryParamsForm">
+    <div id="allParamInputs" *ngIf="showInput" >
+      <div class="row" *ngFor="let p of parameters">
+      <div class="col-md-5 mb-3" >
+        <v-input *ngIf="p.paramType.toLowerCase()!='query'" id="p.paramId" [formControlName]="p.paramName" [type]="p.paramType.toLowerCase()"  [label]="p.paramName | titlecase" 
+              [parentForm]="queryParamsForm" [fieldName]="p.paramName" ></v-input>
+            
+        <v-lookup-v2 *ngIf="p.paramType=='query'" id="p.paramId" 
+              label="{{p.paramName}}"
+              queryId="{{p.paramDefault}}" 
+              [formControlName]="p.paramName" 
+              [type]="p.paramType" 
+               [label]="p.paramName" 
+              [parentForm]="queryParamsForm" 
+              [fieldName]="p.paramName">
+            </v-lookup-v2>
+          </div>
+          </div>
+    </div> 
+  
+
+    
+
+   
+    <div id="allButtons">
+      <div *ngFor="let p of listOfButtons">
+    
+                <div class="form-submit" *ngIf="p.id=='2'">
+                    <v-button value="Execute" btnActionType="submit" (click)="execution()">
+                        </v-button>
+                </div>
+    
+    
+                <div class="form-submit" *ngIf="actionType=='saveNew' && p.id=='1'">
+                  <v-button value="Save" btnActionType="submit" (click)="saveData()">
+                      </v-button>
+                </div>
+    
+                <div class="form-submit" *ngIf="actionType=='update' && p.id=='1'">
+                  <v-button value="Save" btnActionType="submit" (click)="updateData()">
+                      </v-button>
+                </div>
+        </div>
+    </div>
+<div>
+  <v-grid *ngIf="agColumns != undefined && showExecGrid"
+  allowSideBar="true"
+  agPrimaryKey=""
+  [staticData]="fetchDynamicData"
+  [agColumns]="agColumns"
+  [pagination]="true"
+  [paginationPageSize]="5">
+  </v-grid>
+  
+</div>
+
+
+
+</form>

@@ -1,0 +1,10 @@
+<div class="mb-1">
+    <v-label *ngIf="allowLabel" text="{{label}}" [required]="required"></v-label>
+</div>
+<div class="mb-2">
+    <input type="file" required="{{ required }}" (input)="onChange($event)" (blur)="touched" [disabled]="isDisabled" accept="{{ acceptedFileTypes }}">
+</div>
+
+<small *ngIf="formFieldd.hasError('required') && formFieldd.touched" class="error-message">
+    {{ label }} is required
+</small>

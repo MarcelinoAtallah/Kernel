@@ -1,0 +1,25 @@
+<div *ngIf="btnActionType == 'submit' && !isLoginBtn">
+    <button [disabled]="disabled" type="{{ btnActionType }}" class="defaultBtn" [style]="customStyle" (click)="formValidation()">
+        <i *ngIf="fontawesome != ''" class="{{ fontawesome }}"></i>
+        <span *ngIf="fontawesome != '' && value != ''">&nbsp;</span>
+        <span *ngIf="value != ''">{{ value }}</span>
+    </button>
+</div>
+
+<div *ngIf="btnActionType == 'gridButton' && !isLoginBtn">
+    <button type="button" class="gridButton" [style]="customStyle">
+        <i class="{{ fontawesome }}"></i>
+    </button>
+</div>
+
+<div *ngIf="btnActionType == 'button' && !isLoginBtn">
+    <button [disabled]="disabled" type="button" class="defaultBtn" [style]="customStyle" [ngClass]="{'disabledBtn': disabled}">
+        <i *ngIf="fontawesome != ''" class="{{ fontawesome }}"></i>
+        <!-- <span *ngIf="fontawesome != '' && value != ''">&nbsp;</span> -->
+        <span *ngIf="value != ''">{{ value }}</span>
+    </button>
+</div>
+
+<div *ngIf="isLoginBtn">
+    <button class="loginBtn" type="submit">{{ value }}</button>
+</div>

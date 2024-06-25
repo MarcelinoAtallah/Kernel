@@ -1,0 +1,11 @@
+<div class="form-group">
+    <div class="form-ele-parent">
+        <div class="form-ele-child">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px">
+                    <v-label style="display: inline-block; width: 240px;" text="{{label | titlecase}}" ></v-label>
+                    <input [(ngModel)]="selectedItem" class="v-input-style disabled-field" readonly (dblclick)="clearSelection()"/>      
+                    <button (click)="openLookup()"><i class="fas fa-ellipsis-h" aria-hidden="true" ></i></button>    
+            </div>
+        </div>
+    </div>
+</div>

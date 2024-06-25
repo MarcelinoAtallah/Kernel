@@ -1,0 +1,13 @@
+<v-grid
+allowSideBar="true"
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="15"
+agToolBar="amd"
+[dataApi]="getChartData"
+[frameworkComponents]="frameworkComponents"
+(onGridAdd)="onAddClick()"
+(onGridDelete)="onDeleteClick()"
+(onGridUpdate)="onUpdateClick()"
+agPrimaryKey="chartId"
+></v-grid>

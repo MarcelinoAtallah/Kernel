@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- Loading Animation -->
+    <div *ngIf="loaderService.isLoading | async" class="loading-animation animate__animated animate__fadeIn">
+        <div class="loading-elements">
+            <img src="assets/img/clientlogo.png" alt="User Icon" />
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+    </div>
+
+    <div class="side-nav" id="side-nav">
+        <div class="top-section collapsed">
+            <div class="app-logo collapsed">
+                <a href="/dashboard">
+                    <img src="assets/img/clientlogo.png" alt="Logo" class="animate__animated animate__fadeIn">
+                </a>
+            </div>
+            <div class="toggle-switch">
+                <span (click)="toggleSwitch()">
+                    <i class="fa fa-bars"></i>
+                </span>
+            </div>
+        </div>
+        <div class="body-section scrollbar-width-thin hideElement mt-3">
+            <ul>
+                <div *ngIf="prevParentCode != '-1';" class="goBackDiv animate__animated animate__fadeIn"
+                    (click)="toggleActiveMenu(prevParentCode,'', ''); shortenCustomPath();">
+                    <span class="title">
+                        <i class="fas fa-arrow-circle-left"></i>&nbsp; Back
+                    </span>
+                </div>
+                <div *ngFor="let n of applicationName">
+                    <li *ngIf="n.menuManaged == '1' && n.display != '0'" id="{{n.id}}"
+                        class="list animate__animated animate__fadeIn" (mouseenter)="toggleChildNavigation(n.id)">
+                        <a
+                            (click)="toggleActiveMenu(n.id, n.appAbrv, n.childMenus); onSelect(n.menuVariable, n.childMenus, n.name); ">
+                            <span class="icon-img side-nav-icons"><i class="{{n.icon}}"></i></span>
+                            <span class="title">{{n.name}}</span>
+                        </a>
+                        <span *ngIf="n.childMenus != 0" id="childNav_{{n.id}}" class="navigateToChildArrow"
+                            (click)="toggleActiveMenu(n.id, n.appAbrv, n.childMenus)">
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </span>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <div class="side-nav-body-content">
+        <div class="top-section">
+            <div class="top-section-1 animate__animatezd animate__fadeIn">
+                <a href="/dashboard">
+                    <img src="assets/img/clientlogo.png" alt="Logo" class="active animate__animated animate__fadeIn">
+                </a>
+            </div>
+            <div class="top-section-2">
+                <!-- <div class="app-drawer" (click)="toggleAppDrawerDropdown()">
+                    <i class="fa fa-th fa-sm"></i>
+                    <div id="myDropdown0" class="app-drawer-content">
+                    </div>
+                </div> -->
+                <div class="user-tools">
+                    <div class="row"
+                        style="display: flex; justify-content: space-between; gap: 10px; align-items: center; font-size: 25px; min-width: 150px">
+                        <div class="col-lg-2 col-xs-2 col-md-2 col-xs-2">
+                            <i class="fas fa-palette layout-icons"></i>
+                        </div>
+                        <div class="col-lg-2 col-xs-2 col-md-2 col-xs-2 app-setting" (click)="toggleSettingsDropdown()">
+                            <i class="fas fa-gear layout-icons"></i>
+                        </div>
+                        <div class="col-lg-2 col-xs-2 col-md-2 col-xs-2" (click)="logoutApplication()">
+                            <i class="fas fa-sign-out-alt layout-icons"></i>
+                        </div>
+                        <img src="{{ this.loggedInImage }}" alt="Logo" class="sideNavPhoto"
+                            (click)="toggleUserProfileDropdown()">
+                    </div>
+                    <div id="myDropdown2" class="user-profile" style="height: 700px;width: 350px;">
+                        <div class="row"
+                            style="position: absolute;top: 0;height:230px;margin-top: 10px; font-size: 14px;font-family: Calibri;">
+                            <form>
+                                <fieldset>
+                                    <legend>Dashboard</legend>
+                                    <div class="col-md-5" style="float: left;text-align: justify; margin-left: 40px;">
+                                        <div class="col-md-12">
+                                            <a>
+                                                <span (click)="openKpiPopup()">
+                                                <i class="liDashAppImg headerIconsColor far fa-newspaper"></i>
+                                                KPI-Ratio
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12" >
+                                            <a >
+                                                <span (click)="openChartPopup()">
+                                                    <i class="liDashAppImg headerIconsColor fa fa-chart-bar "></i>
+                                                    Chart
+                                                </span>
+                                                
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a class="">
+                                                <i class="liDashAppImg headerIconsColor fa fa-chart-bar"></i>
+                                                Charts Group
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a class="">
+                                                <i class="liDashAppImg headerIconsColor fa fa-bell"></i>
+                                                <span>Cases</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+
+                                            <a class="">
+                                                <i class="liDashAppImg headerIconsColor fa fa-bell"></i>
+                                                Alerts
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a class="">
+                                                <i class="liDashAppImg headerIconsColor fa fa-bell"></i>
+                                                Rules Alerts
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a class="">
+                                                <span (click)="openGridPopup()">
+                                                <i class="liDashAppImg headerIconsColor fa fa-th "></i>
+                                                Grid
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a class="">
+                                                <i class="liDashAppImg headerIconsColor fa fa-object-ungroup"></i>
+                                                Object
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a class="">
+                                                <i class="liDashAppImg headerIconsColor fa fa-file "></i>
+                                                Report
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5" style="float: right;text-align: left;">
+                                        <div> <a class=""><i
+                                                    class="liDashAppImg headerIconsColor far fa-newspaper "></i>Newsroom
+                                                <label class="headerIconsColor fa fa-arrow-right"></label></a>
+                                        </div>
+                                        <div> <a class=""><i class="liDashAppImg headerIconsColor fa fa-rss "></i>RSS
+                                                <label class="headerIconsColor fa fa-arrow-right"></label></a></div>
+                                        <div> <a class=""><i
+                                                    class="liDashAppImg headerIconsColor fa fa-forward "></i>Last
+                                                Session
+                                            </a></div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="row" style="margin-top: -80px;">
+                            <fieldset>
+                                <legend class="legend-text">Supplementary Dashboard</legend>
+                                <div class="col-md-12"
+                                    style="text-align: left; margin-left: 40px;font-size: 14px;font-family: Calibri;">
+                                    <a>
+                                        <span (click)="openDashboardPopup()">
+                                        <i class="liDashAppImg headerIconsColor fa fa-folder-open "></i>
+                                        Dashboard
+                                    </span>
+                                    </a>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class="fieldSetForm">
+                                <legend class="legend-text">Theme Color</legend>
+                                <div id="themeDiv" class="row liDashApp separator"
+                                    style="border-bottom:0px solid ; height: fit-content;">
+                                    <a href="#" style="cursor:default;">
+                                        <div id="divThemes" style="padding-left: 20px;">
+                                            <div
+                                                style="height:80px; display: grid;grid-template-columns: auto auto;margin-left: 10px;">
+                                                <div class=" col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="themeHover for_layout_0" layout="layout_0"
+                                                        style="cursor: pointer; margin-left: 11px;margin-top: 6px; height: 28px; width: 78px;display: inline-flex;">
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #c7c7c7;"
+                                                            data-container="body"> </div>
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #fff;"
+                                                            data-container="body"> </div>
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #2e8cc8;"
+                                                            data-container="body"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class=" col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="themeHover for_layout_1" layout="layout_1"
+                                                        style="cursor: pointer; margin-left: 11px;margin-top: 6px; height: 28px; width: 78px;display: inline-flex;">
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #fff;"
+                                                            data-container="body"> </div>
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #c7c7c7;"
+                                                            data-container="body"> </div>
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #2e8cc8;"
+                                                            data-container="body"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class=" col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="themeHover for_layout_2" layout="layout_2"
+                                                        style="cursor: pointer; margin-left: 11px;margin-top: 6px; height: 28px; width: 78px;display: inline-flex;">
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #fff;"
+                                                            data-container="body"> </div>
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #fff;"
+                                                            data-container="body"> </div>
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #2e8cc8;"
+                                                            data-container="body"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class=" col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="themeHover for_layout_3" layout="layout_3"
+                                                        style="cursor: pointer; margin-left: 11px;margin-top: 6px; height: 28px; width: 78px;display: inline-flex;">
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #757779;"
+                                                            data-container="body"> </div>
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #2c3644;"
+                                                            data-container="body"> </div>
+                                                        <div style="height: 25px; width: 25px;border:1px solid #555; background: #9f2440;"
+                                                            data-container="body"> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div>
+                           <v-button class=".right-buttons" [value]="'Apply'" [btnActionType]="'button'"></v-button>  
+                        </div>
+
+                    </div>
+                    <div id="myDropdown1" class="user-profile">
+                        <img src="{{ this.loggedInImage }}" alt="Logo" class="sideNavPhoto">
+                        <div class="user-info">
+                            <span *ngIf="loggedInUserFullName != null" class="span-name">{{ loggedInUserFullName
+                                }}</span>
+                            <span *ngIf="loggedInEmail != null" class="span-email">{{ loggedInEmail }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="body-section">
+            <div class="top-section-breadcrumb animate__animated animate__fadeIn">
+                <breadcrumb #parent *ngIf="!this.showCustomPath">
+                    <ol class="breadcrumb">
+                        <ng-template ngFor let-route [ngForOf]="parent.breadcrumbs">
+                            <li *ngIf="!route.terminal" class="breadcrumb-item">
+                                <b (click)="fetchUserAccessRights(route, 'breadcrumb')">{{ route.displayName }}</b>
+                            </li>
+                            <li *ngIf="route.terminal" class="breadcrumb-item active" aria-current="page">
+                                {{ route.displayName }}</li>
+                        </ng-template>
+                    </ol>
+                </breadcrumb>
+                <div *ngIf="this.showCustomPath" >
+                    <ol class="breadcrumb">
+                        <li>{{ this.informationservice.getCustomScreenBuilderPath() }}</li>
+                    </ol>
+                </div>
+            </div>
+            <ng-content></ng-content>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Page Title</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css"
+    integrity="sha384-iBBwPA2+Oiz5spyxZIeVQQ5z2TabT0YIkzP3Fog452/ESYjXNC3YeuI3BmkFUFY" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+  <form [formGroup]="queryForm" enctype="multipart/form-data">
+
+    <div class="container">
+      <div class="row">
+        <div [class]="showRightButtons ? 'col-lg-8' : 'col-lg-12'" [attr.colspan]="showRightButtons ? '1' : '2'">
+          <div class="button-container">
+
+            <v-button [value]="'Clear'" [btnActionType]="'button'"
+              (click)="clearTextarea()"
+              [fontawesome]="'fas fa-broom'">
+            </v-button>
+
+            <v-button [value]="'Open'" [btnActionType]="'button'"
+              (click)="openFileExplorer()"
+              [fontawesome]="'fas fa-folder-open'">
+              <input #fileInput type="file" style="display: none;" (change)="openTextarea($event)">
+
+            </v-button>
+
+            <v-button [value]="'Download'" [btnActionType]="'button'"
+              (click)="downloadTextarea()"
+              [fontawesome]="'fas fa-download'">
+            </v-button>
+
+            <v-button [value]="'Print'" [btnActionType]="'button'"
+              (click)="printTextarea(1.2)"
+              [fontawesome]="'fas fa-print'">
+            </v-button>
+
+            <v-button [value]="'Beautify'" [btnActionType]="'button'"
+              (click)="beautifyTextarea()"
+              [fontawesome]="'fas fa-magic'">
+            </v-button>
+
+            <v-button [value]="'Heads'" [btnActionType]="'button'"
+              (click)="showHeaders()"
+              [fontawesome]="'fas fa-heading'">
+            </v-button>
+
+            <v-button [value]="'Validate'" [btnActionType]="'button'"
+              (click)="validateTextarea()"
+              [fontawesome]="'fas fa-check-circle'">
+            </v-button>
+            <v-button btnActionType="submit" btnType="form" value="Exit" class="exit-button"
+              (click)="onExitButtonClick()"></v-button>
+          </div>
+          <div class="parameters-container">
+            <div class="parameters-dropdown">
+            </div>
+          </div>
+
+          <!-- <label>Parameters </label><br> -->
+          <!-- <select (change)="onParamSelect(paramSelected.value)" [(ngModel)]="paramSelection" #paramSelected>
+            <option selected></option>
+            <option *ngFor="let item of dataList; let i = index" [value]="item.name" [selected]="i == 0">
+              {{item.name}}
+            </option>
+          </select> -->
+
+          <v-dropdown *ngIf="showCombo" formControlName="paramCombo" [dataApi]="getParamCombo"
+            label="Parameters" placeholder="Parameters" [parentForm]="queryForm"
+            fieldName="paramCombo" (onChangeEvent)="onParamSelect($event)"></v-dropdown>
+
+          <v-input style="max-height:500px !important" formControlName="query" id="query" type="textarea" label="" [parentForm]="queryForm"
+            fieldName="query" textareaCols="100" textareaRows="30" [class.col-lg-12]="!showRightButtons" class="resizable-textarea"
+            [class.max-height]="!showRightButtons" [class.vertical-layout]="verticalLayout"
+            [class.horizontal-layout]="!verticalLayout" #myTextareaRef [(ngModel)]="myTextarea" [ngClass]="formClass"
+            (change)="requireRevalidation()" (click)="testShow($event)"></v-input>
+
+        </div>
+
+      </div>
+
+
+      <div class="slider-panel" [class.open]="showRightButtons">
+        <button (click)="toggleRightButtons()" class="arrow-button">
+          <i class="fas" [ngClass]="showRightButtons ? 'fa-arrow-left' : 'fa-arrow-right'"></i>
+        </button>
+
+
+
+        <div class="popover-content">
+          <div class="button-container-vertical">
+            <div class="group-title">
+              <div class="line"></div>Save<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+              <v-button *ngIf="isQueryValid && !isUpdate" class=".right-buttons" [value]="'Save'" [btnActionType]="'button'"
+                [fontawesome]="'fas fa-save'"
+                (click)="saveQuery()">
+              </v-button>
+
+
+
+              <v-button *ngIf="isQueryValid && isUpdate" class=".right-buttons" [value]="'Update'" [btnActionType]="'button'"
+              [fontawesome]="'fas fa-save'"
+              (click)="updateExistingQuery()">
+            </v-button>
+
+
+
+
+
+
+              <v-button *ngIf="isQueryValid" class=".right-buttons" [value]="'Save as'" [btnActionType]="'button'"
+                [fontawesome]="'fas fa-save'"
+                (click)="saveQuery()">
+              </v-button>
+            </div>
+            <div class="group-title">
+              <div class="line"></div>Security<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+              <v-button *ngIf="isQueryValid" class=".right-buttons" [value]="'Security'" [btnActionType]="'button'"
+                [fontawesome]="'fas fa-shield-alt'"
+                (click)="securityQuery()">
+              </v-button>
+              <v-button *ngIf="isQueryValid" class=".right-buttons" [value]="'Type'" [btnActionType]="'button'"
+                (click)="typeQuery()"
+                [fontawesome]="'fas fa-file-signature'">
+              </v-button>
+            </div>
+            <div class="group-title">
+              <div class="line"></div>Execution<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+              <v-button *ngIf="isQueryValid" class=".right-buttons" [value]="'Execute'" [btnActionType]="'button'"
+                [fontawesome]="'fas fa-play'"
+                (click)="executeQuery()">
+              </v-button>
+            </div>
+            <div class="group-title">
+              <div class="line"></div>Operations<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+              <v-button class=".right-buttons" [value]="'Parameter Builder'" [btnActionType]="'button'"
+                [fontawesome]="'fas fa-cogs'"
+                (click)="openParameterBuilder()">
+              </v-button>
+              <v-button class=".right-buttons" [value]="'Link query'" [btnActionType]="'button'"
+                (click)="linkQuery()"
+                [fontawesome]="'fas fa-link'">
+              </v-button>
+              <v-button class=".right-buttons" [value]="'Link procedure'" [btnActionType]="'button'"
+                [fontawesome]="'fas fa-link'"
+                (click)="linkProcedure()">
+              </v-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="showSavePopup" class="save-popup">
+    <div class="popup-overlay"></div>
+    <div class="popup-content">
+      <p>Do you want to save the query before leaving?</p>
+      <div class="popup-buttons">
+        <v-button btnActionType="submit" btnType="form" value="OK" class="popup-button"
+          (click)="onConfirmSave()"></v-button>
+        <v-button btnActionType="submit" btnType="form" value="Cancel" class="popup-button"
+          (click)="onCancelSave()"></v-button>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+</html>

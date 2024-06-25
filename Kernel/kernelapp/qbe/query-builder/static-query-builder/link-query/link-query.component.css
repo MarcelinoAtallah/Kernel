@@ -1,0 +1,23 @@
+.button-group {
+    display: flex;
+    justify-content:flex-start; 
+  }
+  
+  /* .save-button,
+  .menu-assignment-button {
+    padding: 8px; 
+    font-size: 14px; 
+    color: #fff;
+    background-color: #007bff; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40%; 
+    transition: background-color 0.3s ease;
+  }
+  
+  .save-button:hover,
+  .menu-assignment-button:hover {
+    background-color: #0056b3; 
+  }
+    */

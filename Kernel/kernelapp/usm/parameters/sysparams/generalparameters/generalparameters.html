@@ -1,0 +1,50 @@
+<form [formGroup]="generalParameterssForm">
+    <div class="row">
+        <h3>General Parameters</h3>
+        <div class="col-lg-6">
+            <v-input formControlName="UDINATAID" type="text"
+                label="User Deactivation if not Accessing the Application in Day(s)" required="true"
+                placeholder="User Deactivation if not Accessing the Application in Day(s)"
+                [parentForm]="generalParameterssForm" fieldName="UDINATAID">
+            </v-input>
+        </div>
+        <div class="col-lg-6">
+            <v-input formControlName="MNOIL" type="text" label="Maximum Number of Invalid Login" required="true"
+                placeholder="Maximum Number of Invalid Login" [parentForm]="generalParameterssForm" fieldName="MNOIL">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-toggle label="Users' Logs by Manager" formControlName="UsersLogsByManager"
+                [parentForm]="generalParameterssForm" fieldName="UsersLogsByManager">
+            </v-toggle>
+        </div>
+        <div class="col-lg-4">
+            <v-toggle label="Dual-Factor Authentication Flag" formControlName="DualFactorAuthenticationFlag"
+                [parentForm]="generalParameterssForm" fieldName="DualFactorAuthenticationFlag">
+            </v-toggle>
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>LDAP Parameters</h3>
+        <div class="col-lg-6">
+            <v-dropdown formControlName="AGRMB" [dataApi]="getGroupRoleMappingBehavior"
+                label="Ad Group Role Mapping Behavior" placeholder="Ad Group Role Mapping Behavior"
+                [parentForm]="generalParameterssForm" fieldName="AGRMB">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-6">
+            <v-dropdown formControlName="AGRMT" [dataApi]="getGroupRoleMappingType" label="Ad Group Role Mapping Type"
+                placeholder="Ad Group Role Mapping Type" [parentForm]="generalParameterssForm" fieldName="AGRMT">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-6">
+            <v-button btnActionType="submit" btnType="form" [parentForm]="generalParameterssForm" value="Save">
+            </v-button>
+        </div>
+        <div class="col-lg-6">
+            <v-button btnActionType="submit" btnType="form" [parentForm]="generalParameterssForm" value="Reload">
+            </v-button>
+        </div>
+    </div>
+</form>

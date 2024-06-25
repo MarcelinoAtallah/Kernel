@@ -1,0 +1,16 @@
+<form [formGroup]="autoRefreshForm">
+  <div class="form-group" class="col-lg-4" style="margin-left:20px">
+    <v-toggle label="Auto Refresh" formControlName="autoRefreshToggle" [parentForm]="autoRefreshForm"
+      fieldName="autoRefreshForm">
+    </v-toggle>
+  </div>
+  </form>
+<v-grid
+  allowSideBar="true"
+  [agColumns]="agColumns"
+  [pagination]="true"
+  [paginationPageSize]="15"
+  agToolBar=""
+  agPrimaryKey="id"
+>
+</v-grid>

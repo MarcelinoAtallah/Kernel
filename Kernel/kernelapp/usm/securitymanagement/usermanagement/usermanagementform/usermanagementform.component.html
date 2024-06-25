@@ -1,0 +1,202 @@
+<v-tabs-container>
+    <v-tab tabTitle="User Management" menuVariable="userMgmt">
+        <form [formGroup]="userForm" enctype="multipart/form-data">
+            <div class="col-lg-12 hidden">
+                <div class="align-content-left">
+                    <div class="image-container">
+                        <img src="{{userImage}}" alt="" id="userImage">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <v-fieldset title="Account"></v-fieldset>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <v-input formControlName="username" type="text" label="Username" required="true"
+                                placeholder="Username" [parentForm]="userForm" fieldName="username"></v-input>
+                        </div>
+                        <div class="col-lg-4">
+                            <v-input formControlName="email" type="email" label="Email" placeholder="Email"
+                                [parentForm]="userForm" fieldName="email"></v-input>
+                        </div>
+                        <div class="col-lg-4">
+                            <v-toggle label="Dual Factor Authentication " formControlName="ispwd"
+                                [parentForm]="userForm" fieldName="ispwd"></v-toggle>
+                        </div>
+                        <div class="col-lg-4">
+                            <v-file formControlName="media" [parentForm]="userForm" [required]="isImgRequired" label="Image"
+                                fieldName="media" acceptedFileTypes="images"></v-file>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <v-fieldset title="Password"></v-fieldset>
+            <div class="row">
+                <div class="row">
+                    <v-input style="display:none;" formControlName="password" type="password" label="Password"
+                        placeholder="Password" readonly="true" [parentForm]="userForm" fieldName="password"></v-input>
+                    <div class="col-lg-4">
+                        <v-input formControlName="fakePassword" type="password" label="Password" placeholder="Password"
+                            readonly="true" [parentForm]="userForm" fieldName="fakePassword"></v-input>
+                    </div>
+                    <div class="col-lg-4">
+                        <v-input formControlName="oldPassword" type="password" label="Old Password"
+                            (change)="onOldPasswordChange()" [readonly]="isReadOnly" placeholder="Old Password"
+                            [parentForm]="userForm" fieldName="oldPassword"></v-input>
+                    </div>
+
+                    <div class="col-lg-4" *ngIf="isShown">
+                        <v-input formControlName="newPassword" required="passwordIsRequired" type="password"
+                            label="New Password" (change)="passwordCompare()" placeholder="New Password"
+                            [parentForm]="userForm" fieldName="newPassword"></v-input>
+                    </div>
+                    <div class="col-lg-4" *ngIf="isShown">
+                        <v-input formControlName="confirmNewPassword" required="passwordIsRequired" type="password"
+                            label="Confirm New Password" (change)="passwordCompare()" placeholder="Confirm New Password"
+                            [parentForm]="userForm" fieldName="confirmNewPassword"></v-input>
+                    </div>
+                    <div class="col-lg-4" *ngIf="showPasswordExpires">
+                        <v-input formControlName="passwordExpires" type="date" label="Password Expires"
+                            placeholder="Password Expires" [parentForm]="userForm"
+                            fieldName="passwordExpires"></v-input>
+                    </div>
+                    <div class="col-lg-4" *ngIf="showPasswordExpiresPeriodically">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <v-input formControlName="passwordExpiresPeriodNbr" type="number"
+                                    [parentForm]="userForm" fieldName="passwordExpiresPeriodNbr"></v-input>
+                            </div>
+                            <div class="col-lg-9">
+                                <v-dropdown formControlName="passwordExpiresPeriodically" [dataApi]="pwdExpType"
+                                    label="Password Expires Periodically" placeholder="Password Expires Periodically"
+                                    [parentForm]="userForm" fieldName="passwordExpiresPeriodically"></v-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <v-toggle label="Change Password upon next login" formControlName="changePassword"
+                            [parentForm]="userForm" fieldName="changePassword"></v-toggle>
+                    </div>
+                    <div class="col-lg-4">
+                        <v-input formControlName="passwordExpiries" label="Password Never Expires"
+                            (onChangeEvent)="onPasswordExpiresChange($event)" [radioData]="passwordExpires" type="radio"
+                            required="true" [parentForm]="userForm" fieldName="passwordExpiries"></v-input>
+                    </div>
+                </div>
+            </div>
+
+            <v-fieldset title="Personal"></v-fieldset>
+            <div class="row">
+                <div class="col-lg-4">
+                    <v-input formControlName="firstName" type="text" label="First Name" placeholder="First Name"
+                        required="true" [parentForm]="userForm" fieldName="firstName"></v-input>
+                </div>
+                <div class="col-lg-4">
+                    <v-input formControlName="lastName" type="text" label="Last Name" placeholder="Last Name"
+                        required="true" [parentForm]="userForm" fieldName="lastName"></v-input>
+                </div>
+                <div class="col-lg-4">
+                    <v-input formControlName="dateOfBirth" type="date" label="Date Of Birth" placeholder="Date Of Birth"
+                        [parentForm]="userForm" fieldName="dateOfBirth"></v-input>
+                </div>
+                <div class="col-lg-4">
+                    <v-input formControlName="gender" [radioData]="radioData" type="radio" label="Gender"
+                        required="true" [parentForm]="userForm" fieldName="gender"></v-input>
+                </div>
+                <div class="col-lg-4">
+                    <v-dropdown formControlName="civilStatus" [dataApi]="civilStatus" label="Civil Status"
+                        placeholder="Civil Status" [parentForm]="userForm" fieldName="civilStatus"></v-dropdown>
+                </div>
+                <div class="col-lg-4">
+                    <v-dropdown formControlName="language" [dataApi]="languageCombo" label="Language" label="Language"
+                        placeholder="Language" [parentForm]="userForm" fieldName="language"></v-dropdown>
+                </div>
+                <div class="col-lg-4">
+                    <v-dropdown formControlName="currency" [dataApi]="currency" label="Currency" placeholder="Currency"
+                        [parentForm]="userForm" fieldName="currency"></v-dropdown>
+                </div>
+            </div>
+
+            <v-fieldset title="Address"></v-fieldset>
+            <div class="row">
+                <div class="col-lg-4">
+                    <v-input formControlName="firstAddress" type="text" label="First Address"
+                        placeholder="First Address" [parentForm]="userForm" fieldName="firstAddress"></v-input>
+                </div>
+                <div class="col-lg-4">
+                    <v-input formControlName="secondAddress" type="text" label="Second Address"
+                        placeholder="Second Address" [parentForm]="userForm"
+                        fieldName="secondAddress"></v-input>
+                </div>
+                <div class="col-lg-4">
+                    <v-input formControlName="phone" type="text" label="Phone" placeholder="Phone"
+                        [parentForm]="userForm" fieldName="phone"></v-input>
+                </div>
+                <div class="col-lg-4">
+                    <v-input formControlName="mobile" type="text" label="Mobile" placeholder="Mobile"
+                        [parentForm]="userForm" fieldName="mobile"></v-input>
+                </div>
+                <div class="col-lg-4">
+                    <v-input formControlName="postalCode" type="text" placeholder="Postal Code"
+                        label="Postal Code" [parentForm]="userForm" fieldName="postalCode"></v-input>
+                </div>
+            </div>
+
+            <v-fieldset title="User Roles"></v-fieldset>
+            <div class="row mb-3">
+                <div class="col-lg-4">
+                    <v-dropdown formControlName="role" (onChangeEvent)="onRoleChange($event)" [dataApi]="roleName"
+                        label="Role" placeholder="Role" [required]="true" [parentForm]="userForm" fieldName="role"></v-dropdown>
+                </div>
+                <div class="col-lg-4">
+                    <v-input [ngClass]="{'hidden': ['isHidden']}" formControlName="defaultRole" type="text"
+                        placeholder="defaultRole" label="defaultRole" [parentForm]="userForm"
+                        fieldName="defaultRole"></v-input>
+                </div>
+            </div>
+
+            <v-fieldset title="User Status"></v-fieldset>
+            <div class="row mb-3">
+                <div class="col-lg-4">
+                    <v-dropdown formControlName="status" [dataApi]="statusCombo" label="Status" [parentForm]="userForm"
+                        fieldName="status" [required]="true"></v-dropdown>
+                </div>
+            </div>
+
+            <v-fieldset title="Business Unit Groups"></v-fieldset>
+            <div class="row mb-3">
+                <div class="col-lg-4">
+                    <v-dropdown formControlName="bugType" (onChangeEvent)="onBugTypeChange($event)" [dataApi]="bugType"
+                        label="Type" placeholder="Type" [parentForm]="userForm" fieldName="bugType"></v-dropdown>
+                </div>
+                <div class="col-lg-4">
+                    <v-dropdown formControlName="bug" [required]="bugIsRequired" [dataApi]="bugName" multiple="true"
+                        placeholder="Name" [disabled]="bugIsDisabled" label="Name" [parentForm]="userForm" dataBody=""
+                        fieldName="bug"></v-dropdown>
+                </div>
+            </div>
+
+            <!-- <div class="col-lg-1">
+                <v-button btnActionType="submit" btnType="form" [parentForm]="userForm" value="Submit"
+                    (click)="submitForm()"></v-button>
+            </div> -->
+            <div class="row">
+                <div class="col-lg-1" style="text-align: -webkit-center;">
+                    <v-button btnActionType="submit" btnType="form" [parentForm]="userForm" value="Submit"
+                    (click)="submitForm()"></v-button>
+                </div>
+            </div>
+        </form>
+    </v-tab>
+    <v-tab tabTitle="User Form" *ngIf="showHideTabs" menuVariable="userAccessRights" class="mt-2">
+        <!-- <accessrights></accessrights>   -->
+        <app-user-form></app-user-form>
+    </v-tab>
+
+    <v-tab tabTitle="AD Group Mapping" *ngIf="showHideTabs" menuVariable="roleADMapping" class="mt-2">
+        <GroupMappingTabComponent></GroupMappingTabComponent>
+    </v-tab>
+</v-tabs-container>

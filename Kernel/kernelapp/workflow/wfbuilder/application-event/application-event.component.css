@@ -1,0 +1,93 @@
+.dialog-header {
+    margin-bottom: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    overflow: hidden;
+}
+.dialog-title {
+    color: blue;
+    margin-left: 35%;
+    font-size:17px;
+}
+.dialog-close {
+    color:blue; 
+    font-size:15px; 
+    cursor: pointer;
+}
+
+label{
+    margin-right: 10px;
+}
+
+.first-row td {
+    padding-left: 10px;
+}
+.second-row td {
+    border: 1px solid black;
+    height: 300px;
+    min-width:300px;
+}
+.third-row td {
+    border-bottom: 1px solid rgb(39, 159, 214);
+}
+.legend{
+    font-weight: bold;
+    font-size: 11px;
+    border: 1px #ACB5B5 solid;
+    background-color: #EEF0F0;
+}
+
+.first-row-condition{
+    height: 300px;
+    border: 1px solid black;
+}
+
+.second-row-condition-td1{
+    min-width: 300px;
+}
+
+.second-row-condition-td2{
+    min-width: 320px;
+    padding: 15px 0px 0px 10px;
+}
+
+.reference-box{
+    border: 1px solid black;
+    height: 150px;
+    width:320px;
+}
+
+/* list position inside the left business menu td */
+.main-list {
+    padding: 10px 20px;
+    word-wrap: nowrap;
+}
+
+li{
+    cursor:default;
+    list-style-type: none;
+    user-select: none;
+}
+
+.list-toggle {
+    cursor: pointer;
+}
+
+/*the arrow next to each toggle arrow*/
+.main-list .list-toggle::before {
+    content: '\25B6'; /* right-pointing arrow */
+    display: inline-block;
+    margin-right: 5px;
+    transition: transform 0.3s ease; /* transition for rotation */
+}
+.main-list .list-toggle.open::before {
+    transform: rotate(90deg); /* rotate arrow when list is open */
+}
+
+/* style to apply when hovering over element 
+background-color: rgb(205, 232, 255);
+border: 1px solid rgb(123, 195, 255);
+border-radius: 1px; */
+

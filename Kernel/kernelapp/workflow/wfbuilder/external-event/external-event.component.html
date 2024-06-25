@@ -1,0 +1,108 @@
+<div style="height:100%; overflow:hidden;">
+    <!--TITLE-->
+    <div class="dialog-header">
+        <p class="dialog-title">External Event</p>
+        <p (click)="closeDialog()" class="dialog-close">X</p>
+    </div>
+    <v-tabs-container>
+        <v-tab tabTitle="Definition" menuVariable="mappingProject">
+            <form [formGroup]="definitionForm" style="height:650px; overflow:hidden;">
+                <!-- <p>Activity Id <span style="margin: 0 10px 0 30px;"> : </span> {{number}}</p> -->
+                <v-label text="Activity Id : {{number}}"></v-label>
+
+                <v-input formControlName="activityName" type="text" label="Activity Name" required="true" 
+                [parentForm]="definitionForm" fieldName="activityName" id="activityName"></v-input>
+                <br>
+
+                <v-fieldset title="Batching/Scheduling" ></v-fieldset>
+
+                <!-- <v-label text="Identical Objects Batch Strategy"></v-label> -->
+
+                <!--Batch Type-->
+                <v-dropdown formControlName="batchType" 
+                            fieldName="batchType" 
+                            id="batchType" 
+                            [required]="true" 
+                            [multiple]="false"
+                            [dataJSON]="batchType" 
+                            label="Batch Type "
+                            [parentForm]="definitionForm" ></v-dropdown>
+
+
+                <div style="margin-left: 30%">
+                    <label>
+                        <input type="radio" formControlName="option" value="time" name="option" (change)="resetValues()">
+                        Time
+                    </label>
+                    <label>
+                        <input type="radio" formControlName="option" value="objectCount" name="option" (change)="resetValues()">
+                        Object Count
+                    </label>
+                    <label>
+                        <input type="radio" formControlName="option" value="schedule" name="option" (change)="resetValues()">
+                        Schedule
+                    </label>
+                </div>
+                <!--Time-->
+                <v-dropdown *ngIf="definitionForm.value.option === 'time'" 
+                            fieldName="time" 
+                            formControlName="time" 
+                            id="time" 
+                            [multiple]="false" 
+                            [dataJSON]="time" 
+                            label="Every" 
+                            [parentForm]="definitionForm" ></v-dropdown>
+
+                <v-input *ngIf="definitionForm.value.option === 'time'" formControlName="timeInput" 
+                        type="text" label="" [parentForm]="definitionForm" fieldName="timeInput" 
+                        id="timeInput"></v-input>
+            
+                <!--Object Count-->
+                <v-label *ngIf="definitionForm.value.option === 'objectCount'" text="Activity Count" style="margin-left: 40%;"></v-label>
+                <v-input *ngIf="definitionForm.value.option === 'objectCount'" 
+                        formControlName="objectCount" 
+                        fieldName="objectCount" 
+                        id="objectCount"
+                        type="text" 
+                        label="Object Count" 
+                        [parentForm]="definitionForm" ></v-input>
+                
+                <!--Schedule-->
+                <v-grid *ngIf="definitionForm.value.option === 'schedule' && showGrid" 
+                        allowSideBar="true"
+                        [pagination]="true" 
+                        agToolBar="ad" 
+                        [paginationPageSize]="10"  
+                        [agOnGridEvents]="true" 
+                        [agColumns]="agColumnsSchedule" 
+                        agPrimaryKey="beginTime">
+                </v-grid>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+                
+                <!--List Of Activities-->
+                <div *ngIf="listActivities" style="position: absolute; z-index: 9999; width: 51%; top:400px; padding-bottom: 5px; background-color:#f1eaea;">
+                    <legend class="legend">List Activities</legend>
+                    <v-grid allowSideBar="true"
+                            [pagination]="true" 
+                            agToolBar="ad" 
+                            [paginationPageSize]="10" 
+                            [agOnGridEvents]="true" 
+                            [agColumns]="agColumns" 
+                            agPrimaryKey="beginTime">
+                    </v-grid>
+                </div>
+
+                <!--bottom buttons-->
+                <div style="display: flex; gap: 75px; position: absolute; top: 800px; ">
+                    <label *ngIf="!listActivities" (click)="toggleListActivities()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities ^</label>
+                    <label *ngIf="listActivities" (click)="toggleListActivities()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities v</label>
+                    <div style="margin-left: -20%;">
+                        <v-button value="Save" btnActionType="submit" ></v-button>
+                    </div>
+                </div>  
+
+            </form>
+        </v-tab>
+    </v-tabs-container>
+
+</div>

@@ -1,0 +1,502 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.row{
+  align-items: stretch !important;
+}
+
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: start;
+  
+}
+
+.button-container-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 40px;
+  align-items: stretch;
+}
+
+
+.group-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background-color: black;
+  margin: 0 5px;
+}
+
+
+.right-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center; 
+  width: 100% !important;
+}
+
+
+
+button {
+  padding: 5px;
+  font-size: 0.8em;
+  border: none;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-sizing: border-box; 
+  
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+textarea {
+  width: 100%;
+  max-height: 2000vh !important;
+  resize: none !important;
+  overflow-y: scroll;
+  height: 80vh !important;
+}
+
+/* .arrow-button {
+  position: absolute;
+  left: -30px;
+  top: 10px;
+  padding: 5px;
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+} */
+.arrow-button {
+  position: absolute;
+  left: -30px;
+  top: 10px;
+  padding: 5px;
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  z-index:99999999999999999;
+}
+
+.arrow-button i {
+  font-size: 18px;
+}
+
+.slider-panel {
+  position: fixed;
+  right: 0;
+  top: 14.5%;
+  height: 75%;
+  bottom:0;
+  width: 430px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 2;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+}
+
+.slider-panel.open {
+  transform: translateX(0);
+}
+@media (max-height: 600px) {
+  .slider-panel {
+    bottom: 50%; 
+    transform: translateY(50%); 
+  }
+}
+
+
+
+.slider-panel .arrow-button {
+  position: absolute;
+  left: -30px;
+  top: 2.55%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  line-height: 1;
+  padding: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.slider-panel .arrow-button:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.rotate-0 {
+  transform: rotate(0deg);
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.centered-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.my-snackbar {
+  background-color: #fcfcfc; 
+  color: #000; 
+  border: 1px solid #000; 
+  font-size: 1.2rem; 
+  padding: 1em; 
+  border-radius: 15px; 
+}
+
+@media print {
+  body * {
+    display: none;
+    margin-top: 100px !important; 
+  }
+
+ 
+  .print-only-textarea {
+    display: block;
+    width: 100%;
+    height: 100%;
+    white-space: pre-wrap; 
+    font-family: Arial, sans-serif; 
+    font-size: 16pt; 
+    box-sizing: border-box;
+    padding: 1cm; 
+  }
+}
+
+.save-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.popup-button {
+  margin-left: 10px;
+}
+
+.popup-content p {
+  font-weight: bold;
+}
+
+
+/***************************CDK DRAG AND DROP*******************************/
+
+.example-list {
+  width: 1500px;
+  max-width: 100%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: inline-block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom:10px;
+}
+
+.example-box {
+  padding: 20px 10px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+ display: flex;
+  display:block;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 10px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/****************************List items******************************************/
+.listContainer {
+  position: relative;
+  width: 100%;
+  background-color: white;
+}
+
+.listContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(#858585 1px, transparent 1px);
+  background-size: 5px 5px; /* Adjust the size of the dots */
+  pointer-events: none; /* Make sure the dots don't interfere with content */
+}
+
+.listItem {
+  position: relative;
+  width: 100%;
+  background-color: white;
+}
+
+.listItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: white;
+  background-size: 10px 10px; /* Adjust the size of the dots */
+  pointer-events: none; /* Make sure the dots don't interfere with content */
+}
+
+
+
+.listContainerCol {
+  position: relative;
+  width: 100%;
+  background-color: white;
+}
+
+.listContainerCol::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(#ffffff 0px, transparent 0px);
+  background-size: 5px 5px; /* Adjust the size of the dots */
+  pointer-events: none; /* Make sure the dots don't interfere with content */
+}
+
+
+
+
+.example-box {
+  width: 200px;
+  height: 200px;
+  border: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: move;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  border-radius: 4px;
+  margin-right: 25px;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  padding: 10px;
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+              0 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.example-box:active {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.example-boundary {
+  width: 400px;
+  height: 400px;
+  max-width: 100%;
+  border: dotted #ccc 2px;
+}
+
+
+
+
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.con {
+  position: relative;
+  padding: 10px;
+  
+}
+
+
+.columnsGrid{
+  width:500px;
+  height:340px;
+  bottom: 340px;
+  position:absolute
+}
+
+.datafilterGrid{
+  height:340px;
+  bottom: 0px;
+  position:absolute;
+  width:100%;
+}
+
+#eventArea {
+  z-index: 0;
+}
+
+
+#eventArea div {
+  text-align: center;
+}
+
+#eventArea img {
+  display: block;
+  margin: auto;
+  width: 50px;
+  height: auto;
+}
+
+h3{
+  margin:0 0 0px;
+}
+
+.example-list label{
+  pointer-events: none; 
+  font-size: 17px;
+  font-weight: 500;
+  padding-left: 5px;
+}
+
+/* Styles for the context menu */
+.contextMenu {
+  font-size: 12px;
+  position: absolute;
+  background-color: #ffffff; /* Background color */
+  border: 1px solid #ccc; /* Border color */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow */
+  padding: 0 px; /* Padding around menu items */
+  font-family: Arial, sans-serif; /* Font family */
+  list-style: none; /* Remove default list styles */
+  margin: 0; /* Remove default margin */
+  min-width: 60px; /* Minimum width of the menu */
+  display:none;
+}
+
+/* Styles for menu items */
+.contextMenu ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.contextMenu li {
+  padding: 4px 10px; /* Padding around menu items */
+  cursor: pointer; /* Cursor style */
+  transition: background-color 0.3s; /* Smooth transition for background color */
+  position: relative; /* Position relative for horizontal lines */
+  border-top: 1px solid #ccc; /* Border color between items */
+}
+
+.contextMenu li:hover {
+  background-color: #f0f0f0; /* Background color on hover */
+}
+
+.contextMenu .noBorder {
+  border-top: none;
+}
+

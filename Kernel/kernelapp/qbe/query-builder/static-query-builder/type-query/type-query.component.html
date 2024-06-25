@@ -1,0 +1,32 @@
+<div class="header-dialog space-between mb-3" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="spacer"></div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+  </div>
+<form [formGroup]="queryTypeForm" *ngIf="showAll">
+    <div *ngFor="let item of queryTypes">
+        <div style="display: flex; align-items: center;">
+            <span>{{item.name}}</span>
+            <v-toggle (click)="toggle(item.id)" 
+                      [fieldName]="item.id.toString()" 
+                      [parentForm]="queryTypeForm" 
+                      [formControlName]="item.id.toString()"></v-toggle>
+        </div>
+    </div>
+
+    <v-button
+            *ngIf = "typeExists === 0"
+            btnActionType="submit"
+            btnType="form"
+            [parentForm]="queryTypeForm"
+            value="Save"
+            (click)="saveQueryType()"
+    ></v-button>
+    <v-button
+            *ngIf = "typeExists === 1"
+            btnActionType="submit"
+            btnType="form"
+            [parentForm]="queryTypeForm"
+            value="Update"
+            (click)="updateQueryType()"
+        ></v-button>
+</form>

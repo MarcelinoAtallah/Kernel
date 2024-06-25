@@ -1,0 +1,978 @@
+<link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet-src.js" integrity="sha512-IkGU/uDhB9u9F8k+2OsA6XXoowIhOuQL1NTgNZHY1nkURnqEGlDZq3GsfmdJdKFe1k1zOc6YU2K7qY+hF9AodA==" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.2/dist/leaflet.draw-src.css" />
+<script src="https://unpkg.com/leaflet-draw@1.0.2/dist/leaflet.draw-src.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-mouse-position@1.1.7/dist/leaflet.mouseposition.css" />
+<!-- Leaflet Measure CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<!-- Leaflet Measure JavaScript -->
+<script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.min.js"></script>
+
+<app-navbar id="mmm" [SimulID]="navbarSimulId" (displayclusters2)="getsenarioId($event)"></app-navbar>
+
+<ng-template #popupContent >
+   <div class="modal-header">
+		<button type="button" class="btn-close" aria-label="Close" (click)="closemodalservice();" ></button>
+  </div> 
+  <app-v-ag-grid class="grid2" [headerHeight]="20" [columnDefs]="columnDefs2" [rowData]="rowData"  [Title]="Devices"  [distinct]="false"  [pagination]="true"  [pagination]="true" [contextmenu]="false" [Grid2Type]="GridType1"  [GridID]="'GeoGrid2'" (sendData)="receiveData($event)" >  </app-v-ag-grid>
+</ng-template>
+
+<ng-template #popupContent1 >
+
+ <app-v-ag-grid class="grid1" [headerHeight]="0" [columnDefs]="columnDefs" [rowData]="rowData"  [Title]="Devices"  [distinct]="true"  [pagination]="false"   [contextmenu]="false" [rowGrouping]="true" [Grid2Type]="GridType1" [GridID]="'GeoGrid2'"  (sendData)="receiveData($event)" >  </app-v-ag-grid>
+</ng-template>
+
+<ng-template #CdrContent >
+  <div class="modal-header">
+   <button type="button" class="btn-close" aria-label="Close" (click)="closemodalservice();" ></button>
+ </div> 
+ <app-v-ag-grid class="Cdrgrid" [headerHeight]="20" [columnDefs]="columnDefsCdr" [rowData]="CdrRowData"  [Title]="Devices"  [distinct]="false"  [pagination]="false"  [contextmenu]="false" [rowGrouping]="true" [Grid2Type]="GridType1"  [GridID]="'cdrGrid2'" (sendData)="receiveData($event)" >  </app-v-ag-grid>
+</ng-template>
+
+<ng-template #SenarioContent >
+  <!-- <div class="modal-header">
+   <button type="button" class="btn-close" aria-label="Close" (click)="closemodalservice();" ></button>
+ </div>  -->
+ <app-v-ag-grid class="Senariogrid" [headerHeight]="0" [columnDefs]="SenariocolumnDefs"
+  [rowData]="SenarioRowData" [treeData]="true" [Title]="Devices"  [distinct]="false" 
+   [pagination]="false"  [contextmenu]="false" [rowGrouping]="true" [Grid2Type]="GridType1" 
+    [GridID]="'Senariogrid2'" (sendData)="receiveData($event)"  (displayclusters2)="displaysenario($event)">   </app-v-ag-grid>
+</ng-template>
+
+<ng-template #TCDContent >
+ <div class="modal-header">
+  <button type="button" class="btn-close" aria-label="Close" (click)="closemodalservice();" ></button>
+</div> 
+<app-v-ag-grid class="TCdgrid" [headerHeight]="20" [columnDefs]="columnDefsTcd2" [rowData]="TcdRowData"  [Title]="Devices"  [distinct]="false"  [pagination]="true"  [pagination]="true" [contextmenu]="false" [Grid2Type]="GridType2" [GridID]="'tcdGrid2'"   (sendData)="receiveData($event)" >  </app-v-ag-grid>
+</ng-template>
+
+<ng-template #bulkdraw>
+  <div style="display: flex;flex-direction: column;align-items: center;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;padding: 0px 14px;"class="content"><h1 style="color: #285e8e !important;margin: 0px 10px;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;" id="headerName">Please enter circle radius</h1><br><input class="bulkRadius" id="bulkRadius" type="number">
+  </div>
+  <nav class="alertify-buttons"><button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="dialog.closeAll();">Cancel</button><button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="saveBulkdrawRaduis();" >Ok</button></nav>
+</ng-template>
+
+<ng-template #saveSimul>
+  <div style="display: flex;flex-direction: column;align-items: center;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;padding: 0px 14px;"class="content"><h1 style="color: #285e8e !important;margin: 0px 10px;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;" id="headerName">Please Save The Simulation</h1><br><input class="bulkRadius" id="simulname" type="text">
+  </div>
+  <nav class="alertify-buttons"><button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="dialog.closeAll();">Cancel</button><button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="SaveSimulation()" >Ok</button></nav>
+</ng-template>
+
+
+<ng-template #BtsType>
+  <div style="display: flex;flex-direction: column;align-items: center;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;padding: 0px 14px;"class="content"><h1 style="color: #285e8e !important;margin: 0px 10px;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;" id="headerName">Please Choose Fixed Element  Type</h1><br>
+  </div>
+  <nav class="alertify-buttons"><button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="setbtsType('BTS')">BTS</button><button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="setbtsType('FixedElements')" >Fixed Elements</button></nav>
+</ng-template>
+
+
+<ng-template #CoTravelersReady>
+  <div style="display: flex;flex-direction: column;align-items: center;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;padding: 0px 14px;"class="content"><h1 style="color: #285e8e !important;margin: 0px 10px;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;" id="headerName">Do You Want To Display Co-Traveler</h1><br>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px;">
+<button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="dialog.closeAll();">
+  Cancel
+</button>
+<button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="displayAllCoTraveler()" >
+  Ok
+</button>
+</div>
+</ng-template>
+
+<ng-template #CoRelationsReady>
+  <div style="display: flex;flex-direction: column;align-items: center;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;padding: 0px 14px;"class="content"><h1 style="color: #285e8e !important;margin: 0px 10px;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;" id="headerName">Do You Want To Display Co-Relation</h1><br>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px;">
+    <button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="dialog.closeAll();">
+      Cancel
+    </button>
+    <button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="displayAllCoRelation()">
+      Ok
+    </button>
+  </div>
+</ng-template>
+<div id="ref" style=" display: flex;position:absolute;right: 12px;top: 104px;" >
+<button id="refreshJsp" (click)="test33()">
+      refresh <i class="fa-solid fa-arrows-rotate"></i>
+  </button>
+<button id="3point" style="margin-top: -22px; background-color: white;color: black;border: 1px solid black;" (click)="bars()">
+  <i class="fa-solid fa-bars"></i>
+</button></div>
+
+<ng-template #Queue2>
+  <div style="display: flex; flex-direction: column; align-items: center; font-weight: bold; font-family: Calibri; font-size: 14px; font-style: italic; padding: 0px 14px;" class="content">
+    <h1 style="color: #285e8e; margin: 0px 10px; font-weight: bold; font-family: Calibri; font-size: 14px;" id="headerName">Do you want to execute Offline?</h1><br>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px;">
+    <button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="cancelExecution()">
+      Cancel
+    </button>
+    <button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="confirmOfflineExecution()">
+      Ok
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #Queue>
+  <div style="display: flex;flex-direction: column;align-items: center;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;padding: 0px 14px;"class="content"><h1 style="color: #285e8e !important;margin: 0px 10px;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;" id="headerName">Do you want to Display?</h1><br>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px;">
+    <button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="dialog.closeAll();">
+      Cancel
+    </button>
+    <button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="DisplayInQueue()">
+      Ok
+    </button>
+  </div>
+</ng-template>
+
+
+
+
+<!-- <ng-template #tabletest>
+  <div class="modal-header">
+		<button type="button" class="btn-close" aria-label="Close" (click)="closemodalservice();" ></button>
+  </div> 
+ <app-v-table  [displayedColumns]="displayedColumns" [Data]="Datatable"     (clickedRow)="changeview($event)"
+ ></app-v-table>
+</ng-template> -->
+
+
+<!-- <div id="tabletest" *ngIf="openTable===true" style="display: none;" >
+  <app-v-table    [tablerow]="tablerow" [tableColumns]="displayedColumns"     (clickedRow)="changeview($event)"
+  ></app-v-table>
+ </div> -->
+
+ <div id="tabletest" *ngIf="openTable===true">
+  <app-v-table  #childRef [tableData]="Datatable" [tablerow]="tablerow" [tableColumns]="displayedColumns"  [routeDevices]="routeDevicestable" [typeofdata]="typeofdata"  (clickedRow)="changeview($event)"  (clickedDeviceId)="clickedDeviceId($event)"
+  ></app-v-table>
+ </div>
+ <!-- <div id="tabletest" *ngIf="openTable===true" style="display: none;" >
+  <app-v-table   [tableColumns]="displayedColumns"     (clickedRow)="changeview($event)"
+  ></app-v-table>
+ </div> -->
+<!-- <div id="tabletest" *ngIf="openTable===true"  >
+  <app-v-table   [tableData]="Datatable"   [tableColumns]="displayedColumns"     (clickedRow)="changeview($event)"
+  ></app-v-table>
+ </div> -->
+
+<ng-template #datepicker>
+  <div class="dateInput">
+  <div style="display: flex; padding: 2px;">
+  <p style="width: 125px; font-weight: 700; ">Begin Operation: </p><input type="text" id="datepicker1">
+  </div>
+  <div style="display: flex; padding: 2px;">
+    <p style="width: 125px; font-weight: 700; ">End Operation: </p><input type="text" id="datepicker2">
+  </div>
+  </div>
+  <nav class="alertify-buttons"><button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel">Cancel</button><button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok">Ok</button></nav>
+</ng-template>
+
+
+<ng-template #SimulInfo>
+  <div class="" style="text-align: center;
+  font-weight: bold;    font-size: 20px;">Simulation Info</div>
+<div class="content">
+<span style="font-weight: bold;">Simulation ID:</span><br>
+<span style="font-weight: bold;">Simulation Type:</span><br>
+<span style="font-weight: bold;">Properties:</span>
+
+</div>
+  <nav class="alertify-buttons"><button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok">Save</button></nav>
+</ng-template>
+
+<!--test1-->
+<!-- 
+<ng-template #locationMarker>
+  <nav class="alertify-buttons">
+    <button type="button" class="alertify-button normaleColor alertify-button-cancel" (click)="onSaveMarker($event)" >Save</button>
+    <button type="button" class="alertify-button normaleColor alertify-button-cancel" (click)="bullseye()">Execute</button>
+  </nav> 
+
+</ng-template> -->
+
+<ng-template #saveMarker>
+  <label for="type">Type: &emsp;&emsp;&emsp;</label>
+  <select id="type">
+    <option value="BTS">BTS</option>
+    <option value="FixedElement">Fixed Element</option>
+  </select>
+
+  <div>
+    <label>lng :</label><br>
+    <label>lat :</label><br>
+    <label>Name :</label><br>
+  </div>
+
+  <nav class="alertify-buttons">
+    <button type="button" class="alertify-button normaleColor alertify-button-cancel">Save</button>
+    <button class="alertify-button normaleColor alertify-button-cancel" (click)="closedialogall()">Cancel</button>
+  </nav> 
+
+</ng-template>
+
+<!--test1-->
+
+<div id="controlbutton"  style="position: relative; height: 0px; top: 13px; left:204px; z-index: 9999;">
+<div title="Controls" (click)="filterData22()"
+class="customButtons customButtons_Layout">
+<i class="fa-solid fa-layer-group"></i>
+</div>
+<div *ngIf="display"> 
+
+ 
+  <app-layer-control 
+  (tooltipChange)="controlTooltip($event)" 
+  (datetooltipChange)="controldateTooltip($event)"
+  (activityDensityChange)="controlHeats($event)"
+  (activityHotspotChange)="controlClusters($event)"
+  (areaDemographicsChange)="controlArea($event)"
+  (deviceClustersChange)="deviceClusters($event)"
+  (filterData2change)="filterData22()"
+  (sectorchange)="clearsectors($event)"
+  (sectorTechnologychange)="clearTechnology($event)"
+  (sectorCellIdchange)="sectorCellIdchange($event)"
+  (Routechange)="hideroute($event)"
+  (RouteDevice)="Routedevice($event)"
+  [routes]="routingdeviceArray"
+  [Names]="uniqueNames"
+  [display]="display"
+  [displaysectors]="displaysectors"
+  [displayclusters]="displayclusters"
+  [displayRoute]="displayRoute"
+  >
+
+</app-layer-control>
+   </div>
+
+
+   
+
+
+
+   </div>
+
+ <div  class="map" id="map"
+style="display: block;"
+leaflet
+leafletDraw 
+[leafletOptions]="options"
+[leafletDrawOptions]="drawOptions"
+(leafletMapReady)="onMapReady($event)"
+(leafletDrawCreated)="onDrawCreated($event)"
+(leafletClick)="clickLeaf($event)"
+(leafletDrawEdited)="onEdit($event)"
+oncontextmenu="return false;"
+
+> 
+
+
+
+<div [leafletLayer]="drawnItems" ></div>
+<div id="magnifying-glass1" class="magnifying-glass1"></div>
+
+<div id="buttonMenu" class="buttonMenu">
+
+
+<div class="mapDrawingTools" style="position: relative;height: 0px;left:12px ; z-index: 999;">
+
+  <!-- <div id="ShowSenarioTimeline"  *ngIf="senarioFlag"  title="Drawing" (click)="OpenSenarioAlert()"
+  class="customButtons customButtons_Layout">
+  <i class="fa-solid fa-bars"></i>
+  </div> -->
+  </div>
+  <div class="mouseover1" (mouseover)="onMouseOver()"> 
+  <div class="mapDrawingTools"  style="position: relative;height: 0px; left:12px ; z-index: 999;">
+    <div id="actionBtnContainer" title="Drawing" (click)="openTools()"
+      class="customButtons customButtons_Layout">
+      <i class="fa-solid fa-compass-drafting"></i>
+    </div>
+  </div> 
+  <div id="moretools" class="moretools"  [class.dimmed]="isDimmed">
+    <span *ngFor="let x of moretools" title="{{x[0]}}" (click)="CallFunctions(x[3])">
+      <i class="{{x[1]}}"></i>
+    </span>
+  </div>
+  <div id='graphtools' class="graphtools" [class.dimmed]="isDimmed">
+    <span *ngFor="let item of graphtools" title="{{item[0]}}" (click)="CallFunctions(item[3])">
+        <i class="{{item[1]}}"></i>
+    </span>
+      <span  *ngIf="reportType == 2 || reportType == 6 " title="Routing" (click)="toggleDropdown()">
+          <i class="fa-solid fa-road"></i>
+      </span>
+
+    <div id="dropdownContent1" class="dropdown-content1">
+        <span (click)="startRoute()">By Devices</span>
+        <span (click)="displaybyroute()">By routes</span>
+        <span (click)="getallroute1()">Display Routes</span>
+        <span (click)="clearRoutes()">Clear</span>
+    </div>
+
+
+
+  </div>
+  <div   id='graphtools1' class="graphtools">
+    <span title="Magnifier" class="Magnifier" (click)="looplens($event)">
+      <i class="fa fa-search" aria-hidden="true"></i>
+  </span>
+  <!-- <span title="Routing" (click)="hi()">
+    <i class="fa-solid fa-road"></i>
+</span> -->
+  </div>
+</div>
+
+<div id="menu" class="menu d-flex flex-row justify-content-start gap-4" style="z-index:999">
+
+  <select  id="mapType"  class="form-select form-select-sm customButtons_Layout" aria-label=".form-select-sm example"
+  (change)="changeMap($event.target.value)">
+    <option  selected="" disabled="">Map Options</option>
+  <option *ngFor="let z of maptypes" value="{{z[1]}}"  id="{{z[3]}}" >{{z[2]}}</option>
+  </select>
+  
+</div>
+
+
+
+  
+  <button style="position: relative;
+  width: 31px;
+  z-index: 99999;
+  left: 121px;
+    outline-color: transparent;
+  border-radius: 2px;
+  padding: 6px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 5px !important;
+  border: 0px !important;
+  background-color: white;
+  color: rgb(0, 0, 0) !important;
+  height: 28px;
+  color: #000 !important;" id="toggleColor"     (click)="createnewSenario()" [style.background-color]="isGreen ? 'white' : 'green'"><i class="fa-solid fa-plus" style="padding-bottom: 2px;"></i></button>
+  
+
+  
+  <button id="openLayerControl"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="openLayerControl()"
+>
+openLayerControl
+</button>
+
+  
+<!-- 
+  <div  id='graphtools' class="graphtools"   >
+    <span   *ngFor="let item of graphtools"  title="{{item[0]}}" (click)="CallFunctions(item[3])">
+      <i  class="{{item[1]}}"></i>
+    </span>
+  </div> -->
+
+
+  <!-- <div   id="route" style="display: none ;position: absolute;bottom: 0;z-index: 999999999999;left: 300px;border-radius: 10px;background-color: white;padding: 5px;">
+    <button (click)="analyticsroute()" >Start</button>
+    <button (click)="stopanimationRoute()">Stop</button>
+  </div> -->
+
+<button id="btn-54"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="openPopup2()"
+>
+  openPopup
+</button>
+<button id="opentcd"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="opentcdGrid()"
+>
+opentcd
+</button>
+
+<button id="RunDeviceHistory1"
+style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+(click)="RunDeviceHistory()"
+>
+RunDeviceHistory
+</button>
+
+<button id="btn-55"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="closedialog()"
+>
+closedialog
+</button>
+
+<button id="saveshapes"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="closedialog2()"
+>
+saveshapes
+</button>
+
+<button id="refreshJsp"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="refreshSimulation()"
+>
+refreshJsp
+</button>
+
+
+<button id="DisplayCdr"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="DisplayCdr()"
+>
+DisplayCdr
+</button>
+
+<button id="displaycaseSimulation"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="displaycaseSimulation()"
+>
+saveshapes
+</button>
+
+<button id="closedialog"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="closedialogall()"
+>
+closedialog
+</button>
+<button id="closepopup"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="closepopup()"
+>
+closepopup
+</button>
+<button id="opencdr"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="opencdrGrid()"
+>
+opencdrGrid
+</button>
+
+<button id="findCoTraveler"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="findCoTraveler()"
+></button>
+<button id="displayCoTravelers"
+  style="position: absolute; bottom: 0; z-index: 999999999999 ; display: none; "
+  (click)="displayCoTravelers()"
+></button>
+<button id="findCoRelation"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="findCoRelation()"
+></button>
+ <button id="displayCoRelation"
+  style="position: absolute; bottom: 0; z-index: 999999999999 ; display: none; "
+  (click)="displayCoRelation()"
+></button>
+
+<button id="executeAOIActivity"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none; "
+  (click)="executeAOIActivity()"
+></button>
+<button id="displayAOIPolygonData"
+  style="position: absolute; bottom: 0; z-index: 999999999999 ; display: none; "
+  (click)="displayAOIPolygonData()"
+></button>
+<button id="displayAOIResultData"
+  style="position: absolute; bottom: 0; z-index: 999999999999 ; display: none; "
+  (click)="displayAOIResultData()"
+></button>
+<button id="displayAOIActivitytData"
+  style="position: absolute; bottom: 0; z-index: 999999999999 ; display: none; "
+  (click)="displayAOIActivitytData()"
+></button>
+ 
+
+<button id="displayTimelineSimul"
+  style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+  (click)="displayTimelineSimul()"
+>
+refreshJsp
+</button>
+
+<button id="displayTimelineCoTraveler"
+style="position: absolute; bottom: 0; z-index: 999999999999; display: none;"
+(click)="displayTimelineCoTraveler()"
+>
+displayTimelineCoTraveler
+</button>
+<!-- <button id="shortestpath"
+style="position: absolute; bottom: 0; z-index: 999999999999 ;"
+(click)="displaysector()"
+>
+displaysector
+</button> -->
+
+<!-- <button id="shortestpath"
+style="position: absolute; bottom: 0; z-index: 999999999999; left: 300px; display: block;"
+
+(click)="shortestpathtest()"
+>
+</button> -->
+
+
+<div  class="timeline" style="display: none ;position: absolute;top: 617px;z-index: 999999999999;left: 300px;border-radius: 10px;background-color: white;padding: 5px;">
+  
+  <button (click)="startTimeline()" [disabled]="isRunning">Start</button>
+  <button (click)="ReverseTimeline()" [disabled]="isRunning">Reverse</button>
+  <button (click)="resetTimeline()" [disabled]="isRunning">Reset</button>
+  <button (click)="stopTimeline()" [disabled]="!isRunning">Stop</button>
+  <button (click)="opentimelineScreen()"  > Display Data</button>
+ <input type="range" [(ngModel)]="speedTime" min="1" max="100" step="1" value="5"  (click)="changebar()"  >
+  <!-- <span *ngIf="ShowTimeline" style="background-color: white;color: black;">{{ dateTtoDate(selectedTime) }} </span> -->
+  
+  <!-- [disabled]="(!showbarstart && showbarreverse) || (!showbarreverse && showbarstart)" -->
+  
+  <!-- <button id="tabledatabtn"  (click)="opentimelineScreen()"> Display Data</button> -->
+</div>
+
+
+
+
+
+<!-- <button id="shortestpath"
+style="position: absolute; bottom: 0; z-index: 999999999999; left: 300px; display: block;"
+
+(click)="displaysector()"
+>
+displaysectors
+</button> -->
+<!-- <button (click)="opentable()">opendialog</button> -->
+<!-- <button id="TESTREFRESH"
+style="position: absolute; bottom: 0; z-index: 999999999999;"
+(click)="tesTcdDisplay()"
+> 
+tesTcdDisplay
+</button> -->
+
+
+  <!-- <button id="shortestpath"
+style="position: absolute; bottom: 0; z-index: 999999999999; left: 250px;"
+=======
+  <button id="shortestpath"
+style="position: absolute; bottom: 0; z-index: 999999999999; left: 300px; display: block;"
+
+(click)="shortestpathtest()"
+>
+shortest path
+</button>
+<button id="movePersonMarker"
+style="position: absolute; bottom: 0; z-index: 999999999999; left: 300px;"
+(click)="movePersonMarker()"
+>
+Stop animation  </button>  
+<button id="stopButton"
+style="position: absolute; bottom: 0; z-index: 999999999999; left: 370px;"
+(click)="stopAnimationButton()"
+>
+Stop animation  </button>   
+<button id="processNextBatch"
+style="position: absolute; bottom: 0; z-index: 999999999999; left: 500px;"
+(click)="processNextBatch()"
+>
+next Batch
+</button>    -->
+
+
+ <!-- <button id="scandevices"
+style="position: absolute; bottom: 0; z-index: 999999999999; left: 450px;"
+(click)="scandevices()"
+>
+scandevices
+</button>    -->
+
+<!-- <button id="TESTREFRESH"
+  style="position: absolute; bottom: 0; z-index: 999999999999;"
+  (click)="test2()"
+>
+TESTREFRESH2
+</button>
+<button id="TESTREFRESH"
+  style="position: absolute; bottom: 0; z-index: 999999999999;right:40px"
+  (click)="test3()"
+>
+TESTREFRESH3
+</button>
+<button id="TESTREFRESH"
+  style="position: absolute; bottom: 0; z-index: 999999999999;right: 140px;"
+  (click)="test4()"
+>
+TESTREFRESH4
+</button>
+
+<button id="TESTREFRESH"
+
+  style="position: absolute; bottom: 0; z-index: 999999999999;right: 400px;"
+  (click)="test5()"
+>
+TESTREFRESH5
+</button> -->
+
+<!-- <div>
+  <button id="prevPage" [class.dimmed]="dimmedPrev" (click)="prevSimulation()"   style="position: absolute; bottom: 0; z-index: 999999999999;right: 400px;"
+  >Previous Page</button>
+  <button id="nextPage" [class.dimmed]="dimmedNext" (click)="nextSimulation()"  style="position: absolute; bottom: 0; z-index: 999999999999;right: 140px;"
+  >Next Page</button>
+</div> -->
+
+<!-- </div> -->
+
+ <button id="displaysenario"
+
+  style="display:none;"
+  (click)="displaysenarioSequence()"
+>
+displaysenario
+</button> 
+
+<div id="showMeasure"
+class="showMeasure showMeasure_Layout dropdown">
+<i class="fas fa-ruler-combined"></i>
+<!-- <img src="/src/assets/img/" alt="map" class="dropbtn"> -->
+<div class="dropdown-content">
+  <a id="Polygondraw" (click)="startDrawingPolygon()" title='Measure in meters square'>Polygon</a>
+  <a id="Linedraw" (click)="startDrawingPolyline()" title='Measure in meters'>Polyline</a>
+</div>
+</div>
+
+
+
+
+
+<!-- <div id="CreatenewSenario" class="CreatenewSenario d-flex flex-row justify-content-start gap-4" style="z-index:99999">
+  <div class="button_plus bi bi-plus"  (click)="createnewSenario()"></div>
+ 
+
+</div> -->
+
+<!-- <div class="plus-button1" [ngStyle]="{ 'border-radius': '50%', 'background-color': backgroundColor }" (click)="toggleBackgroundColor()">
+</div> -->
+
+<!-- <div   id="ShowSenarioTimeline" class="ShowSenarioTimeline d-flex flex-row justify-content-start gap-4" style="z-index:99999;">
+  <div class="ShowSenario bi bi-list"   (click)="OpenSenariossenarioFlag=!senarioFlag)"></div>
+
+</div> -->
+
+
+<div  id="search"  class="box" style="top: -14px;position: absolute; right: 6px; z-index: 99999; box-shadow: 0 1px 7px #999;" >
+  <i class="fa fa-search" aria-hidden="true" ></i>
+  <input id="searchlocation" type="text" [(ngModel)]="locationName" placeholder="Search Location..." (window:keydown.enter)="search(locationName)"> 
+
+</div>
+<button id="devaddgroup" style="display: none;"  (click)="devaddgroup()"></button>
+<button id="openaddgrpscreen" style="display: none;"  (click)="openaddgrpscreen()"></button>
+<button id="addnewSenario" style="display: none;"  (click)="addnewSenario()"></button>
+
+
+<div  id='routebar' style="display: none ;position: absolute;bottom: 0;z-index: 999999999999;left: 300px;border-radius: 10px;background-color: white;padding: 5px;">
+  <button (click)="startRoute()" >Start</button>
+  <button (click)="stopRoute()">Stop</button>
+  <button (click)="opentimelineScreen()"> Display Data</button>
+ <input type="range" [(ngModel)]="speedTimeRoute" min="1" max="100" step="1" value="5"  (click)="changebarRoute()"  >
+</div>
+
+<div  id='routebar1' style="display: none ;position: absolute;bottom: 0;z-index: 999999999999;left: 300px;border-radius: 10px;background-color: white;padding: 5px;">
+  <button (click)="startRoute1()" >Start</button>
+  <button (click)="stopRoute()">Stop</button>
+  <button (click)="opentimelineScreen()"> Display Data</button>
+ <input type="range" [(ngModel)]="speedTimeRoute" min="1" max="100" step="1" value="5"  (click)="changebarRoute1()"  >
+</div>
+
+
+<ng-template #RCsearch>
+  
+
+  <mat-label>Name</mat-label>
+      <div class="input-search" >
+        <input  type="text" [formControl]="nameFormControl">
+        </div>
+  <div id="datecomp"  >
+     <mat-label>type</mat-label>
+      <div class="input-search" >
+        <select style="width: 100%;" name="type" onChange="combo(this, 'theinput')" [formControl]="typeFormControl"> 
+        <option  *ngFor="let z of fixedeltsTypes" value="{{z[0]}}"  id="option123" >{{z[1]}}</option>
+     </select> </div>
+  
+    <nav class="alertify-buttons">
+      <button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel"(click)="cancelsearch()">Cancel</button>
+      <button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="savefixedelements()">save</button>
+    </nav>
+  </div>
+  
+  </ng-template>
+
+<ng-template #Queue2>
+  <div style="display: flex; flex-direction: column; align-items: center; font-weight: bold; font-family: Calibri; font-size: 14px; font-style: italic; padding: 0px 14px;" class="content">
+    <h1 style="color: #285e8e; margin: 0px 10px; font-weight: bold; font-family: Calibri; font-size: 14px;" id="headerName">Do you want to execute Offline?</h1><br>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px;">
+    <button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="cancelExecution()">
+      Cancel
+    </button>
+    <button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="confirmOfflineExecution()">
+      Ok
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #Queue>
+  <div style="display: flex;flex-direction: column;align-items: center;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;padding: 0px 14px;"class="content"><h1 style="color: #285e8e !important;margin: 0px 10px;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;" id="headerName">Do you want to Display?</h1><br>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px;">
+    <button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="dialog.closeAll();">
+      Cancel
+    </button>
+    <button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="DisplayInQueue()">
+      Ok
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template #AddsenarioName>
+  <div style="display: flex; flex-direction: column; align-items: center; font-weight: bold; font-family: Calibri; font-size: 14px; font-style: italic; padding: 0px 14px;" class="content">
+    <h1 style="color: #285e8e; margin: 0px 10px; font-weight: bold; font-family: Calibri; font-size: 14px;" id="headerName">Please enter Senario Name?</h1><br>
+    <input class="SenarioName" id="SenarioName" type="text">
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px;">
+    <button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel" (click)="dialog.closeAll();">
+      Cancel
+    </button>
+    <button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="dialog.closeAll();">
+      Ok
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #approuting>
+  <div *ngFor="let templateForm of templateForms; let i = index">
+    <form [formGroup]="templateForm">
+      <p>device:</p>
+      <select style="width: 164px" name="type" formControlName="device">
+        <option *ngFor="let z of deviceIdArr" [value]="z">{{z}}</option>
+      </select>
+      <!-- <p>color: </p>
+      <input style="width: 164px" type="color" formControlName="color" id="routname_{{i}}"> -->
+    </form>
+    <p></p>
+  </div>
+  <button type="button" (click)="submit()">OK</button>
+
+  <button type="button" (click)="addTemplate()" [class.dimmed]="dimmedTemplate">Add Template</button>
+</ng-template> 
+
+
+<!-- <div class="chat" >
+  
+  <button   id="chatbot" (click)="chatbot()">  
+<img src="./assets/img/CHATBOT.jpg" alt="CHATBOT">
+  </button>
+</div> -->
+
+<!-- <ng-template #prompt>
+  <div class="container">
+    <div class="nav-bar">
+      <a>Chat</a>
+      <div class="close">
+         <div class="line one"></div>
+         <div class="line two"></div>
+      </div>
+    </div>
+    <div class="messages-area">
+      
+      <div class="message one"></div>
+      <div class="message two"></div>
+      <div class="message three"></div>
+      <div class="message four"></div>
+      <div class="message five"></div>
+      <div class="message six"></div>
+    </div>
+    <div class="sender-area">
+      <div class="input-place">
+        <input placeholder="Send a message." class="send-input" type="text" [(ngModel)]="messageInput">
+          <button (click)="sendMessage()" class="send"> <i class="fa-solid fa-paper-plane"></i></button></div></div></div>
+</ng-template> -->
+
+<ng-template #prompt>
+  <div class="container">
+
+<ng-container *ngFor="let message of messagesArray">
+  
+  <div class="message"
+  [ngClass]="{ 'from': message.author === 'bot',
+  'to': message.author === 'user' }">
+
+  {{ message.content.answer }}
+
+</div>
+<div class="message" *ngIf="message.content.iamge"
+[ngClass]="{ 'from': message.author === 'bot',
+'to': message.author === 'user' }">
+
+<img style="width:100%;height:100%" [src]="imagepath" alt="Bot Image">
+
+
+</div>
+ 
+
+
+  </ng-container>
+  <label *ngIf="messages.length == 0; else dialogInfo" for="nameField">Your message</label>
+  <div class="inputdiv">
+  <input placeholder="Send a message." class="send-input" [(ngModel)]="value" type="text">
+  <button class="sendbutton"   (click)="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+  <ng-template #dialogInfo>
+  <span [className]="'float-right'">Total messages: {{messages.length}}</span>
+  </ng-template></div>
+</ng-template>
+
+
+<div *ngIf="routingTools==true">
+
+  <button id="movePersonMarker"
+  style="position: absolute; bottom: 0; z-index: 999999999999; left: 225px; box-shadow: 0 1px 5px #0006!important;
+      outline-color: transparent;
+      border-radius: 3px;
+      padding: 5px;
+      border: 0!important;
+      cursor: pointer;
+      background-color: #fff!important;
+      color: #000!important;"
+      (click)="animateMarker()"
+  >
+
+  <i class="fa-solid fa-play"></i></button>  
+  <button id="stopButton" 
+  style="position: absolute; bottom: 0; z-index: 999999999999; left: 250px; box-shadow: 0 1px 5px #0006!important;
+      outline-color: transparent;
+      border-radius: 3px;
+      padding: 5px;
+      border: 0!important;
+      cursor: pointer;
+      background-color: #fff!important;
+      color: #000!important;"
+      (click)="stopAnimationButton()"
+  >
+  <i class="fa-solid fa-stop"></i>
+   </button>   
+  
+  <button id="processNextBatch"  
+  style="position: absolute; bottom: 0; z-index: 999999999999; left: 275px; box-shadow: 0 1px 5px #0006!important;
+      outline-color: transparent;
+      border-radius: 3px;
+      padding: 5px;
+      border: 0!important;
+      cursor: pointer;
+      background-color: #fff!important;
+      color: #000!important;"
+      (click)="processNextBatchRoute()"
+  >
+  <i class="fa-solid fa-forward"></i>
+  </button>   
+  </div>
+
+  <div class="menuButtons">
+    <div id="showMap" 
+     (click)="showMap(true)"
+    class="showMap showMap_Layout" title="Map">
+    <i class="fa-sharp fa-solid fa-map"></i>
+</div>
+<div id="showGraph" 
+ (click)="showMap(false)"
+    class="showGraph showGraph_Layout">
+    <i class="fa-solid fa-circle-nodes" title="Knowledge Graph"></i>
+</div>
+
+<div id="showTimeline"   
+ (click)="showTimeline()"
+     class="showTimeline showTimeline_Layout" title="Timeline">
+     <i class="fa-solid fa-timeline"></i>
+</div>
+</div>
+
+
+<div id="refresh" style=" position: absolute; z-index: 9999999999999 ; background-color:white;
+display: table;right: 25px;top: 35px;   border: 6px solid white ;color: black; ">
+  
+  <h1 id="text1">Begin Operation</h1>
+  <input id="type" type="datetime-local" [(ngModel)]="beginOperation2">
+  <h1 id="text1">End Operation</h1>
+  <input id="type" type="datetime-local" [(ngModel)]="endOperation2">
+  <h1 id="text1">Type:</h1>
+
+    
+    
+  <select id="type" name="type" [(ngModel)]="selectedType" (change)="changeType(selectedType)">
+    <option *ngFor="let type of simulationtype" id="{{type[0]}}" [value]="type[0]">{{type[1]}}</option>
+  </select>
+
+
+
+ 
+    <div *ngIf="selectedType == 2" (change)="changeType($event.target.value)">
+    <div>
+        <label for="device" style="font-weight: bold;
+        font-size: 14px;"> Device</label><br> 
+        <input type="text" id="device" name="device"  [(ngModel)]="deviceValue">
+    </div>
+    <div>
+        <label for="country" style="font-weight: bold;
+        font-size: 14px;">Country</label><br>
+        <input type="text" id="country" name="country"  [(ngModel)]="countryValue">
+      </div> </div>
+
+    <div *ngIf="selectedType == 6" (change)="changeType($event.target.value)">
+    <div>
+        <label for="country" style="font-weight: bold;
+        font-size: 14px;"> Country</label><br>
+        <input type="text" id="country" name="country"  [(ngModel)]="countryValue">
+      </div> </div>
+
+      <div *ngIf="selectedType == 7" (change)="changeType($event.target.value)">
+       <div><label for="device" style="font-weight: bold;
+        font-size: 14px;">Device</label><br>
+            <input type="text" id="device" name="device"  [(ngModel)]="deviceValue">
+        </div>
+       
+          
+         <div>
+            <label for="MeterFrom" style="font-weight: bold;
+            font-size: 14px;">Meter From</label><br>
+            <input type="text" id="MeterFrom" name="MeterFrom"  [(ngModel)]="MeterFromValue">
+        </div> <div>
+        <label for="MeterTo" style="font-weight: bold;
+        font-size: 14px;">Meter To</label><br>
+            <input type="text" id="MeterTo" name="MeterTo"  [(ngModel)]="MeterToValue">
+        </div>
+         <div> 
+            <label for="country" style="font-weight: bold;
+            font-size: 14px;"> Country</label><br>
+            <input type="text" id="country" name="country"  [(ngModel)]="countryValue">
+          </div> 
+          <div> 
+            <label for="TimeLimit" style="font-weight: bold;
+            font-size: 14px;">Time Limit</label><br>
+            <input type="text" id="TimeLimit" name="TimeLimit"  [(ngModel)]="TimeLimitValue">
+          </div> </div>
+    
+          <div *ngIf="selectedType == 11" (change)="changeType($event.target.value)">
+            <div>
+                <label for="IMSI_ID" style="font-weight: bold;
+                font-size: 14px;">IMSI ID</label><br>
+                <input type="text" id="IMSI_ID" name="IMSI_ID"  [(ngModel)]="IMSI_IDValue">
+              </div> </div>
+
+              <div *ngIf="selectedType == 13" (change)="changeType($event.target.value)">
+                <div>
+                    <label for="GROUPS" style="font-weight: bold;
+                    font-size: 14px;">GROUPS</label><br>
+                    <input type="text" id="GROUPS" name="GROUPS"  [(ngModel)]="GROUPSValue">
+                  </div> </div> <br>
+
+  
+  
+</div>  

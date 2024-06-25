@@ -1,0 +1,16 @@
+<v-label *ngIf="fieldName != ''" text="{{label}}"></v-label>
+
+<mat-slide-toggle *ngIf="fieldName == ''" 
+                  (change)="changed.emit($event.checked)" 
+                  [checked]="checked">{{ label }}</mat-slide-toggle>
+
+<div class="formToggle align-content-left">
+    <mat-slide-toggle *ngIf="fieldName != ''"
+                    (blur)="touched" 
+                    (valueChanges)="onchange($event)" 
+                    [id]="fieldName" 
+                    [name]="fieldName" 
+                    [checked]="checked"
+                    [disabled]="disabled"
+                    [formControl]="formField"></mat-slide-toggle>
+</div>

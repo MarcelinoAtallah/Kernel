@@ -1,0 +1,34 @@
+<!-- <form [formGroup]="ratioForm">
+    <div class="row">
+        <div class="col-lg-3">
+            <v-input type="text" label="Title" required="true"></v-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+                 <v-input formControlName="query" [parentForm]="ratioForm" type="lookup"
+                 [lookupDataApi]="getQueryName" lookupWidth="700px" lookupHeight="700px" label="Source Query"
+                 fieldName="query">
+             </v-input>
+        </div >
+    </div>
+    <div class="col-2">
+        <v-label [parentForm]="ratioForm" >Display</v-label>
+        <v-input type="checkbox" formControlName="grid"    [parentForm]="ratioForm" label="Grid"     fieldName="grid"></v-input>
+        <v-input type="checkbox" formControlName="chart"   [parentForm]="ratioForm" label="Chart"    fieldName="chart"  ></v-input>
+        <v-input type="checkbox" formControlName="report"  [parentForm]="ratioForm" label="Report"   fieldName="report"></v-input>
+    </div>
+</form> -->
+
+<v-grid
+allowSideBar="true"
+ 
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="15"
+agToolBar="amd"
+agPrimaryKey="title"
+(onGridAdd)="onAddClick()"
+(onGridDelete)="onDeleteClick()"
+(onGridUpdate)="onUpdateClick()"
+></v-grid>

@@ -1,0 +1,8 @@
+<div class="staticdropdown">
+  <select [formControl]="formField" (change)="onChangeEvent.emit($event.target.value)" [name]="fieldName">
+    <option>Select</option>
+    <option *ngFor="let item of dataList; let i = index" [value]="item.code" [selected]="i == 0">
+      {{item.name}}
+    </option>
+  </select>
+</div>

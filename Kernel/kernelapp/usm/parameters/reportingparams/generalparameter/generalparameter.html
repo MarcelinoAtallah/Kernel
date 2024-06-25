@@ -1,0 +1,23 @@
+<form [formGroup]="generalParameterForm">
+    <div class="row">
+        <h3>General Parameter</h3>
+        <div class="col-lg-6">
+            <v-toggle label="Display Lookup Variable" formControlName="displayLookupVariable"
+                [parentForm]="generalParameterForm" fieldName="displayLookupVariable">
+            </v-toggle>
+        </div>
+        <div class="col-lg-6">
+            <v-toggle label="Display Icon" formControlName="displayIcon" [parentForm]="generalParameterForm"
+                fieldName="displayIcon">
+            </v-toggle>
+        </div>
+        <div class="col-lg-6">
+            <v-button btnActionType="submit" btnType="form" [parentForm]="generalParameterForm" value="Save">
+            </v-button>
+        </div>
+        <div class="col-lg-6">
+            <v-button btnActionType="submit" btnType="form" [parentForm]="generalParameterForm" value="Reload">
+            </v-button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,13 @@
+<v-grid
+allowSideBar="true"
+[dataApi]="getUSMRolesApi"
+agToolBar="amd"
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="10"
+agPrimaryKey="id"
+(onGridAdd)="onAddClick()"
+(onGridDelete)="onDeleteClick()"
+>
+</v-grid>
+

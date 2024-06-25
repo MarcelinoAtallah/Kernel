@@ -1,0 +1,31 @@
+<mat-dialog-content cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+
+<div class="form-container">
+  <form [formGroup]="queryForm" enctype="multipart/form-data">
+
+ <!--   <form [formGroup]="queryForm" class="query-form">-->
+      <div class="form-group">
+        <v-input formControlName="queryName" type="text" label="Query Name" placeholder="Query Name" [parentForm]="queryForm" fieldName="queryName" [required]="true"></v-input>
+        <div class="error-msg" *ngIf="queryForm.get('queryName').errors?.['required']"></div>
+      </div>
+  
+      <!-- <div class="form-group">
+        <v-input formControlName="queryTheme" type="text" label="Theme" placeholder="Theme" [parentForm]="queryForm" fieldName="queryTheme" [required]="true"></v-input>
+        <div class="error-msg" *ngIf="queryForm.get('queryTheme').errors?.['required']"></div>
+      </div>
+  
+      <div class="form-group">
+        <v-input formControlName="queryFolder" type="text" label="Folder" placeholder="Folder" [parentForm]="queryForm" fieldName="queryFolder"></v-input>
+      </div> -->
+  
+      <div class="form-group">
+        <v-input formControlName="queryVersion" type="text" label="Version" placeholder="Version" [parentForm]="queryForm" fieldName="queryVersion"></v-input>
+      </div>
+  
+      <div class="form-group">
+        <v-input formControlName="queryComments" type="text" label="Comments" placeholder="Comments" [parentForm]="queryForm" fieldName="queryComments"></v-input>
+      </div>
+      <v-button btnActionType="submit" btnType="form" [parentForm]="queryForm" value="Submit" (click)="submitForm()" [disabled]="!queryForm.valid" class="submit-button"></v-button>
+    </form>
+  </div>
+</mat-dialog-content>

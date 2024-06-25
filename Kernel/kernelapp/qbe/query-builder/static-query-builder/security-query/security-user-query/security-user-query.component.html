@@ -1,0 +1,15 @@
+<div *ngIf ="showgrid">
+<v-grid
+allowSideBar="true"
+[agColumns]="agColumns"
+[dataApi]="getusers"
+[pagination]="true"
+[paginationPageSize]="15"
+agToolBar="ad"
+(onGridAdd)="onAddClick()"
+(onGridDelete)="onDeleteClick()"
+agRowSelection="multiple"
+agPrimaryKey="USERID"
+></v-grid>
+</div>
+  

@@ -1,0 +1,10 @@
+<div *ngIf="alertType == 'error'" class="v-alert">
+    <!-- <i class="fa fa-exclamation-circle fa-4x red" aria-hidden="true"></i> -->
+    <span [innerHTML]="alertMessage"></span>
+
+</div>
+
+<div *ngIf="alertType == 'success'" class="v-alert">
+    <i class="fa fa-success fa-4x green" aria-hidden="true"></i>
+    <span>{{ alertMessage }}</span>
+</div>

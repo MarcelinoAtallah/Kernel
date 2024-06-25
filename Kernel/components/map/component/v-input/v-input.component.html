@@ -1,0 +1,260 @@
+<div class="form-group">
+    <div *ngIf="type == 'hidden'">
+        <input type="hidden"
+               (input)="onChange($event)"
+               (blur)="touched"
+               [name]="fieldName"
+               [id]="fieldName"
+               [value]="value"
+               [disabled]="isDisabled">
+    </div>
+
+    <div *ngIf="type == 'date'">
+        <mat-form-field [appearance]="matAppearance" [floatLabel]="floatingLabel" color="{{color}}">
+            <mat-label *ngIf="allowLabel">{{label}}</mat-label>
+            <input matInput
+                   placeholder="{{ placeholder }}"
+                   [matDatepicker]="picker"
+                   required="{{ required }}"
+                   (input)="onChange($event)"
+                   (blur)="touched"
+                   [id]="fieldName"
+                   [name]="fieldName"
+                   [value]="value"
+                   [disabled]="isDisabled"
+                   [formControl]="formFieldd"
+                   [readonly]="readonly">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <small *ngIf="formFieldd.hasError('required') && formFieldd.touched" class="error-message">
+            {{ label }} is required
+        </small>
+    </div>
+
+    <div *ngIf="type    == 'text' 
+                || type == 'email' 
+                || type == 'number' 
+                || type == 'color' 
+                || type == 'password' 
+                || type == 'search' 
+                || type == 'tel' 
+                || type == 'time'
+                || type == 'url' 
+                || type == 'week' 
+                || type == 'datetime-local' 
+                || type == 'month'">
+        
+        <div *ngIf="fieldName != ''">
+            <mat-form-field [appearance]="matAppearance" [floatLabel]="floatingLabel" color="{{color}}" >
+                <mat-label *ngIf="allowLabel">{{label}}</mat-label>
+                <input matInput
+                       type="{{ type }}"
+                       placeholder="{{ placeholder }}"
+                       required="{{ required }}"
+                       (input)="onChange($event)"
+                       (blur)="touched"
+                       [id]="fieldName"
+                       [name]="fieldName"
+                       [value]="value"
+                       [disabled]="isDisabled"
+                       [formControl]="formFieldd"
+                       [readonly]="readonly">
+                <button *ngIf="fontawesome != ''" class="inputIcon" matSuffix mat-icon-button disabled="true">
+                    <i class="{{ fontawesome }}" aria-hidden="true"></i>
+                </button>
+            </mat-form-field>
+
+            <small *ngIf="formFieldd.hasError('required') && formFieldd.touched" class="error-message">
+                {{ label }} is required
+            </small>
+            <small *ngIf="formFieldd.hasError('pattern') && formFieldd.touched" class="error-message">
+                {{ label }} is required
+            </small>
+        </div>
+        
+        <div *ngIf="fieldName == ''">
+            <mat-form-field [appearance]="matAppearance" [floatLabel]="floatingLabel" color="{{color}}" >
+                <mat-label *ngIf="allowLabel">{{label}}</mat-label>
+                <input matInput
+                       type="{{ type }}"
+                       placeholder="{{ placeholder }}"
+                       required="{{ required }}"
+                       (input)="onChange($event)"
+                       (blur)="touched"
+                       [value]="value"
+                       [disabled]="isDisabled"
+                       [readonly]="readonly">
+                <button *ngIf="fontawesome != ''" class="inputIcon" matSuffix mat-icon-button disabled="true">
+                    <i class="{{ fontawesome }}" aria-hidden="true"></i>
+                </button>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div *ngIf="type == 'mobile'">
+        <div *ngIf="fieldName != ''">
+            <mat-form-field [appearance]="matAppearance" [floatLabel]="floatingLabel" color="{{color}}" >
+                <mat-label *ngIf="allowLabel">{{label}}</mat-label>
+                <input matInput
+                       type="tel"
+                       placeholder="{{ placeholder }}"
+                       required="{{ required }}"
+                       (input)="onChange($event)"
+                       (blur)="touched"
+                       [id]="fieldName"
+                       [name]="fieldName"
+                       [value]="value"
+                       [disabled]="isDisabled"
+                       [formControl]="formFieldd"
+                       [readonly]="readonly">
+                <button *ngIf="fontawesome != ''" class="inputIcon" matSuffix mat-icon-button disabled="true">
+                    <i class="{{ fontawesome }}" aria-hidden="true"></i>
+                </button>
+            </mat-form-field>
+
+            <small *ngIf="formFieldd.hasError('required') && formFieldd.touched" class="error-message">
+                {{ label }} is required
+            </small>
+            <small *ngIf="formFieldd.hasError('pattern') && formFieldd.touched" class="error-message">
+                {{ label }} is required
+            </small>
+
+        </div>
+        
+        <div *ngIf="fieldName == ''">
+            <mat-form-field [appearance]="matAppearance" [floatLabel]="floatingLabel" color="{{color}}" >
+                <mat-label *ngIf="allowLabel">{{label}}</mat-label>
+                <input matInput
+                       type="tel"
+                       placeholder="{{ placeholder }}"
+                       required="{{ required }}"
+                       (input)="onChange($event)"
+                       (blur)="touched"
+                       [value]="value"
+                       [disabled]="isDisabled"
+                       [readonly]="readonly">
+                <button *ngIf="fontawesome != ''" class="inputIcon" matSuffix mat-icon-button disabled="true">
+                    <i class="{{ fontawesome }}" aria-hidden="true"></i>
+                </button>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div *ngIf="type == 'textarea'">
+        <mat-form-field [appearance]="matAppearance" [floatLabel]="floatingLabel" color="{{color}}" >
+            <mat-label *ngIf="allowLabel">{{label}}</mat-label>
+            <textarea matInput
+                    placeholder="{{ placeholder }}"
+                    required="{{ required }}"
+                    cols="{{ textareaCols }}"
+                    rows="{{ textareaRows }}"
+                    (input)="onChange($event)"
+                    (blur)="touched"
+                    [id]="fieldName"
+                    [name]="fieldName"
+                    [value]="value"
+                    [disabled]="isDisabled"
+                    [formControl]="formFieldd"
+                    [readonly]="readonly"
+                    [ngClass]="{'input-elem-error': formFieldd.hasError('required') && formFieldd.touched}">
+            </textarea>
+        </mat-form-field>
+
+        <small *ngIf="formFieldd.hasError('required') && formFieldd.touched" class="error-message">
+            {{ label }} is required
+        </small>
+        <small *ngIf="formFieldd.hasError('pattern') && formFieldd.touched" class="error-message">
+            {{ label }} is required
+        </small>
+    </div>
+
+    <div *ngIf="type == 'checkbox'">
+        <mat-label *ngIf="allowLabel">{{label}}</mat-label>
+        <mat-checkbox required="{{ required }}"
+                      color="{{color}}"
+                      (input)="onChange($event)"
+                      class="mat-checkbox-button"
+                      (blur)="touched"
+                      [id]="fieldName"
+                      [name]="fieldName"
+                      [value]="value"
+                      [disabled]="isDisabled"
+                      [formControl]="formFieldd">{{ label }}</mat-checkbox>
+
+        <small *ngIf="formFieldd.hasError('required') && formFieldd.touched" class="error-message">
+            {{ label }} is required
+        </small>
+        <small *ngIf="formFieldd.hasError('pattern') && formFieldd.touched" class="error-message">
+            {{ label }} is required
+        </small>
+    </div>
+</div>
+
+<div *ngIf="type == 'radio'">
+    <mat-label *ngIf="allowLabel" class="mb-2">{{label}}</mat-label>
+    <mat-radio-group aria-label="Select an option" 
+                     role="radio" 
+                     class="mat-radio-button" 
+                     required="{{ required }}" 
+                     [formControl]="formFieldd" 
+                     (input)="onChange($event)" 
+                     [id]="fieldName" 
+                     [name]="fieldName"
+                     (change)="change($event)"
+                     [ngClass]="{'radio-elem-error': formFieldd.hasError('required') && formFieldd.touched}">
+        <mat-radio-button *ngFor="let radioObject of radioJSON" [value]="radioObject.id" [checked]="radioObject.checked">{{radioObject.value}}</mat-radio-button>
+    </mat-radio-group>
+
+    <small *ngIf="formFieldd.hasError('required') && formFieldd.touched" class="error-message">
+        {{ label }} is required
+    </small>
+</div>
+
+<div *ngIf="type == 'select'"> 
+    <mat-form-field [appearance]="matAppearance" [floatLabel]="floatingLabel" color="{{color}}">
+        <mat-label *ngIf="allowLabel">{{label}}</mat-label>
+        <mat-select  
+                    [formControl]="formFieldd" 
+                    [id]="fieldName" 
+                    (input)="onChange($event)" 
+                    [(value)]="value"   
+                    [multiple]="isMultiSelect" 
+                    [placeholder]="placeholder" 
+                    (change)="change($event)">
+            <mat-option *ngFor="let selectObject of selectJSON" [value]="selectObject.id">{{selectObject.value}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <small *ngIf="formFieldd.hasError('required') && formFieldd.touched" class="error-message">
+        {{ label }} is required
+    </small>
+</div> 
+
+<!-- <div>
+
+
+<mat-select class="w-100" formControlName="countryCode">
+
+    <mat-select-trigger>
+      {{ DialCode.controls['countryCode'].value }}
+    </mat-select-trigger>
+  
+    <input
+      type="text"
+      aria-label="Number"
+      class="py-1 search"
+      formControlName="countryCodeInput"
+      matInput
+      name="phoneCode"
+      placeholder="search country code"
+    />
+    <mat-option
+      *ngFor="let country of filteredCountries | async"
+      [value]="country.dialCode"
+    >
+      {{ country.dialCode }} {{ country.name }}
+    </mat-option>
+  </mat-select>
+</div> -->

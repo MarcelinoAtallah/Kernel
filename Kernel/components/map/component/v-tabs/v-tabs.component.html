@@ -1,0 +1,11 @@
+<div class="nav nav-tabs">
+  <div *ngFor="let tab of tabs">
+    <div *ngIf="tab.showScreen" (click)="selectTab(tab, false)" [class.active]="tab.active" class="tab">
+      <i *ngIf="tab.fontawesome != ''" class="{{tab.fontawesome}}"></i>
+      <a>{{tab.title}}</a>
+    </div>
+  </div>
+</div>
+<div class="tab-content">
+  <ng-content></ng-content>
+</div> 

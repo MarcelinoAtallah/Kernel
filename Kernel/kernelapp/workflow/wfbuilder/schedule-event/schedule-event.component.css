@@ -1,0 +1,29 @@
+.dialog-header {
+    margin-bottom: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    overflow: hidden;
+}
+.dialog-title {
+    color: blue;
+    margin-left: 35%;
+    font-size:17px;
+}
+.dialog-close {
+    color:blue; 
+    font-size:15px; 
+    cursor: pointer;
+}
+
+label{
+    margin-right: 10px;
+}
+
+.legend{
+    font-weight: bold;
+    font-size: 11px;
+    border: 1px #ACB5B5 solid;
+    background-color: #EEF0F0;
+}

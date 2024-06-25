@@ -1,0 +1,107 @@
+<div class="navigation-bar">
+  <!-- <span class="nav-button prev"><img src="./assets/icons/left.png" alt="menu" style="width: 25px;"></span> -->
+
+<!-- menu -->
+
+
+<div _ngcontent-xnm-c86="" class="reset"><button _ngcontent-xnm-c86="" class="menu-trash" id="reset" (click)="reset()">
+<span _ngcontent-xnm-c86="">
+
+  <i class="fa-solid fa-trash" style="color: black;"></i> </span>
+</button>
+<span _ngcontent-xnm-c86="">
+</span></div>
+
+
+<!-- menu -->
+
+  <div class="menu"
+   *ngFor="let item of currentHierarchy.length > 0 ? currentHierarchy : hierarchyData">
+    <button class="menu-item" (contextmenu)="handleRightClick($event,item)" *ngIf="item.children && item.children.length > 0" (click)="showSubMenu(item)" id={{item.id}}>
+      <!-- {{ item.SimulName }} -->
+      
+      <span  *ngIf="item.SimulName=='No Name'" ><input readonly class="smartinput" type="text" value="{{ item.Name }}" /></span>
+    
+    
+    
+    
+      <span  *ngIf="item.SimulName != 'No Name'" class="input-with-icon"><input readonly class="smartinput" type="text" value="{{ item.SimulName }}" />
+        <!-- <i class="fa fa-info-circle"    (mouseenter)="onIconHover(true)"  (mouseleave)="onIconHover(false)"></i> -->
+      </span>
+      <!-- <div *ngIf="isHovered" class="tooltipsssss">{{ item.SimulName }}</div> -->
+
+    </button>
+    <button class="menu-item" (contextmenu)="handleRightClick($event, item)"  *ngIf="!item.children || item.children.length === 0" (click)="showSubMenu(item)" id={{item.id}}>
+      <!-- {{ item.SimulName }} -->
+      <span  *ngIf="item.SimulName=='No Name'" ><input readonly class="smartinput" type="text" value="{{ item.Name }}" /></span>
+        <span  *ngIf="item.SimulName != 'No Name'" ><input readonly class="smartinput" type="text" value="{{ item.SimulName }}" />
+          <!-- <i class="fa fa-info-circle"    (mouseenter)="onIconHover(true)" 
+          (mouseleave)="onIconHover(false)"></i> -->
+        </span>
+ 
+        <!-- <div  class="tooltipsssss{{item.id}}"  style="display: none;  position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.75);
+        color: white;
+        padding: 5px;
+        border-radius: 3px;
+        white-space: nowrap;
+        transform: translateY(10px);
+        z-index: 9999999999;">T:{{ getDisplayValue(item.SimulType) }}<br>H:{{ item.nbrofhits }}<br>D:{{ item.Nbrofdevices }}<br>D:{{ item.SimulName }}
+        </div>  -->
+    </button>
+    <!--  -->
+    <div class="submenu" *ngIf="item.children && item.children.length > 0">
+      
+      <button class="submenu-item" *ngFor="let submenu of item.children" (click)="addMenu(submenu)">
+        <span  *ngIf="submenu.SimulName=='No Name'" >{{ submenu.Name }}</span>
+        <span  *ngIf="submenu.SimulName != 'No Name'" >{{ submenu.SimulName }}</span>
+ 
+        <!-- <div  class="tooltipsssss{{submenu.id}}"  style="display: none;  position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.75);
+        color: white;
+        padding: 5px;
+        border-radius: 3px;
+        white-space: nowrap;
+        transform: translateY(10px);
+        z-index: 9999999999;">T:{{ getDisplayValue(submenu.SimulType) }}<br>H:{{ submenu.nbrofhits }}<br>D:{{ submenu.Nbrofdevices }}<br>D:{{ submenu.SimulName }}
+        </div>  -->
+      </button>
+    </div>  
+    <span>
+      <!-- <img src="./assets/icons/next.png" alt="menu" style="width: 10px;"> -->
+    </span>
+<!-- 
+    <div  class="tooltipsssss" >T:{{ getDisplayValue(item.SimulType) }}<br>H:{{ item.nbrofhits }}<br>D:{{ item.Nbrofdevices }}
+    </div>  -->
+
+  </div>
+
+  <!-- <span class="nav-button next"><img src="./assets/icons/right.png" alt="menu" style="width: 25px;"></span> -->
+</div>
+<div *ngIf="isContextMenuOpen" style="position: relative;" [ngStyle]='{"left.px": contextMenuPosition.x }'>
+  <div class="custom-context-menu" >
+    <!-- Add your custom context menu items here -->
+    <button (click)="addnewSenario()" style="color: black;">Save Under Simulation</button>
+    <!-- <button>Link To Case</button> -->
+    <button (click)="editName()" style="color: black;">Edit Name</button>
+    <button (click)="deleteSimul()" style="color: black;">Delete</button>
+     <!-- <div  class="tooltipsssss"  style=" position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.75);
+        color: white;
+        padding: 5px;
+        border-radius: 3px;
+        white-space: nowrap;
+        transform: translateY(10px);
+        z-index: 9999999999;">Name:{{ simulproperties.SimulName }}<br>Type:{{ getDisplayValue(simulproperties.SimulType) }}<br>Nbr of Hits:{{ simulproperties.nbrofhits }}<br>Nbr of Devices:{{ simulproperties.Nbrofdevices }}
+     
+        </div>   -->
+    <!-- <button (click)="addnewSenario()">Add case</button> -->
+  </div>
+</div>
+

@@ -1,0 +1,222 @@
+<div class="form-group" [ngClass]="{'mb-2': fieldName != ''}" *ngIf="!isForIndisplay">
+    <div *ngIf="type == 'hidden'">
+        <input type="hidden" (input)="onChange($event)" (blur)="touched" [name]="fieldName" [id]="fieldName"
+            [value]="value" [disabled]="disable">
+    </div>
+
+    <div *ngIf="type == 'date'">
+        <div class="form-ele-parent mb-3 mb-3">
+            <div class="row">
+                <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                    <v-label *ngIf="allowLabel" [hasSuspendedStyle]="hasSuspendedStyle" text="{{label}}"
+                        [required]="required"></v-label>
+                </div>
+                <div class="col-lg-8 col-md-9 col-sm-12 col-xs-12">
+                    <div class="form-ele-child">
+                        <input placeholder="{{ placeholder }}" type="date"
+                            required="{{ required }}" (input)="onChange($event)" (blur)="touched" [id]="fieldName"
+                            [name]="fieldName" [value]="value" [disabled]="disable" [formControl]="formField"
+                            [readonly]="readonly" class="input-style">
+                        <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="type == 'radio'">
+        <div class="form-ele-parent mb-3">
+            <div class="row">
+                <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                    <v-label *ngIf="allowLabel" text="{{label}}" [hasSuspendedStyle]="hasSuspendedStyle"
+                        [required]="required"></v-label>
+                </div>
+                <div class="col-lg-8 col-md-9 col-sm-12 col-xs-12">
+                    <div class="form-ele-child">
+                        <mat-radio-group aria-label="Select an option" role="radio" class="mat-radio-button"
+                            required="{{ required }}" [formControl]="formField" (input)="onChange($event)" [id]="fieldName"
+                            [name]="fieldName" (change)="change($event)"
+                            [ngClass]="{'radio-elem-error': formField.hasError('required') && formField.touched}">
+                            <mat-radio-button *ngFor="let object of radioData"
+                                [value]="object.value">{{object.name}}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="type == 'text' || type == 'email' || type == 'number' || type == 'color' || type == 'password' ||
+                type == 'search' || type == 'tel' || type == 'time' || type == 'url' || type == 'week' ||
+                type == 'datetime-local' || type == 'month'">
+
+        <div class="form-ele-parent mb-3">
+            <div class="row">
+                <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 align-items-center" *ngIf="fieldName != '' && allowLabel">
+                    <v-label text="{{label}}" [hasSuspendedStyle]="hasSuspendedStyle"
+                        [required]="required"></v-label>
+                </div>
+                <div class="col-lg-8 col-md-9 col-sm-12 col-xs-12" *ngIf="fieldName != '' && allowLabel">
+                    <div class="form-ele-child">
+                        <input type="{{ type }}" placeholder="{{ placeholder }}" required="{{ required }}"
+                            (input)="onChange($event)" (blur)="touched" [id]="fieldName" [name]="fieldName"
+                            [value]="value" [disabled]="disable" [formControl]="formField" [readonly]="readonly"
+                            class="input-style" [ngClass]="{'input-indent-2': fontawesome != ''}">
+                        <button *ngIf="fontawesome != ''" class="inputIcon" disabled="true">
+                            <i class="{{ fontawesome }}" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="fieldName != '' && !allowLabel">
+                    <div class="form-ele-child">
+                        <input type="{{ type }}" placeholder="{{ placeholder }}" required="{{ required }}"
+                            (input)="onChange($event)" (blur)="touched" [id]="fieldName" [name]="fieldName"
+                            [value]="value" [disabled]="disable" [formControl]="formField" [readonly]="readonly"
+                            class="input-style" [ngClass]="{'input-indent-2': fontawesome != ''}">
+                        <button *ngIf="fontawesome != ''" class="inputIcon" disabled="true">
+                            <i class="{{ fontawesome }}" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 align-items-center" *ngIf="fieldName == ''">
+                    <div class="form-ele-child">
+                        <input type="{{ type }}" placeholder="{{ placeholder }}" required="{{ required }}"
+                            (input)="onChange($event)" (blur)="touched" [value]="value" [disabled]="disable"
+                            [readonly]="readonly" class="input-style" [ngClass]="{'input-indent-2': fontawesome != ''}">
+                        <button *ngIf="fontawesome != ''" class="inputIcon" disabled="true">
+                            <i class="{{ fontawesome }}" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="type == 'textarea'">
+        <div class="form-ele-parent mb-3">
+            <v-label *ngIf="allowLabel" text="{{label}}" [hasSuspendedStyle]="hasSuspendedStyle" [required]="required"></v-label>
+            <div class="form-ele-child">
+                <textarea placeholder="{{ placeholder }}" required="{{ required }}" cols="{{ textareaCols }}"
+                    rows="{{ textareaRows }}" (input)="onChange($event)" (blur)="touched" [id]="fieldName"
+                    [name]="fieldName" [value]="value" [disabled]="disable" [formControl]="formField"
+                    [readonly]="readonly"
+                    [ngClass]="{'input-elem-error': formField.hasError('required') && formField.touched}">
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="type == 'checkbox'">
+        <div class="form-ele-parent mb-3">
+            <v-label *ngIf="allowLabel" text="{{label}}" [hasSuspendedStyle]="hasSuspendedStyle"
+                [required]="required"></v-label>
+            <div class="form-ele-child">
+                <mat-checkbox required="{{ required }}" color="{{color}}" (input)="onChange($event)" (blur)="touched"
+                    [id]="fieldName" [name]="fieldName" [value]="value" [disabled]="disable"
+                    [formControl]="formField">{{ label
+                    }}</mat-checkbox>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOOK UP-->
+
+    <div *ngIf="type == 'lookup'">
+        <div class="form-ele-parent mb-3">
+            <div class="row">
+                <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 align-items-center">
+                    <v-label *ngIf="allowLabel" text="{{label}}" [hasSuspendedStyle]="hasSuspendedStyle"
+                        [required]="required"></v-label>
+                </div>
+                <div class="col-lg-8 col-md-9 col-sm-12 col-xs-12">
+                    <div class="form-ele-child">
+                        <input type="hidden" required="{{ required }}" (blur)="touched"
+                            [id]="fieldName" [name]="fieldName" [value]="value" [disabled]="true"
+                            [formControl]="formField">
+                        <input type="text" required="{{ required }}" [disabled]="disable" [id]="fieldLookupName" [formControl]="formField"
+                            [readonly]="true" class="input-style" (dblclick)="emptyLookup()" (input)="onChange($event)"
+                             >
+                        <span (click)="openLookup($event)" class="input-lookup-btn" *ngIf="!disable">
+                            <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- onclick="return false;" -->
+<div class="relative" *ngIf="isForIndisplay">
+    <input type="hidden" required="{{ required }}" (blur)="touched"
+        [id]="fieldName" [name]="fieldName" [value]="value" [disabled]="true"
+        [formControl]="formField">
+    <input type="text" required="{{ required }}" [id]="fieldLookupName" [formControl]="formField"
+        [readonly]="true" class="input-style" (dblclick)="emptyLookup()">
+    <span (click)="openLookup($event)" class="input-lookup-btn">
+        <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+    </span>
+</div>
+
+
+<div *ngIf="type == 'selectDay'">
+    <div class="form-ele-parent mb-3">
+        <div class="row">
+            <div class="col-lg-4">
+                <v-label *ngIf="allowLabel" text="{{label}}" [hasSuspendedStyle]="hasSuspendedStyle"
+                    [required]="required"></v-label>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-ele-child">
+                    <table class="selected-Day-Table" >
+                        <!--[id]="fieldName" [formControl]="formField" [name]="fieldName"-->
+                        <tr>
+                            <!--if hovered over, the element becomes an index, which is added to the color blue 
+                                class, and when clicked on, it is added to the service, which also makes it
+                                eligible for the change in color-->
+                            <td *ngFor="let day of days" 
+                                (mouseenter)="hoveredIndex = day"
+                                (mouseleave)="hoveredIndex = null"
+                                [class.blue-background]="day === this.informationservice.getSelectDay() || day === hoveredIndex"
+                                (click)="handleClickDay(day)">{{ day }}</td>
+                                <!--day being an element inside the days array -->
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="type == 'selectMonth'">
+    <div class="form-ele-parent mb-3">
+        <div class="row">
+            <div class="col-lg-4">
+                <v-label *ngIf="allowLabel" text="{{label}}" [hasSuspendedStyle]="hasSuspendedStyle"
+                    [required]="required"></v-label>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-ele-child">
+                    <table class="selected-Month-Table">
+                        <ng-container *ngFor="let row of [0, 1, 2]">
+                          <tr>
+                            <!--if hovered over, the element becomes an index, which is added to the color blue 
+                                class, and when clicked on, it is present in the service, which also makes it
+                                eligible for the change in color-->
+                            <td *ngFor="let col of [0, 1, 2, 3]" 
+                                (mouseenter)="hoveredIndex2 = months[row * 4 + col]" 
+                                (mouseleave)="hoveredIndex2 = null" 
+                                [class.blue-background]="isSelected(months[row * 4 + col]) || months[row * 4 + col] === hoveredIndex2" 
+                                (click)="handleClickMonth(months[row * 4 + col])">
+                              {{ months[row * 4 + col] }}
+                            </td>
+                          </tr>
+                        </ng-container>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

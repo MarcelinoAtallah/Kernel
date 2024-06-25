@@ -1,0 +1,90 @@
+<form [formGroup]="queriesMonitoringForm">
+    <div class="row">
+        <h3>Queries Monitoring</h3>
+        <div class="col-lg-4">
+            <v-input formControlName="totalQueries" type="text" label="Total Queries" required="true"
+                placeholder="Total Queries" [parentForm]="queriesMonitoringForm" fieldName="totalQueries">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="completedQueries" type="text" label="Completed Queries" required="true"
+                placeholder="Completed Queries" [parentForm]="queriesMonitoringForm" fieldName="completedQueries">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="runningQueries" type="text" label="Running Queries" required="true"
+                placeholder="Running Queries" [parentForm]="queriesMonitoringForm" fieldName="runningQueries">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="failedQueries" type="text" label="Failed Queries" required="true"
+                placeholder="Failed Queries" [parentForm]="queriesMonitoringForm" fieldName="failedQueries">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="qbeQueries" type="text" label="QBE Queries" required="true"
+                placeholder="QBE Queries" [parentForm]="queriesMonitoringForm" fieldName="qbeQueries">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="wfmQueries" type="text" label="WFM Queries" required="true"
+                placeholder="WFM Queries" [parentForm]="queriesMonitoringForm" fieldName="wfmQueries">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="cdsQueries" type="text" label="CDS Queries" required="true"
+                placeholder="CDS Queries" [parentForm]="queriesMonitoringForm" fieldName="cdsQueries">
+            </v-input>
+        </div>
+    </div>
+</form>
+
+<form [formGroup]="SelectedQueryInformationForm">
+    <div class="row">
+        <h3>Selected Query Information</h3>
+        <div class="col-lg-4">
+            <v-input formControlName="queryId" type="text" label="Query Id" required="true" placeholder="Query Id"
+                [parentForm]="SelectedQueryInformationForm" fieldName="queryId">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="queryName" type="text" label="Query Name" required="true" placeholder="Query Name"
+                [parentForm]="SelectedQueryInformationForm" fieldName="queryName">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="performer" type="text" label="Performer" required="true" placeholder="Performer"
+                [parentForm]="SelectedQueryInformationForm" fieldName="performer">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="statuss" type="text" label="Status" required="true" placeholder="Status"
+                [parentForm]="SelectedQueryInformationForm" fieldName="statuss">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="application" type="text" label="Application" required="true"
+                placeholder="Application" [parentForm]="SelectedQueryInformationForm" fieldName="application">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="beginTime" type="text" label="Begin Time" required="true" placeholder="Begin Time"
+                [parentForm]="SelectedQueryInformationForm" fieldName="beginTime">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="endTime" type="text" label="End Time" required="true" placeholder="End Time"
+                [parentForm]="SelectedQueryInformationForm" fieldName="endTime">
+            </v-input>
+        </div>
+        <div class="col-lg-4">
+            <v-input formControlName="executionTime" type="text" label="Execution Time" required="true"
+                placeholder="Execution Time" [parentForm]="SelectedQueryInformationForm" fieldName="executionTime">
+            </v-input>
+        </div>
+    </div>
+</form>
+
+<v-grid allowSideBar="true"   [dataApi]="getQueriesMonitoring" agToolBar="d"
+    [agColumns]="agColumns" [pagination]="true" [paginationPageSize]="10" agPrimaryKey="code">
+</v-grid>

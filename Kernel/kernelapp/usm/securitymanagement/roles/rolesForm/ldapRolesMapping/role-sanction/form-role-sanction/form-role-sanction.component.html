@@ -1,0 +1,27 @@
+<form [formGroup]="sanctionListForm">
+  <div class="row">
+      <div class="row">
+          <div class="col-lg-3">
+            <v-input formControlName="sanctionReferenceCode" type="text" label="Sanction Reference Code" [parentForm]="sanctionListForm" fieldName="sanctionReferenceCode"></v-input>
+          </div>
+
+          <div class="col-lg-3">
+            <v-input formControlName="sanctionAbbreviation" type="text" label="Sanction Abbreviation"  [parentForm]="sanctionListForm" fieldName="sanctionAbbreviation"></v-input>
+          </div>
+
+          <div class="col-lg-3">
+              <!-- <v-dropdown [formControlName]="sanctionName" [dataJSON]="sanctionCombo" label="Sanction Name"
+                  [fieldName]="sanctionName" [parentForm]="sanctionListForm">
+              </v-dropdown> -->
+            <v-input formControlName="sanctionName" type="lookup"
+                     label="Sanction Name"  [parentForm]="sanctionListForm"
+                     fieldName="sanctionName" [lookupDataApi]="allRoleSanction"></v-input>
+
+          </div>
+
+ </div>
+  </div>
+</form>
+
+
+

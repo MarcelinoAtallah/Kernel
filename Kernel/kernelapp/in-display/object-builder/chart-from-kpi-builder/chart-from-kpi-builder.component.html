@@ -1,0 +1,11 @@
+<form [formGroup]="chartForm">
+  <div class="box" style="width: 70%;height: 400px;display: inline-block; margin-left: 15%;" *ngFor="let chartData of chartObject; let i = index" >
+          <div class="chart-row">
+           <ng-container >
+             <div class="chart-container">
+               <v-highcharts [Highcharts]="Highcharts" [options]="chartData"></v-highcharts>
+             </div>
+           </ng-container>
+         </div>   
+         </div>
+</form>

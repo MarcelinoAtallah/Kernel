@@ -1,0 +1,43 @@
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-tabs {
+    border: 0;
+}
+
+.nav .tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 10px;
+    cursor: pointer;
+    max-width: 250px;
+    min-width: 150px;
+    min-height: 50px;
+    text-align: center;
+    background-color: transparent;
+    color: var(--black-color);
+    margin-bottom: 3px;
+    margin-right: 3px;
+    font-size: 13px;
+}
+
+.nav .tab svg {
+    margin-right: 5px;
+}
+
+.nav .tab.active {
+    border-bottom: 2px solid var(--blue-color);
+    background-color: transparent;
+    color: var(--blue-color);
+    font-weight: bold;
+}
+
+.tab-content {
+    padding: 10px 5px 10px 5px;
+    height: 78vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

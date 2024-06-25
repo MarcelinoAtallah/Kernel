@@ -1,0 +1,11 @@
+<div class="nav nav-tabs mt-3" id="{{navId}}">
+  <div *ngFor="let tab of tabs" id="{{tab.tabId}}" class="nav-tab">
+    <div *ngIf="tab.showScreen" (contextmenu)="disableContextMenu($event,tab)" [class.disabled]="tab.disabled" (click)="selectTab(tab,0)" [class.active]="tab.active" class="tab" >
+      <a class="tab-title {{tab.customTabTitle}}" [class.active]="tab.active">{{tab.title}}</a>
+    </div>
+  </div>
+</div>
+
+<div class="tab-content">
+  <ng-content></ng-content>
+</div>

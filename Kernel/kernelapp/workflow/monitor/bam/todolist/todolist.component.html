@@ -1,0 +1,13 @@
+<form [formGroup]="todolistForm">
+    <div class="row" >
+       
+        <div class="col-lg-4">
+            <v-input formControlName="date" type="date" label="Execution date" placeholder="Date" required="true"
+            [parentForm]="todolistForm" fieldName="date"></v-input>
+        </div>
+
+        </div>
+        <div class="col-lg-4 form-submit">
+            <v-button btnActionType="submit" btnType="form"  value="Search"></v-button>
+        </div>
+    </form>

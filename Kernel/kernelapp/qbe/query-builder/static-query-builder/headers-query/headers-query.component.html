@@ -1,0 +1,14 @@
+<v-grid
+allowSideBar="true"
+ 
+[dataApi]="getHeaderData"
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="15"
+agPrimaryKey="headerName"
+
+
+></v-grid>
+<div class="button---group">
+    <v-button btnActionType="submit" btnType="form"  value="Validate" class="validate-button"></v-button>
+    </div>

@@ -1,0 +1,325 @@
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12" [attr.colspan]="showRightButtons ? '1' : '2'">           
+        <div style="width:98%;height:1200px;overflow-y:auto;overflow-x:hidden"  class="example-boundary listContainer">
+          <!-- ;position:absolute; -->
+          <div *ngIf="showdetailsGrid" class="example-box listContainerCol columnsGrid" cdkDragBoundary=".example-boundary">
+              <div style="width:500px">
+                  <v-grid style="width:500px"
+                  allowSideBar="true" 
+                  agToolBar="d" 
+                  [staticData]="columnsTableData"
+                  [agColumns]="detailsTablesColumns"
+                  agPrimaryKey="TABLE_NAME,Elementary_Data"
+                  [pagination]="true" 
+                  [paginationPageSize]="5"
+                  (onGridDelete)="onDeleteClick()">
+                  </v-grid>
+            
+            </div>
+          </div>
+
+          <div *ngIf="showfilterGrid" class="example-box listContainerCol datafilterGrid" cdkDragBoundary=".example-boundary">
+            <div style="width:100%">
+                <v-grid style="width:100%"
+                allowSideBar="true" 
+                agToolBar="amd" 
+                [agColumns]="agColumnsDataFilter"
+                [staticData]="this.allConditions"
+                [pagination]="true" 
+                [paginationPageSize]="5"
+                agPrimaryKey="grouping,firstOperand,firstOperandValue,operator,secondOperand,secondOperandValue"
+                (onGridAdd)="onDataFilterAdd()"
+                (onGridUpdate)="onDataFilterUpdate()"
+                (onGridDelete)="onDataFilterDelete()">
+                </v-grid>
+
+          </div>
+        </div>
+
+
+          <div *ngFor="let item of itemsData" class="example-box listContainer" cdkDragBoundary=".example-boundary" cdkDrag>
+            <div>
+              <div style="background-color:rgb(87, 116, 164);width:300px;border:1px solid;margin-left:0px;padding:10px" class="row con">
+                <div class="col-lg-12" style="position:relative;overflow:auto">
+                  <label style="font-size:14px;color:aliceblue;">
+                    <strong>
+                      {{item.data.tableName}}
+                    </strong>
+                  </label>
+                </div>
+                <div class="close-button" (click)="removeTable(item.data.tableName)">X</div>
+          
+              </div>
+
+                <div style="margin-right:0px;overflow:auto;width:300px;height:300px;border:1px solid" class="example-box">
+                  <mat-selection-list style="height:300px">
+                    <div (click)="onSelectColumn(item.data.tableName,column.COLUMN_NAME)" *ngFor="let column of item.data.columns">
+                   
+                   <div *ngIf="showTablesColumns!=false">
+                      <div *ngIf="item.data.selectedColumns.includes(column.COLUMN_NAME);then isSelected else isNotSelected"></div>
+                      
+                    </div>
+                      <ng-template #isSelected>
+                        <mat-list-option 
+                        [selected]="true" 
+                       style="font-size:14px;" 
+                      >
+                        {{column.COLUMN_NAME}}          
+                      </mat-list-option>
+                      </ng-template>
+
+
+                      <ng-template #isNotSelected>
+                        <mat-list-option 
+                        [selected]="false" 
+                       style="font-size:14px;" 
+                      >
+                        {{column.COLUMN_NAME}}          
+                      </mat-list-option>
+                      </ng-template>
+                   
+                   
+                   
+                   
+                    
+                
+                  </div>
+                  </mat-selection-list>
+                </div>
+
+                </div>
+          </div>
+        </div>
+
+      </div>     
+    </div>
+
+    <div style="overflow:visible"class="slider-panel" [class.open]="showRightButtons">
+
+      <button (click)="toggleRightButtons()" class="arrow-button">
+        <i class="fas" [ngClass]="showRightButtons ? 'fa-arrow-left' : 'fa-arrow-right'"></i>
+      </button>
+
+<div style="overflow:auto;border-top:none;height: 100%;top:0%;" class="slider-panel" [class.open]="showRightButtons">
+   <div *ngIf="!showPanel && tableGrid">
+    <div class="group-title">
+      <div class="line"></div>Tables<div class="line"></div>
+    </div>
+      <v-grid 
+      allowSideBar="true"
+       
+      [agColumns]="agColumns"
+      [pagination]="true"
+      [paginationPageSize]="10"
+      agPrimaryKey="TABLE_NAME"
+      [frameworkComponents]="frameworkComponents"
+      [dataApi]="getAllTables"
+    >
+
+    </v-grid>
+
+    <v-button  class="right-buttons .right-buttons" [value]="'Back'" [btnActionType]="'button'"
+     [fontawesome]="'fa-solid fa-backward'" (click)="goBack()"
+    >
+  </v-button>
+
+  </div>
+
+    <div *ngIf="showPanel">
+ 
+    <div class="popover-content">
+        <div class="button-container-vertical">
+          <div class="group-title">
+            <div class="line"></div>Table/Column<div class="line"></div>
+          </div>
+          <div class="right-buttons">
+            <div class="row">
+              <div class="col-lg-6">
+            <v-button  class=".right-buttons" [value]="'Table'" [btnActionType]="'button'"
+               [fontawesome]="'fa-solid fa-table'" (click)="displayTables()"
+              >
+            </v-button>
+         </div>
+
+        <div class="col-lg-6">
+
+            <v-button class=".right-buttons" [value]="'Column'" [btnActionType]="'button'"
+             [fontawesome]="'fa-solid fa-table-columns'" (click)="displayDetails()"
+            >
+          </v-button>
+        </div>
+       
+        </div>
+
+      <div class="row"></div>
+
+</div>
+          
+          </div>
+          
+
+          <div class="group-title">
+            <div class="line"></div>Column Configuration<div class="line"></div>
+          </div>
+          <div class="right-buttons">
+            <div class="row"></div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <v-button  class=".right-buttons" [value]="'Data Filter'" [btnActionType]="'button'"
+               [fontawesome]="'fa-solid fa-filter'" (click)="openDataFilter()"
+              >
+            </v-button>
+            </div>
+           
+          </div>
+          <div class="row"></div>
+        <div class="row"></div>
+</div>
+            <div class="group-title">
+              <div class="line"></div>Save<div class="line"></div>
+            </div>
+            <div class="right-buttons">
+              <div class="row">
+                <div class="col-lg-6">
+              <v-button *ngIf="!isUpdate" class=".right-buttons" [value]="'Save'" [btnActionType]="'button'"
+                 [fontawesome]="'fa-solid fa-save'" (click)="saveQuery()"
+                >
+              </v-button>
+
+              <v-button *ngIf="isUpdate" class=".right-buttons" [value]="'Update'" [btnActionType]="'button'"
+              [fontawesome]="'fas fa-save'"
+              (click)="updateExistingQuery()">
+            </v-button>
+
+           </div>
+  
+          <div class="col-lg-6">
+  
+              <v-button class=".right-buttons" [value]="'Save As'" [btnActionType]="'button'"
+               [fontawesome]="'fas fa-save'" (click)="displayDetails()"
+              >
+            </v-button>
+          </div>
+         
+          </div>
+  
+        <div class="row"></div>
+        <div class="row"></div>
+
+  </div>
+      
+
+
+  <div class="group-title">
+    <div class="line"></div>Security<div class="line"></div>
+  </div>
+  <div class="right-buttons">
+    <div class="row"></div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <v-button  class=".right-buttons" [value]="'Security'" [btnActionType]="'button'"
+       [fontawesome]="'fas fa-shield-alt'"
+      >
+    </v-button>
+    </div>
+    <div class="col-lg-6">
+    <v-button class=".right-buttons" [value]="'Type'" [btnActionType]="'button'"
+       
+      [fontawesome]="'fas fa-file-signature'"
+      >
+    </v-button>
+  </div>
+  </div>
+  <div class="row"></div>
+        <div class="row"></div>
+</div>
+
+
+
+
+
+<div class="group-title">
+  <div class="line"></div>Execution<div class="line"></div>
+</div>
+<div class="right-buttons">
+  <div class="row"></div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <v-button  class=".right-buttons" [value]="'Show SQL'" [btnActionType]="'button'"
+    (click)="showSQL(1)"
+     [fontawesome]="'fa-solid fa-database'"
+    >
+  </v-button>
+  </div>
+  <div class="col-lg-6">
+  <v-button class=".right-buttons" [value]="'Execute'" [btnActionType]="'button'"   
+    [fontawesome]="'fa-solid fa-gear'" (click)="executeQuery()"
+    >
+  </v-button>
+</div>
+</div>
+<div class="row"></div>
+        <div class="row"></div>
+</div>
+
+
+
+
+
+<div class="group-title">
+  <div class="line"></div>Operations<div class="line"></div>
+</div>
+<div class="right-buttons">
+  <div class="row"></div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <v-button  class=".right-buttons" [value]="'Expression\n Builder'" [btnActionType]="'button'"
+     [fontawesome]="'fa-solid fa-wand-magic'"
+    >
+  </v-button>
+  </div>
+  <div class="col-lg-6">
+  <v-button class=".right-buttons" [value]="'Parameter\n Builder'" [btnActionType]="'button'"
+     (click)="parameterBuilder()"
+    [fontawesome]="'fas fa-cogs'"
+    >
+  </v-button>
+</div>
+</div>
+<div class="row"></div>
+        <div class="row"></div>
+    
+        <div class="row">
+          <div class="col-lg-6">
+            <v-button  class=".right-buttons" [value]="'Joins'" [btnActionType]="'button'"
+             [fontawesome]="'fa-solid fa-coins'"
+            >
+          </v-button>
+          </div>
+          <div class="col-lg-6">
+          <v-button class=".right-buttons" [value]="'Link Query'" [btnActionType]="'button'"
+             
+            [fontawesome]="'fa-solid fa-link'"
+            >
+          </v-button>
+        </div>
+        </div>
+        <div class="row"></div>
+                <div class="row"></div>
+
+
+</div>
+
+
+        </div>
+      </div>
+
+</div>
+
+</div>
+  </div>

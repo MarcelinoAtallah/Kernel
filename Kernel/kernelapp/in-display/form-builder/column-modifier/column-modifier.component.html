@@ -1,0 +1,136 @@
+<!-- <div class="header-dialog space-between mb-3">
+    <div></div>
+    <div class="dialogTitle"></div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div> -->
+<!-- <div class="scrollable-container"> -->
+    
+<form [formGroup]="modifierForm" *ngIf="test_1 == '1'">
+    <div class="row mb-5">
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="columnName" type="hidden" [parentForm]="modifierForm"
+                fieldName="columnName"></v-input>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="columnDescription" type="text" label="Column Name" required="true"
+                [parentForm]="modifierForm" fieldName="columnDescription"></v-input>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-dropdown formControlName="columnType" [dataApi]="columnType" label="Column Type"
+                [parentForm]="modifierForm" fieldName="columnType" [readonly]="true"></v-dropdown>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="columnLength" type="text" label="Column Length" required="false"
+                [parentForm]="modifierForm" fieldName="columnLength"></v-input>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <v-toggle label="Is Multiple" formControlName="isMultiple" [parentForm]="modifierForm"
+                fieldName="isMultiple"></v-toggle>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <v-toggle *ngIf="mandatoryFlag == 1" label="Is Mandatory" formControlName="isMandatory"
+                [parentForm]="modifierForm" fieldName="isMandatory" [disabled]=true> </v-toggle>
+            <v-toggle *ngIf="mandatoryFlag == 0" label="Is Mandatory" formControlName="isMandatory"
+                [parentForm]="modifierForm" fieldName="isMandatory" [disabled]=false> </v-toggle>
+            <v-toggle *ngIf="mandatoryFlag == 2" label="Is Mandatory" formControlName="isMandatory"
+                [parentForm]="modifierForm" fieldName="isMandatory" [disabled]=false> </v-toggle>
+        </div>
+            <!-- Add Mandatory as query for a specific senarios -->
+        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="mandatoryQuery" [parentForm]="modifierForm" type="lookup"
+                [lookupDataApi]="getSourceQuery" lookupWidth="700px" lookupHeight="700px" label="Mandatory Query"
+                fieldName="mandatoryQuery"></v-input>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <v-toggle label="Is Suspended" formControlName="isSuspended" [parentForm]="modifierForm"
+                fieldName="isSuspended"> </v-toggle>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="orderField" type="text" label="Order" required="true" [parentForm]="modifierForm"
+                fieldName="orderField"></v-input>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-dropdown formControlName="destinationField" [dataApi]="getAllColumns" label="Destination Field"
+                [parentForm]="modifierForm" fieldName="destinationField" [disabled]="true"></v-dropdown>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="query" [parentForm]="modifierForm" type="lookup" [lookupDataApi]="getSourceQuery"
+                lookupWidth="700px" lookupHeight="700px" label="Query" fieldName="query"></v-input>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="qbeReadOnly" [parentForm]="modifierForm" type="lookup"
+                [lookupDataApi]="getSourceQuery" lookupWidth="700px" lookupHeight="700px" label="Is Read Only"
+                fieldName="qbeReadOnly"></v-input>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="defaultValue" [parentForm]="modifierForm" type="lookup"
+                [lookupDataApi]="getSourceQuery" lookupWidth="700px" lookupHeight="700px" label="Default Value"
+                fieldName="defaultValue"></v-input>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="dependencyDefaultValue" [parentForm]="modifierForm" type="lookup"
+                [lookupDataApi]="getSourceQuery" lookupWidth="700px" lookupHeight="700px" label="Dependency Default Value"
+                fieldName="dependencyDefaultValue"></v-input>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-dropdown formControlName="sizeField" [dataJSON]="allFieldSizes" label="Size" [parentForm]="modifierForm"
+                fieldName="sizeField"></v-dropdown>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-dropdown formControlName="fieldSet" label="Field Set" [parentForm]="modifierForm" fieldName="fieldSet"
+                [dataApi]="getAllFieldSets">
+            </v-dropdown>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <v-input formControlName="tableName" type="text" label="Table Name" [parentForm]="modifierForm"
+                fieldName="tableName" [readonly]="true"></v-input>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <v-toggle label="Is Excluded" formControlName="isExcludedd" [parentForm]="modifierForm"
+                    fieldName="isExcludedd"></v-toggle>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <v-toggle label="Is Link" formControlName="isLink" [parentForm]="modifierForm"
+                    fieldName="isLink"  (toggleChange)="onLinkChange()" ></v-toggle>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <v-toggle label="Is Arabic" formControlName="isArabic" [parentForm]="modifierForm"
+                    fieldName="isArabic"></v-toggle>
+            </div>
+
+            <div *ngIf="isLinkFlag == true" class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <v-dropdown formControlName="menus" [dataApi]="AllMenus" label="Menus" placeholder=""
+                    [parentForm]="modifierForm" fieldName="menus">
+                </v-dropdown>
+            </div>
+
+            <!-- <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <v-toggle label="Is Grid Hidden" formControlName="isGridHidden" [parentForm]="modifierForm"
+                    fieldName="isGridHidden"></v-toggle>
+            </div> -->
+
+            <!-- new -->
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <v-toggle label="Is_Editable" formControlName="isEditable" [parentForm]="modifierForm"
+                    fieldName="isEditable"></v-toggle>
+            </div>
+
+        </div>
+    </div>
+
+    <v-fieldset title="Dynamic Rule Builder"></v-fieldset>
+    <v-dynamic-rule-builder [objectId]="objectId" [columnId]="columnId" drbPlace="field"></v-dynamic-rule-builder>
+    <div class="row form-submit">
+        <v-button btnActionType="submit" btnType="form" [parentForm]="modifierForm" value="Save"
+            (click)="submitForm()"></v-button>
+    </div>
+
+    <!-- <v-dynamic-search [objectId]="objectId"> </v-dynamic-search> -->
+</form>
+<!-- </div> -->

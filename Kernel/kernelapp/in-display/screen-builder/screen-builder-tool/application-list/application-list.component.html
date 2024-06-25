@@ -1,0 +1,15 @@
+<div class="group-title">
+    <div class="line"></div>Applications<div class="line"></div>
+  </div>
+  <br>
+<v-grid 
+allowSideBar="true"
+ 
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="10"
+agPrimaryKey="code,application"
+[dataApi]="fetchApplicationList"
+[frameworkComponents]="frameworkComponents"
+>
+</v-grid>

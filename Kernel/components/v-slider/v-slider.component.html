@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-lg-10">
+        <!-- commented to be updated with input as per new angular15
+          check this website for slider properties
+          https://material.angular.io/guide/mdc-migration#slider
+          <mat-slider thumbLabel
+            aria-label="unit(s)"
+            [min]="min"
+            [max]="max"
+            [value]="value"
+            (input)="onchange($event)">
+
+        </mat-slider> -->
+        <mat-slider thumbLabel
+            aria-label="unit(s)"
+            [min]="min"
+            [max]="max"
+
+            (input)="onchange($event)">
+            <input [value]="value" matSliderThumb>
+        </mat-slider>
+    </div>
+    <div class="col-lg-2">
+        <mat-form-field [appearance]="matAppearance" class="text-center" [floatLabel]="floatLabel">
+            <input matInput
+                [id]="fieldName"
+                [name]="fieldName"
+                [value]="value"
+                (blur)="touched"
+                [disabled]="isDisabled"
+                [formControl]="formField">
+        </mat-form-field>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-lg-4">
+        <v-dropdown formControlName="ldapConfig" multiple="true" label="LDAP Config" [parentForm]="ldapForm" fieldName="ldapConfig" [dataApi]="getUSMLdapConfCombo" ></v-dropdown>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <v-dropdown formControlName="ldapObjType" multiple="true" label="BLDAP Object type" [parentForm]="ldapForm" fieldName="ldapObjType" [dataApi]="comboUSMObjectTypeCombo" ></v-dropdown>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <v-dropdown formControlName="ldapObjCN" multiple="true" label="LDAP Object CN" [parentForm]="ldapForm" fieldName="ldapObjCN" [dataApi]="comboUSMBugType" ></v-dropdown>
+    </div>
+</div>
+<div class="row">
+  <div class="col-lg-12 form-submit">
+    <v-button btnActionType="submit" btnType="form" [parentForm]="ldapForm" value="Submit" (click)="submitForm()"></v-button>
+  </div>
+ </div>

@@ -1,0 +1,27 @@
+<div class="header-dialog space-between mb-3">
+    <div></div>
+    <div class="dialogTitle"></div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+
+<form [formGroup]="importQueryForm">
+    <div class="row">
+         <div class="col-lg-12">
+            <v-input formControlName="queryVersion" type="text" label="Version" required="true" placeholder=""
+                [parentForm]="importQueryForm" fieldName="queryVersion">
+            </v-input>
+        </div>
+        <div class="col-lg-12">
+            <v-input formControlName="queryComment" type="text" label="Comment" required="true" placeholder=""
+                [parentForm]="importQueryForm" fieldName="queryComment">
+            </v-input>
+        </div>
+        <div class="col-lg-12">
+            <input formControlName="file" type="file" label="File" required="true" placeholder=""
+                parentForm="importQueryForm" fieldName="file" (change)="onFileSelected($event)"/>
+        </div>
+    </div>
+    <br>
+    <v-button  btnActionType="submit" btnType="form" [parentForm]="importQueryForm" value="Submit" (click)="submitForm()" [disabled]="!importQueryForm.valid" class="submit-button"></v-button>
+
+</form>

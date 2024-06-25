@@ -1,0 +1,15 @@
+<div class="row">
+<div class="col-lg-6">
+  <v-input formControlName="Name" type="text" label="Document Name:" placeholder="text" required="true"
+      [parentForm]="DefinitionForm"></v-input>
+</div>
+</div>
+<div class="col-lg-6">
+      <v-input formControlName="Type" [radioData]="radioData" type="radio" label="File Type" required="true"
+       [parentForm]="DefinitionForm" fieldName="Type"></v-input>
+</div>
+
+<v-button btnActionType="submit" btnType="form" [parentForm]="DefinitionForm" value="Submit" (click)="submitForm()">
+</v-button>
+
+

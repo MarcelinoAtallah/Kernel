@@ -1,0 +1,15 @@
+<v-button value="Execute" btnActionType="submit" (click)="execution()">
+</v-button>
+<v-grid
+allowSideBar="true"
+sizeColumnsToFit="true"
+[dataApi]="getReportsData"
+[agColumns]="agColumns"
+[pagination]="true"
+[paginationPageSize]="15"
+agPrimaryKey="REPORT_ID"
+agToolBar="amd" 
+(onGridAdd)="onAddClick()"
+(onGridDelete)="onDeleteClick()"
+(onGridUpdate)="onUpdateClick()"
+></v-grid>

@@ -1,0 +1,43 @@
+<form [formGroup]="kpiForm">
+    <div class="row">
+        <div class="col-lg-5">
+            <v-input type="text" formControlName="title" [parentForm]="kpiForm" label="title" fieldName="title"
+                required="true"></v-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+            <v-input formControlName="query" [parentForm]="kpiForm" type="lookup" [lookupDataApi]="getQueryName"
+                lookupWidth="700px" lookupHeight="700px" label="Source Query" fieldName="query">
+            </v-input>
+        </div>
+    </div>
+    <div class="toggles">
+        <div class="col-lg-6">
+            <v-toggle label="Grid" formControlName="grid" [parentForm]="kpiForm" fieldName="grid" (click)="showdropdownGrid()"> </v-toggle>
+        </div>
+        <div class="col-lg-6">
+            <v-toggle label="Chart" formControlName="chart" [parentForm]="kpiForm" fieldName="chart" (click)="showdropdownChart()"></v-toggle>
+        </div>
+        <div class="col-lg-6">
+            <v-toggle label="Report" formControlName="report" [parentForm]="kpiForm" fieldName="report"> </v-toggle>
+        </div>
+        <div class="col-lg-6">
+            <v-toggle label="Is Ratio" formControlName="isRatio" [parentForm]="kpiForm" fieldName="isRatio"> </v-toggle>
+        </div>
+        <div class="col-lg-6">
+            <v-toggle label="Is Percentage" formControlName="isPercentage" [parentForm]="kpiForm"
+                fieldName="isPercentage"></v-toggle>
+        </div>
+    </div>
+    <div class="col-lg-12" *ngIf="showGrid">
+        <v-dropdown formControlName="dropdownGrid"  label="Grid" [multiple]="true" [dataApi]="getAllGridforDropdown"
+          placeholder="Grids" [parentForm]="kpiForm" fieldName="dropdownGrid"></v-dropdown>
+    </div>
+    <div class="col-lg-12" *ngIf="showChart">
+        <v-dropdown formControlName="dropdownChart"  label="Chart" [multiple]="true" [dataApi]="getAllChartforDropdown"
+          placeholder="Charts" [parentForm]="kpiForm" fieldName="dropdownChart"></v-dropdown>
+    </div>
+
+    <v-button value="Submit" (click)="submit()"></v-button>
+</form>

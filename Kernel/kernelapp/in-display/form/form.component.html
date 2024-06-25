@@ -1,0 +1,18 @@
+<form [formGroup]="form" class="mt-5" enctype="multipart/form-data">
+  <div class="col-lg-6">
+  <v-input type="text" label="Form Name" required="true" placeholder="Form Name" [parentForm]="form"
+    fieldName="name"></v-input>
+  </div>
+  <v-label text="BM" [required]=true></v-label>
+  <v-grid allowSideBar="true"
+
+          [agColumns]="agColumns"
+          [pagination]="true"
+          [paginationPageSize]="10"
+          agPrimaryKey="tableName"
+          [dataApi]="inDisplayGrid">
+  </v-grid>
+  <div class="col-lg-12 form-submit">
+    <v-button btnActionType="submit" btnType="form" [parentForm]="form" value="Submit" (click)="submitForm()"></v-button>
+</div>
+</form>

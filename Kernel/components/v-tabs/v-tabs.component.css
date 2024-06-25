@@ -1,0 +1,129 @@
+.nav {
+    width: 100%;
+    /* display: inline-flex; */
+    /* overflow-y: hidden;
+    overflow-x: scroll; */
+    display: none;
+    height: 100px;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    cursor: pointer;
+    margin-bottom: 3px;
+    font-size: 13px;
+    text-align: center;
+    min-width: calc(180px - 90px);
+}
+
+.nav .tab a {
+    margin-bottom: 10px;
+}
+
+.nav .tab svg {
+    margin-right: 5px;
+}
+
+.nav .tab.active {
+    border-bottom: 2px solid var(--blue-color);
+    background-color: transparent;
+    color: var(--blue-color);
+    font-weight: bold;
+}
+
+.tab-content {
+    padding: 10px 5px 10px 5px;
+    /* height: 78vh; */
+    /*so that the dropdown doesn't create another scroller*/
+    overflow-y: hidden;
+    overflow-x: hidden;
+    /*so the elements inside of a dropdown don't get cut out of the page when save is below it */
+    min-height: 400px;
+    /* height: -webkit-fill-available; */
+    /* height: 100%; */
+}
+
+.tab-title {
+    min-width: calc(150px - 50px);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background-color: var( --app-tab-background-color);
+    color: var(--app-tab-foreground-color);
+    font-weight: bold;
+    border-radius: 3px;
+    border-top-right-radius: 30px;
+    text-decoration: none;
+    text-transform: capitalize;
+    font-size: 11px !important;
+}
+
+.tab-title.active {
+    background-color: var( --app-tab-background-color-active);
+    color: var(--app-tab-foreground-color-active);
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.button-container .icon-button {
+    border: none;
+    background: transparent;
+    color: var(--black-color) !important;
+    font-size: 12px;
+}
+
+.button-container .icon-button i {
+    border: none;
+}
+
+.context-menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 29px !important;
+}
+
+.context-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.context-menu li {
+    cursor: pointer;
+    padding: 5px;
+}
+
+.nav-tab {
+    position: relative;
+    /* max-width: fit-content; */
+}
+
+.context-menu-body {
+    padding-left: 0 !important;
+    text-align: center;
+}
+
+.nav .tab.disabled {
+   cursor: not-allowed;
+}
+
+/* .nav.nav-tabs.mt-3 {
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+    height: 100px;
+    border: 0px;
+    width: fit-content;
+    max-width: 100%;
+} */

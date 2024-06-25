@@ -1,0 +1,23 @@
+<div class="form-group">
+    <div style="display:flex;justify-content: space-between; align-items: center; gap: 2px">
+        <v-dropdown
+            formControlName="phoneNumber123456"
+            fieldName="phoneNumber123456"
+            [dataApi]="fetchDialNums"
+            [parentForm]="phoneNumberForm"
+            [allowLabel]="false"
+            [isphone]="true"
+            (onChangeEvent)="getFullNumber($event)"
+            phoneNumberValue="{{vall}}"
+            [disabled]="readonly"
+            [isComponentPhoneNumbers]="true"
+            >
+        </v-dropdown>
+        <input  (input)="getFullNumber($event)" 
+                type="text"
+                [readonly]="readonly"
+                [(ngModel)]="phoneNumberModel" 
+                class="v-input-style" 
+                [disabled]="!isDropdownValueSelected"/>
+    </div>
+</div>

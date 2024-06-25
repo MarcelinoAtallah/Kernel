@@ -1,0 +1,11 @@
+<div style="font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;padding: 0px 14px;"
+    class="content">
+    <h1 style="color: #285e8e !important;margin: 0px 10px;font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;"
+        id="headerName">{{data.content}}</h1>
+    <div style="display: flex; flex-direction: row; margin-left: 10px;width:100% !important;">
+        <input
+            onkeyup="event.stopPropagation()" onkeydown="event.stopPropagation()" type="text" id="inputValue" name="text"
+            style="margin-right: 10px; width:100% !important;" ></div>
+    <div style="display: flex; flex-direction: row; margin-left: 10px"><p style="font-weight: bold !important;font-family: Calibri !important;font-size: 14px !important;font-style: italic;color: #285e8e !important;position:relative;right:3%;top:5px">save</p><input type="checkbox" id="save" name="radio" [value]="data.value"   style="margin-right: 10px;margin-top: 8px;"></div>
+    </div> 
+    <nav class="alertify-buttons"><button class="alertify-button normaleColor alertify-button-cancel" id="alertify-cancel"(click)="closepopup()">Cancel</button><button class="alertify-button normaleColor alertify-button-ok" id="alertify-ok" (click)="save()">Ok</button></nav>

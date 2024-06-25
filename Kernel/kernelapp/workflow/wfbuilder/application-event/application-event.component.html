@@ -1,0 +1,265 @@
+<div style="height:100%; overflow:hidden;">
+    <!--TITLE-->
+    <div class="dialog-header">
+        <p class="dialog-title">Application Event</p>
+        <p (click)="closeDialog()" class="dialog-close">X</p>
+    </div>
+    <v-tabs-container>
+        <v-tab tabTitle="Definition" menuVariable="mappingProject">
+            <form [formGroup]="definitionForm" style="height:650px; overflow:hidden;">
+                <!-- <p>Activity Id <span style="margin: 0 10px 0 30px;"> : </span> {{number}}</p> -->
+                <v-label text="Activity Id : {{number}}"></v-label>
+
+                <v-input formControlName="activityName" 
+                        fieldName="activityName" 
+                        id="activityName"
+                        type="text" 
+                        label="Activity Name" 
+                        required="true" 
+                        [parentForm]="definitionForm"></v-input>
+
+                <v-dropdown formControlName="applicationName" 
+                            [required]="true" 
+                            [multiple]="false"
+                            [dataJSON]="ruleAction" 
+                            id="applicationName" 
+                            label="Application Name" 
+                            [parentForm]="definitionForm" 
+                            fieldName="applicationName" ></v-dropdown>
+                <br>
+
+                <v-fieldset title="Batching/Scheduling" ></v-fieldset>
+
+                <!-- <v-label text="Identical Objects Batch Strategy"></v-label> -->
+
+                <!--Batch Type-->
+                <v-dropdown formControlName="batchType" 
+                fieldName="batchType"
+                id="batchType" 
+                label="Batch Type " 
+                [required]="true" 
+                [multiple]="false"
+                [dataJSON]="batchType" 
+                [parentForm]="definitionForm" ></v-dropdown>
+
+
+                <div style="margin-left: 30%">
+                    <label>
+                        <input type="radio" formControlName="option" value="time" name="option" (change)="resetValues()">
+                        Time
+                    </label>
+                    <label>
+                        <input type="radio" formControlName="option" value="objectCount" name="option" (change)="resetValues()">
+                        Object Count
+                    </label>
+                    <label>
+                        <input type="radio" formControlName="option" value="schedule" name="option" (change)="resetValues()">
+                        Schedule
+                    </label>
+                </div>
+                <!--Time-->
+                <v-dropdown *ngIf="definitionForm.value.option === 'time'" 
+                            formControlName="time" 
+                            [multiple]="false" 
+                            [dataJSON]="time" 
+                            id="time" 
+                            label="Every" 
+                            [parentForm]="definitionForm" 
+                            fieldName="time" ></v-dropdown>
+
+                <v-input *ngIf="definitionForm.value.option === 'time'" 
+                        formControlName="timeInput" 
+                        type="text" 
+                        label="" 
+                        [parentForm]="definitionForm" 
+                        fieldName="timeInput" 
+                        id="timeInput"></v-input>
+                
+                <!--Object Count-->
+                <v-label *ngIf="definitionForm.value.option === 'objectCount'" text="Activity Count" style="margin-left: 40%;"></v-label>
+                <v-input *ngIf="definitionForm.value.option === 'objectCount'" formControlName="objectCount" 
+                        type="text" label="Object Count" [parentForm]="definitionForm" fieldName="objectCount" 
+                        id="objectCount"></v-input>
+                
+                <!--Schedule-->
+                <v-grid *ngIf="definitionForm.value.option === 'schedule' && showGrid" 
+                        allowSideBar="true"
+                        [pagination]="true" 
+                        agToolBar="ad" 
+                        [paginationPageSize]="10"  
+                        [agOnGridEvents]="true" 
+                        [agColumns]="agColumnsSchedule" 
+                        agPrimaryKey="beginTime">
+                </v-grid>
+
+                <!--List Of Activities-->
+                <div *ngIf="listActivities" style="position: absolute; z-index: 9999; width: 51%; top:400px; padding-bottom: 5px; background-color:#f1eaea;">
+                    <legend class="legend">List Activities</legend>
+                    <v-grid allowSideBar="true"
+                            [pagination]="true" 
+                            agToolBar="ad" 
+                            [paginationPageSize]="10" 
+                            [agOnGridEvents]="true" 
+                            [agColumns]="agColumns" 
+                            agPrimaryKey="beginTime">
+                    </v-grid>
+                </div>
+
+                <!--bottom buttons-->
+                <div style="display: flex; gap: 75px; position: absolute; top: 800px; ">
+                    <label *ngIf="!listActivities" (click)="toggleListActivities()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities ^</label>
+                    <label *ngIf="listActivities" (click)="toggleListActivities()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities v</label>
+                </div>  
+
+            </form>
+        </v-tab>
+<!--////////////////////////////////////////TRIGGER////////////////////////////////////////////////////////////////-->        
+        <v-tab tabTitle="Trigger Creation" menuVariable="mappingProject" style="height: 50px;">
+            <form [formGroup]="triggerForm">
+                <table style="width: 100%;">
+                    <tr class="first-row">
+                      <td><v-label text="Business Menu" [required]="true"></v-label></td>
+                      <td><v-label text="Business Object" [required]="true"></v-label></td>
+                    </tr>
+                    <tr class="second-row">
+                        <!--left business menu side--> 
+                        <td style="vertical-align: top;">
+                            <ul class="main-list">
+                                <li>
+                                    <span (click)="toggleSublist1()" class="list-toggle" [class.open]="showSublist1">Main List</span>
+                                    <ul *ngIf="showSublist1">
+                                        <li>
+                                            <span (click)="toggleSublist2()" class="list-toggle" [class.open]="showSublist2">SubList</span>
+                                            <ul *ngIf="showSublist2">
+                                                <li>SubSubList 1</li>
+                                                <li>SubSubList 2</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                        <!--Right business Object side-->
+                        <td style="vertical-align: top; width: 100%;">
+                            <ul class="main-list">
+                                <li *ngFor="let item of list;">
+                                    <span (click)="toggleBusinessObjectList()" class="list-toggle" [class.open]="showBusinessObjectSub">{{item.name}}</span>
+                                    <ul *ngIf="showBusinessObjectSub">
+                                        <li *ngFor="let subItem of item.subItems; let j = index">{{getSubItemNumber(j)}}. {{subItem}}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="third-row">
+                        <td><v-toggle label="Trigger Enabled " formControlName="triggerToggle" [parentForm]="triggerForm"
+                            fieldName="triggerToggle"></v-toggle></td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <v-dropdown formControlName="actionType" 
+                                fieldName="actionType" 
+                                id="actionType" 
+                                label="Action Type" 
+                                [multiple]="false" 
+                                [dataJSON]="triggerActionType" 
+                                [parentForm]="triggerForm" 
+                                [required]="true" 
+                                style="width:75%;"></v-dropdown>
+                                <v-button value="Remove" btnActionType="submit" style="width:20%; margin-top:5%;"></v-button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:100px;"></td>
+                    </tr>
+                </table>  
+                
+                <!--List Of Activities-->
+                <div *ngIf="listActivities2" style="position: absolute; z-index: 9999; width: 51%; top:400px; padding-bottom: 5px; background-color:#f1eaea;">
+                    <legend class="legend">List Activities</legend>
+                    <v-grid allowSideBar="true"
+                            [pagination]="true" 
+                            agToolBar="ad" 
+                            [paginationPageSize]="10" 
+                            [agOnGridEvents]="true" 
+                            [agColumns]="agColumns" 
+                            agPrimaryKey="beginTime">
+                    </v-grid>
+                </div>
+
+                <!--bottom buttons-->
+                <div style="display: flex; gap: 75px; position: absolute; top: 800px; ">
+                    <label *ngIf="!listActivities2" (click)="toggleListActivities2()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities ^</label>
+                    <label *ngIf="listActivities2" (click)="toggleListActivities2()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities v</label>
+                </div>  
+            </form>
+        </v-tab>
+<!--////////////////////////////////////////////CONDITION////////////////////////////////////////////////////////////-->        
+        <v-tab tabTitle="Condition" menuVariable="mappingProject" style="height: 50px;">
+            <form [formGroup]="conditionForm">
+                <legend class="legend">Business Objects</legend>
+                <table style="width: 100%;">
+                    <tr class="first-row-condition">
+                      <td style="vertical-align: top;">
+                        <ul class="main-list" style="width:200%;">
+                              <li *ngFor="let item of list;">
+                                <span (click)="toggleBusinessObjectList()" class="list-toggle" [class.open]="showBusinessObjectSub">{{item.name}}</span>
+                                <ul *ngIf="showBusinessObjectSub">
+                                    <li *ngFor="let subItem of item.subItems; let j = index">{{getSubItemNumber(j)}}. {{subItem}}</li>
+                                </ul>
+                              </li>
+                          </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                        <td class="second-row-condition-td1">
+                            <v-dropdown formControlName="conditionsDropdown" 
+                                        [multiple]="false" 
+                                        [dataJSON]="conditionsDropdown" 
+                                        id="conditionsDropdown" 
+                                        label="Conditions" 
+                                        [parentForm]="conditionForm" 
+                                        fieldName="conditionsDropdown" 
+                                        [required]="true"></v-dropdown>
+                        </td>
+                        <td class="second-row-condition-td2">
+                                <v-input formControlName="valueConditions" label="Value"
+                                type="text" [parentForm]="conditionForm" fieldName="valueConditions" 
+                                id="valueConditions"></v-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <legend class="legend">Reference</legend>
+                            <p class="reference-box"></p>
+                        </td>
+                    </tr>
+                </table> 
+<!--------------------------------------------------------------------------------------------------------------------->                 
+                
+                <!--List Of Activities-->
+                <div *ngIf="listActivities3" style="position: absolute; z-index: 9999; width: 51%; top:400px; padding-bottom: 5px; background-color:#f1eaea;">
+                    <legend class="legend">List Activities</legend>
+                    <v-grid allowSideBar="true"
+                            [pagination]="true" 
+                            agToolBar="ad" 
+                            [paginationPageSize]="10" 
+                            [agOnGridEvents]="true" 
+                            [agColumns]="agColumns" 
+                            agPrimaryKey="beginTime">
+                    </v-grid>
+                </div>
+
+                <!--bottom buttons-->
+                <div style="display: flex; gap: 75px; position: absolute; top: 800px; ">
+                    <label *ngIf="!listActivities3" (click)="toggleListActivities3()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities ^</label>
+                    <label *ngIf="listActivities3" (click)="toggleListActivities3()" style="width: 300px; font-weight: bold; text-decoration: underline;">List Activities v</label>
+                    <div style="margin-left: -20%;">
+                        <v-button value="Save" btnActionType="submit" ></v-button>
+                    </div>
+                </div>  
+            </form>
+        </v-tab>
+    </v-tabs-container>
+
+</div>

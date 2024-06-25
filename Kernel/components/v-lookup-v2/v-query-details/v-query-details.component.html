@@ -1,0 +1,35 @@
+<div class="header-dialog space-between mb-3" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div></div>
+  <span style="font-size: 15px; letter-spacing: 1px; color: var(--popup-title-color); font-weight: bold;">{{label}}</span>  <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+</div>
+<form [formGroup]="paramValForm">
+    <div  class="form-group" *ngIf="showInput" >
+      <div class="form-group" *ngFor="let p of parameters">
+        <v-input [formControlName]="p.paramName" [type]="p.paramType"  [label]="p.paramName" 
+              [parentForm]="paramValForm" [fieldName]="p.paramName"></v-input>
+      </div>
+    </div>
+  
+    <div *ngIf="!hideExecuteButton" class="form-submit">
+      <v-button value="Execute" btnActionType="submit" (click)="execution()">
+          </v-button>
+  </div>
+  </form>
+
+  <v-grid *ngIf="agColumns != undefined && showExecGrid"
+allowSideBar="true"
+agPrimaryKey="{{agPrimaryGridHeads}}"
+[dataApi]="fetchDynamicData"
+[agColumns]="agColumns"
+[pagination]="true"
+[isForQueryForm]="true"
+[lookupFieldName]="label"
+[paginationPageSize]="5"
+[isGridInLookup]="false"
+agRowSelection="multiple">
+</v-grid>
+
+<div class="form-submit">
+  <v-button value="Submit" btnActionType="submit" (click)="closeDialog()">
+      </v-button>
+</div>

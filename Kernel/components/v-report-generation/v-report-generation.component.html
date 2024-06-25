@@ -1,0 +1,41 @@
+<v-tabs-container>
+    <v-tab tabTitle="General Information">
+  <!-- <form>
+      <div  cdkDropList class="example-list listContainer1" (cdkDropListDropped)="drop($event)">
+  
+  
+          <div class="box"  *ngFor="let chartData of chartObject; let i = index" cdkDrag >
+              <ng-container   *ngIf="chartData[0][0] === 'gauge'; then gaugeTemplate else chartTemplate" ></ng-container>
+      
+              <ng-template #gaugeTemplate style="height: 100px;">
+                <app-v-gauge  [gaugeType]="chartData[1]" [gaugeValue]="chartData[2]" (click)="nextTab(chartData[1])" [gaugeLabel]="chartData[3]" [gaugeAppendText]="chartData[4]" [Title]="chartData[5]"></app-v-gauge>
+              </ng-template>
+            
+              <ng-template #chartTemplate style="height: 100px;">
+                <app-v-charts [type]="chartData[0][0]" [pieChartLabels]="chartData[1]" (click)="nextTab(chartData[0][0])" [pieChartDatasets]="chartData[2]" [Title]="chartData[3]"></app-v-charts>
+              </ng-template>    
+          </div>
+       
+      
+      
+      </div> 
+     <v-button  (click)="goNext()"  value="Next"></v-button> 
+   </form> -->
+  
+  </v-tab>
+  <v-tab tabTitle="Residential Address">
+    
+    </v-tab>
+
+<v-tab tabTitle="Professional & Work Address">
+</v-tab>
+
+<v-tab tabTitle="Account">
+</v-tab>
+
+<v-tab tabTitle="Transaction">
+</v-tab>
+
+<v-tab tabTitle="Output">
+</v-tab>
+</v-tabs-container>

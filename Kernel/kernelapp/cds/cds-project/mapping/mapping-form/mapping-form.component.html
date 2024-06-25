@@ -1,0 +1,113 @@
+<v-tabs-container>
+  <v-tab tabTitle="Mapping" menuVariable="mappingProject">
+    <form [formGroup]="mappingForm" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-lg-4">
+          <v-input
+            formControlName="descriptionent"
+            type="text"
+            label="Mapping Description"
+            placeholder="Mapping Description"
+            required="true"
+            [parentForm]="mappingForm"
+            fieldName="descriptionent">
+          </v-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <v-dropdown
+            formControlName="projectname"
+            required="true"
+            [dataApi]="projectname"
+            label="Project"
+            placeholder="Project"
+            [parentForm]="mappingForm"
+            fieldName="projectname"
+            [disabled]="X">
+          </v-dropdown>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <v-dropdown
+            formControlName="executionType"
+            required="true"
+            [dataApi]="executionType"
+            label="Execution Type"
+            placeholder="Type"
+            [parentForm]="mappingForm"
+            fieldName="executionType"
+          ></v-dropdown>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <v-dropdown
+            formControlName="flowType"
+            required="true"
+            [dataApi]="flowType"
+            label="Mapping Type"
+            placeholder="Mapping Type"
+            [parentForm]="mappingForm"
+            fieldName="flowType"
+          ></v-dropdown>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <v-toggle label="Truncate" formControlName="Truncate"
+            [parentForm]="mappingForm" fieldName="Truncate">
+        </v-toggle>
+
+      <v-toggle label="Bulk Data Load" formControlName="Bulk"
+          [parentForm]="mappingForm" fieldName="Bulk" [checked]="val">
+      </v-toggle>
+      </div>
+
+      <div>
+        <v-button
+          btnActionType="submit"
+          btnType="form"
+          [parentForm]="mappingForm"
+          value="Submit"
+          (click)="submitForm()"
+        ></v-button>
+      </div>
+    </form>
+  </v-tab>
+
+  <v-tab
+    tabTitle="Mapping Source"
+    menuVariable="mappingProject"
+    *ngIf="onSubmit"
+  >
+    <app-mapping-source></app-mapping-source>
+  </v-tab>
+
+  <v-tab
+    tabTitle="Mapping Destination"
+    menuVariable="mappingProject"
+    *ngIf="onSubmit"
+  >
+    <app-mapping-destination></app-mapping-destination>
+  </v-tab>
+
+  <v-tab
+    tabTitle="Mapping Defaulting"
+    menuVariable="mappingProject"
+    *ngIf="onSubmit"
+  >
+    <app-mapping-defaulting></app-mapping-defaulting>
+  </v-tab>
+
+  <v-tab
+    tabTitle="Mapping File Name"
+    menuVariable="mappingProject"
+    *ngIf="onSubmit"
+  >
+    <app-mapping-file-name></app-mapping-file-name>
+  </v-tab>
+</v-tabs-container>
+
+

@@ -1,0 +1,99 @@
+.defaultBtn {
+    box-sizing: border-box;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: baseline;
+    text-align: center;
+    margin: 0;
+    min-width: 64px;
+    line-height: 32px;
+    padding: 0 10px;
+    border-radius: 4px;
+    overflow: visible;
+    transform: translate3d(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--app-btn-bg-color);
+    color: var(--app-btn-main-color);
+    border: 1px solid var(--app-btn-main-color);
+    font-size: var(--app-btn-font-size);
+    font-family: var(--app-font-style);
+    font-weight: bold;
+    transition: 1s;
+    min-height: 35px;
+}
+
+.defaultBtn:hover  {
+    background-color: var(--app-btn-main-color);
+    color: var(--app-btn-hover-color);
+}
+
+.loginStyle {
+    width: 100%;
+    color: var(--white-color);
+    font-size: var(--app-btn-font-size);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+body, html {
+    border-radius: 0.5rem;
+}
+
+.gridButton {
+    height: 35px;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginBtn {
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: baseline;
+    text-align: center;
+    margin: 0;
+    line-height: 32px;
+    padding: 0 10px;
+    border-radius: 4px;
+    overflow: visible;
+    transform: translate3d(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--app-btn-main-color);
+    color: var(--app-btn-hover-color);
+    border: 1px solid var(--app-btn-main-color);
+    font-size: 18px;
+    font-family: var(--app-font-style);
+    transition: 1s;
+    min-height: 38px;
+}
+
+.disabledBtn {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.disabledBtn:hover {
+    background-color: var(--app-btn-bg-color);
+    color: var(--app-btn-main-color);
+}

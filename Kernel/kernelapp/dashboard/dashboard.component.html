@@ -1,0 +1,72 @@
+<v-tabs-container>
+  <v-tab *ngFor="let tab of tabs" [tabId]="tab.tabId" [tabTitle]="tab.title">
+    <div *ngIf="showDashboard" cdkDropList class="example-list listContainer1" (cdkDropListDropped)="drop($event)">
+      <div class="box animate__animated animate__fadeIn" *ngFor="let data of allData; let i = index">
+        <div>
+
+          <button class="exit-button" (click)="onExitButtonClick(data)">&times;</button>
+        </div>
+        <ng-container *ngIf="data.type === 'Chart'; then chart"></ng-container>
+        <ng-template #chart>
+          <div class="box-container" cdkDrag (click)="openSelected(data)">
+            <div class="box">
+              <div class="chart-row">
+                <ng-container>
+                  <div class="chart-container">
+                    <v-highcharts [Highcharts]="Highcharts" [options]="data.data[0]"></v-highcharts>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+
+        <ng-container *ngIf="data.type === 'Kpi'; then KpiTemplate"></ng-container>
+        <ng-template #KpiTemplate>
+          <div>
+            <div (click)="openSelected(data)" style="width: 100%;text-align: center;">
+              <p>{{data.Header[0].header}}</p>
+            </div>
+            <div style="width: 80%;text-align: center;margin-top: 30px;font-size: 25px; margin-left: 10%;">
+              <p><b>{{data.Records[0].TITLE}}</b></p>
+            </div>
+            <div style="width: 100%;display: flex;flex-direction: row;margin-top: 30px;">
+              <p style="width:50% ;text-align: center; font-size:18px">
+                {{data.Records[0].COUNTRY}}
+              </p>
+              <p style="width:50% ;text-align: center;font-size:18px"><b>
+                  {{data.Records[0].MONTH}}
+                </b></p>
+            </div>
+            <div style="width: 100%;display: flex;flex-direction: row;">
+              <p style=" width :50%;text-align: center;">
+
+                {{data.Header[1].header}}
+              </p>
+              <p style=" width :50%;text-align: center;">
+                {{data.Header[2].header}}
+              </p>
+            </div>
+          </div>
+          <div
+            style="text-align: center; display: flex; flex-direction: row;justify-content: center;background-color: transparent;width: 100%;">
+            <v-button style="font-size: 16px;margin: 0px 5px;border: none;" [fontawesome]="'fa-solid fa-chart-simple'"
+              (click)="openChart(data)"></v-button>
+            <v-button style="font-size: 16px;margin: 0px 5px;" [fontawesome]="'fa fa-th kpi_title_color'"
+              (click)="openGrid(data)"></v-button>
+
+          </div>
+        </ng-template>
+        <ng-container *ngIf="data.type === 'Grid'; then gridTemplate"></ng-container>
+        <ng-template #gridTemplate style="width: max-content;">
+          <div class="test" (click)="openSelected(data)">
+            <v-grid allowSideBar="true" [agColumns]="agColumnsJson" [pagination]="true" [staticData]="data.Records"
+              [paginationPageSize]="5" [allowPagination]="false">
+            </v-grid>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </v-tab>
+</v-tabs-container>
